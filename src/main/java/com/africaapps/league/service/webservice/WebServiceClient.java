@@ -20,6 +20,7 @@ import org.tempuri.ServiceAmiscoLive;
 import com.africaapps.league.service.webservice.util.DataLogUtil;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfKeyValueOfintstring;
 
+
 public class WebServiceClient {
 
 	private IServiceAmiscoLive service1;

@@ -1,8 +1,5 @@
 *.class
 
-/bin/
+bin/
+target/
 
-# Package Files #
-*.jar
-*.war
-*.ear
