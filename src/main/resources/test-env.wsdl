@@ -1,0 +1,1624 @@
+<wsdl:definitions name="ServiceAmiscoLive"
+	targetNamespace="http://tempuri.org/" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:tns="http://tempuri.org/" 
+	xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+	xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" 
+	xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
+	xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+	xmlns:wsa10="http://www.w3.org/2005/08/addressing" 
+	xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+	<wsp:Policy wsu:Id="AmiscoBinding_IServiceAmiscoLive_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SymmetricBinding
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:ProtectionToken>
+							<wsp:Policy>
+								<sp:SecureConversationToken
+									sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+									<wsp:Policy>
+										<sp:RequireDerivedKeys />
+										<sp:BootstrapPolicy>
+											<wsp:Policy>
+												<sp:SignedParts>
+													<sp:Body />
+													<sp:Header Name="To"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="From"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="FaultTo"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="ReplyTo"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="MessageID"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="RelatesTo"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+													<sp:Header Name="Action"
+														Namespace="http://www.w3.org/2005/08/addressing" />
+												</sp:SignedParts>
+												<sp:EncryptedParts>
+													<sp:Body />
+												</sp:EncryptedParts>
+												<sp:SymmetricBinding>
+													<wsp:Policy>
+														<sp:ProtectionToken>
+															<wsp:Policy>
+																<mssp:SslContextToken
+																	sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient"
+																	xmlns:mssp="http://schemas.microsoft.com/ws/2005/07/securitypolicy">
+																	<wsp:Policy>
+																		<sp:RequireDerivedKeys />
+																	</wsp:Policy>
+																</mssp:SslContextToken>
+															</wsp:Policy>
+														</sp:ProtectionToken>
+														<sp:AlgorithmSuite>
+															<wsp:Policy>
+																<sp:Basic256 />
+															</wsp:Policy>
+														</sp:AlgorithmSuite>
+														<sp:Layout>
+															<wsp:Policy>
+																<sp:Strict />
+															</wsp:Policy>
+														</sp:Layout>
+														<sp:IncludeTimestamp />
+														<sp:EncryptSignature />
+														<sp:OnlySignEntireHeadersAndBody />
+													</wsp:Policy>
+												</sp:SymmetricBinding>
+												<sp:SignedSupportingTokens>
+													<wsp:Policy>
+														<sp:UsernameToken
+															sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+															<wsp:Policy>
+																<sp:WssUsernameToken10 />
+															</wsp:Policy>
+														</sp:UsernameToken>
+													</wsp:Policy>
+												</sp:SignedSupportingTokens>
+												<sp:Wss11>
+													<wsp:Policy />
+												</sp:Wss11>
+												<sp:Trust10>
+													<wsp:Policy>
+														<sp:MustSupportIssuedTokens />
+														<sp:RequireClientEntropy />
+														<sp:RequireServerEntropy />
+													</wsp:Policy>
+												</sp:Trust10>
+											</wsp:Policy>
+										</sp:BootstrapPolicy>
+									</wsp:Policy>
+								</sp:SecureConversationToken>
+							</wsp:Policy>
+						</sp:ProtectionToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256 />
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Strict />
+							</wsp:Policy>
+						</sp:Layout>
+						<sp:IncludeTimestamp />
+						<sp:EncryptSignature />
+						<sp:OnlySignEntireHeadersAndBody />
+					</wsp:Policy>
+				</sp:SymmetricBinding>
+				<sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy />
+				</sp:Wss11>
+				<sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:MustSupportIssuedTokens />
+						<sp:RequireClientEntropy />
+						<sp:RequireServerEntropy />
+					</wsp:Policy>
+				</sp:Trust10>
+				<wsaw:UsingAddressing />
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy wsu:Id="AmiscoBinding_IServiceAmiscoLive_IsReady_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy wsu:Id="AmiscoBinding_IServiceAmiscoLive_IsReady_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_ServiceVersion_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_ServiceVersion_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStructDetailAvailable_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStructDetailAvailable_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_MatchLightStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_MatchLightStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStruct_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStruct_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetActorStruct_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetActorStruct_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetTeamStruct_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetTeamStruct_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_LfpGetMatchOldXmlContentC_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_LfpGetMatchOldXmlContentC_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_MatchFilActionLightStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_MatchFilActionLightStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStruct_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStruct_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetDayScoringStructDetailAvailable_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetDayScoringStructDetailAvailable_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_DayScoringStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_DayScoringStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetDayRankingStructDetailAvailable_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_GetDayRankingStructDetailAvailable_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_DayRankingStructList_Input_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy
+		wsu:Id="AmiscoBinding_IServiceAmiscoLive_DayRankingStructList_output_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SignedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+				</sp:SignedParts>
+				<sp:EncryptedParts
+					xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<sp:Body />
+				</sp:EncryptedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsp:Policy wsu:Id="AmiscoBinding_IServiceAmiscoLive1_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<http:BasicAuthentication
+					xmlns:http="http://schemas.microsoft.com/ws/06/2004/policy/http" />
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://tempuri.org/Imports">
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd0"
+				namespace="http://tempuri.org/" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd1"
+				namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd2"
+				namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd3"
+				namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.MatchNS" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd4"
+				namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.CommonNS" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd5"
+				namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.FilActionNS" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd6"
+				namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.ScoringNS" />
+			<xsd:import schemaLocation="http://111.207.210.2:9997/DataLive?xsd=xsd7"
+				namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.RankingNS" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="IServiceAmiscoLive_IsReady_InputMessage">
+		<wsdl:part name="parameters" element="tns:IsReady" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_IsReady_OutputMessage">
+		<wsdl:part name="parameters" element="tns:IsReadyResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_ServiceVersion_InputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersion" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_ServiceVersion_OutputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersionResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchLightStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:MatchLightStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchLightStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:MatchLightStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetActorStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetActorStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetTeamStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetTeamStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamStructResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_LfpGetMatchOldXmlContentC_InputMessage">
+		<wsdl:part name="parameters" element="tns:LfpGetMatchOldXmlContentC" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_LfpGetMatchOldXmlContentC_OutputMessage">
+		<wsdl:part name="parameters" element="tns:LfpGetMatchOldXmlContentCResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters"
+			element="tns:GetMatchFilActionStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_MatchFilActionLightStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:MatchFilActionLightStructList" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_MatchFilActionLightStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:MatchFilActionLightStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStruct" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchFilActionStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchFilActionStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructList" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetMatchFilActionStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructListResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetDayScoringStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayScoringStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetDayScoringStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters"
+			element="tns:GetDayScoringStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayScoringStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:DayScoringStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayScoringStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DayScoringStructListResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetDayRankingStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayRankingStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message
+		name="IServiceAmiscoLive_GetDayRankingStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters"
+			element="tns:GetDayRankingStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayRankingStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:DayRankingStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayRankingStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DayRankingStructListResponse" />
+	</wsdl:message>
+	<wsdl:portType name="IServiceAmiscoLive">
+		<wsdl:operation name="IsReady">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/IsReady"
+				message="tns:IServiceAmiscoLive_IsReady_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/IsReadyResponse"
+				message="tns:IServiceAmiscoLive_IsReady_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/ServiceVersion"
+				message="tns:IServiceAmiscoLive_ServiceVersion_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/ServiceVersionResponse"
+				message="tns:IServiceAmiscoLive_ServiceVersion_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructDetailAvailable">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailable"
+				message="tns:IServiceAmiscoLive_GetMatchStructDetailAvailable_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetMatchStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="MatchLightStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchLightStructList"
+				message="tns:IServiceAmiscoLive_MatchLightStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchLightStructListResponse"
+				message="tns:IServiceAmiscoLive_MatchLightStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStruct"
+				message="tns:IServiceAmiscoLive_GetMatchStruct_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructResponse"
+				message="tns:IServiceAmiscoLive_GetMatchStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructList"
+				message="tns:IServiceAmiscoLive_GetMatchStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructListResponse"
+				message="tns:IServiceAmiscoLive_GetMatchStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetActorStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetActorStruct"
+				message="tns:IServiceAmiscoLive_GetActorStruct_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetActorStructResponse"
+				message="tns:IServiceAmiscoLive_GetActorStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetTeamStruct"
+				message="tns:IServiceAmiscoLive_GetTeamStruct_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetTeamStructResponse"
+				message="tns:IServiceAmiscoLive_GetTeamStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="LfpGetMatchOldXmlContentC">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentC"
+				message="tns:IServiceAmiscoLive_LfpGetMatchOldXmlContentC_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentCResponse"
+				message="tns:IServiceAmiscoLive_LfpGetMatchOldXmlContentC_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructDetailAvailable">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailable"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="MatchFilActionLightStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructList"
+				message="tns:IServiceAmiscoLive_MatchFilActionLightStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructListResponse"
+				message="tns:IServiceAmiscoLive_MatchFilActionLightStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStruct">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStruct"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStruct_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructResponse"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructList"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructListResponse"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDayScoringStructDetailAvailable">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailable"
+				message="tns:IServiceAmiscoLive_GetDayScoringStructDetailAvailable_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetDayScoringStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="DayScoringStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayScoringStructList"
+				message="tns:IServiceAmiscoLive_DayScoringStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayScoringStructListResponse"
+				message="tns:IServiceAmiscoLive_DayScoringStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDayRankingStructDetailAvailable">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailable"
+				message="tns:IServiceAmiscoLive_GetDayRankingStructDetailAvailable_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetDayRankingStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="DayRankingStructList">
+			<wsdl:input
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayRankingStructList"
+				message="tns:IServiceAmiscoLive_DayRankingStructList_InputMessage" />
+			<wsdl:output
+				wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayRankingStructListResponse"
+				message="tns:IServiceAmiscoLive_DayRankingStructList_OutputMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AmiscoBinding_IServiceAmiscoLive"
+		type="tns:IServiceAmiscoLive">
+		<wsp:PolicyReference URI="#AmiscoBinding_IServiceAmiscoLive_policy" />
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="IsReady">
+			<soap12:operation soapAction="http://tempuri.org/IServiceAmiscoLive/IsReady"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_IsReady_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_IsReady_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/ServiceVersion"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_ServiceVersion_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_ServiceVersion_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructDetailAvailable">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStructDetailAvailable_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStructDetailAvailable_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchLightStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/MatchLightStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_MatchLightStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_MatchLightStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStruct">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStruct"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStruct_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStruct_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetActorStruct">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetActorStruct"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetActorStruct_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetActorStruct_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamStruct">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetTeamStruct"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetTeamStruct_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetTeamStruct_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LfpGetMatchOldXmlContentC">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentC"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_LfpGetMatchOldXmlContentC_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_LfpGetMatchOldXmlContentC_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructDetailAvailable">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchFilActionLightStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_MatchFilActionLightStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_MatchFilActionLightStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStruct">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStruct"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStruct_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStruct_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetMatchFilActionStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayScoringStructDetailAvailable">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetDayScoringStructDetailAvailable_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetDayScoringStructDetailAvailable_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayScoringStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/DayScoringStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_DayScoringStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_DayScoringStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayRankingStructDetailAvailable">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetDayRankingStructDetailAvailable_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_GetDayRankingStructDetailAvailable_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayRankingStructList">
+			<soap12:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/DayRankingStructList"
+				style="document" />
+			<wsdl:input>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_DayRankingStructList_Input_policy" />
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<wsp:PolicyReference
+					URI="#AmiscoBinding_IServiceAmiscoLive_DayRankingStructList_output_policy" />
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="AmiscoBinding_IServiceAmiscoLive1"
+		type="tns:IServiceAmiscoLive">
+		<wsp:PolicyReference URI="#AmiscoBinding_IServiceAmiscoLive1_policy" />
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="IsReady">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/IsReady"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/ServiceVersion"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructDetailAvailable">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchLightStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/MatchLightStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStruct">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStruct"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetActorStruct">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetActorStruct"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamStruct">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetTeamStruct"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LfpGetMatchOldXmlContentC">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentC"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructDetailAvailable">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchFilActionLightStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStruct">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStruct"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayScoringStructDetailAvailable">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayScoringStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/DayScoringStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayRankingStructDetailAvailable">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayRankingStructList">
+			<soap:operation
+				soapAction="http://tempuri.org/IServiceAmiscoLive/DayRankingStructList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServiceAmiscoLive">
+		<wsdl:port name="AmiscoBinding_IServiceAmiscoLive" binding="tns:AmiscoBinding_IServiceAmiscoLive">
+			<soap12:address location="http://41.138.70.142:9996/DataLive" />
+			<wsa10:EndpointReference>
+				<wsa10:Address>http://localhost:8888/DataLive</wsa10:Address>
+				<Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+					<Dns>Amisco</Dns>
+				</Identity>
+			</wsa10:EndpointReference>
+		</wsdl:port>
+		<wsdl:port name="AmiscoBinding_IServiceAmiscoLive1" binding="tns:AmiscoBinding_IServiceAmiscoLive1">
+			<soap:address location="http://41.138.70.142:9996/DataLive" />			
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
