@@ -1,7 +1,6 @@
 package com.africaapps.league.model.league;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,9 +31,41 @@ public class LeagueSeason extends BaseDataModel {
 	private Date startDate;
 	private Date endDate;
 	private League league;
-	private Set<TeamLeagueSeason> teamLeagueSeasons;
 	
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[LeagueSeason: ");
+		builder.append(" id:").append(id);
+		builder.append(" name:").append(name);
+		builder.append(" league:").append(league);
+		builder.append(" startDate:").append(startDate);
+		builder.append(" endDate:").append(endDate);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof LeagueSeason)) {
+			return false;
+		} else {
+			LeagueSeason s = (LeagueSeason) o;
+			if (s.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="league_season_seq", sequenceName="league_season_seq", allocationSize=1)
@@ -96,14 +126,5 @@ public class LeagueSeason extends BaseDataModel {
 
 	public void setLeague(League league) {
 		this.league = league;
-	}
-
-	@OneToMany(mappedBy = "leagueSeason")
-	public Set<TeamLeagueSeason> getTeamLeagueSeasons() {
-		return teamLeagueSeasons;
-	}
-
-	public void setTeamLeagueSeasons(Set<TeamLeagueSeason> teamLeagueSeasons) {
-		this.teamLeagueSeasons = teamLeagueSeasons;
 	}
 }

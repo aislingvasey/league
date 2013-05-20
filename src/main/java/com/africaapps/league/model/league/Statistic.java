@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -19,11 +21,11 @@ public class Statistic extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
+	private LeagueType leagueType;
 	private Integer externalStatsId;
 	private String description;
 	private Integer points;
 	
-	@Override
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="stats_seq", sequenceName="stats_seq", allocationSize=1)
@@ -31,6 +33,16 @@ public class Statistic extends BaseDataModel {
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
+	}
+	
+	@ManyToOne
+  @JoinColumn(name = "league_type_id")
+	public LeagueType getLeagueType() {
+		return leagueType;
+	}
+
+	public void setLeagueType(LeagueType leagueType) {
+		this.leagueType = leagueType;
 	}
 
 	@NotNull

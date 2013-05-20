@@ -48,8 +48,10 @@
 		</plugins>
 	</build>
 
-	<!-- Test database To generate the test database, run: "mvn clean compile" 
-		and then "mvn -P test hibernate3:hbm2ddl" -->
+	<!-- Test database To generate the test database, 
+		run: "mvn clean compile" 
+		and then "mvn -P test hibernate3:hbm2ddl" 
+		To run script into another db: psql -U league -d league -f ./target/hibernate3/sql/database_schema.sql -->
 	<profiles>
 		<profile>
 			<id>test</id>
@@ -255,6 +257,12 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -264,7 +272,7 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
+			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 

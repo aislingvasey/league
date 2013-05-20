@@ -28,6 +28,38 @@ public class Position extends BaseDataModel {
 	private LeagueType leagueType;
 	
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Position: ");
+		builder.append(" id:").append(id);
+		builder.append(" number:").append(positionNumber);
+		builder.append(" positionType:").append(positionType);
+		builder.append(" leagueType:").append(leagueType);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof Position)) {
+			return false;
+		} else {
+			Position p = (Position) o;
+			if (p.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="position_seq", sequenceName="position_seq", allocationSize=1)

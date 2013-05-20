@@ -32,6 +32,38 @@ public class LeagueType extends BaseDataModel {
 	}
 	
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[LeagueType: ");
+		builder.append(" id:").append(id);
+		builder.append(" name:").append(name);
+		builder.append(" description:").append(description);
+		builder.append(" status:").append(status);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof LeagueType)) {
+			return false;
+		} else {
+			LeagueType t = (LeagueType) o;
+			if (t.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="league_type_seq", sequenceName="league_type_seq", allocationSize=1)
@@ -43,7 +75,7 @@ public class LeagueType extends BaseDataModel {
 	
 	@NotNull
 	@Size(min=1, max=20, message="{validate.name.range}")
-  @Column(name="name", length=20, nullable=false)
+  @Column(name="name", length=20, nullable=false, unique=true)
 	public String getName() {
 		return name;
 	}

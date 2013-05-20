@@ -30,6 +30,38 @@ public class League extends BaseDataModel {
 	private Set<LeagueSeason> leagueSeasons;
 	
 	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[League: ");
+		builder.append(" id:").append(id);
+		builder.append(" name:").append(name);
+		builder.append(" description:").append(description);
+		builder.append(" type:").append(leagueType);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof League)) {
+			return false;
+		} else {
+			League l = (League) o;
+			if (l.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="league_seq", sequenceName="league_seq", allocationSize=1)
@@ -41,7 +73,7 @@ public class League extends BaseDataModel {
 	
 	@NotNull
 	@Size(min=1, max=100, message="{validate.name.range}")
-  @Column(name="name", length=100, nullable=false)
+  @Column(name="name", length=100, nullable=false, unique=true)
 	public String getName() {
 		return name;
 	}
@@ -52,7 +84,7 @@ public class League extends BaseDataModel {
 	
 	@NotNull
 	@Size(min=1, max=256, message="{validate.description.range}")
-  @Column(name="name", length=256, nullable=false)
+  @Column(name="description", length=256, nullable=false)
 	public String getDescription() {
 		return description;
 	}

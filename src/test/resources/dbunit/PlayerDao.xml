@@ -1,0 +1,6 @@
+<dataset>
+    <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
+	<league />
+	<team id="-1" city="Here" club_name="The Best" team_name="The Best Team" />
+    <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
+</dataset>

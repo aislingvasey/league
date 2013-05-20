@@ -25,7 +25,6 @@ public class PlayerMatch extends BaseDataModel {
 	private Player player;
 	private Integer playerScore;
 	
-	@Override
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="player_match_seq", sequenceName="player_match_seq", allocationSize=1)

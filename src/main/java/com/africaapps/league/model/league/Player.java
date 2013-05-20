@@ -28,7 +28,6 @@ public class Player extends BaseDataModel {
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @Column(name="id", nullable=false)
-	@Override
 	public Long getId() {
 		return id;
 	}

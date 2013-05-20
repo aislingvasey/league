@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,11 +28,11 @@ public class Match extends BaseDataModel {
 	private String finalScore;
 	private Team team1;
 	private Team team2;
+	private MatchProcessingStatus status;
 	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @Column(name="id", nullable=false)
-	@Override
 	public Long getId() {
 		return id;
 	}
@@ -94,5 +96,15 @@ public class Match extends BaseDataModel {
 
 	public void setTeam2(Team team2) {
 		this.team2 = team2;
+	}
+
+	@Column(name="match_processing_status", length=50, nullable=false)
+	@Enumerated(EnumType.STRING)
+	public MatchProcessingStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(MatchProcessingStatus status) {
+		this.status = status;
 	}
 }

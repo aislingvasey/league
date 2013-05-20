@@ -1,11 +1,8 @@
 package com.africaapps.league.model.league;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,10 +21,7 @@ public class Team extends BaseDataModel {
 	private String city;
 	private String manager;
 	private String coach;
-	private Set<TeamLeagueSeason> teamLeagueSeasons;
-//	private Set<Match> matches;
 
-	@Override
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @Column(name="id", nullable=false)
@@ -88,22 +82,4 @@ public class Team extends BaseDataModel {
 	public void setCoach(String coach) {
 		this.coach = coach;
 	}
-
-	@OneToMany(mappedBy = "team")
-	public Set<TeamLeagueSeason> getTeamLeagueSeasons() {
-		return teamLeagueSeasons;
-	}
-
-	public void setTeamLeagueSeasons(Set<TeamLeagueSeason> teamLeagueSeasons) {
-		this.teamLeagueSeasons = teamLeagueSeasons;
-	}
-//
-////	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stock")
-//	public Set<Match> getMatches() {
-//		return matches;
-//	}
-//
-//	public void setMatches(Set<Match> matches) {
-//		this.matches = matches;
-//	}
 }
