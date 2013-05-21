@@ -25,6 +25,39 @@ public class PlayerMatch extends BaseDataModel {
 	private Player player;
 	private Integer playerScore;
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[PlayerMatch: ");
+		builder.append(" id:").append(id);
+		builder.append(" match:").append(match == null ? "" : match.getId());
+		builder.append(" player:").append(player == null ? "" : player.getId());
+		builder.append(" playerScore:").append(playerScore);		
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof PlayerMatch)) {
+			return false;
+		} else {
+			PlayerMatch p = (PlayerMatch) o;
+			if (p.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="player_match_seq", sequenceName="player_match_seq", allocationSize=1)

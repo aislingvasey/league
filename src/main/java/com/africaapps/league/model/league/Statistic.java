@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,20 +17,54 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="statistic")
+@Table(name="statistic", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "stats_id"})})
 public class Statistic extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private LeagueType leagueType;
-	private Integer externalStatsId;
+	private Long statsId;
 	private String description;
 	private Integer points;
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Statistic: ");
+		builder.append(" id:").append(id);
+		builder.append(" statsId:").append(statsId);
+		builder.append(" description:").append(description);
+		builder.append(" points:").append(points);
+		builder.append(" type:").append(leagueType);		
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof Statistic)) {
+			return false;
+		} else {
+			Statistic s = (Statistic) o;
+			if (s.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
-  @SequenceGenerator(name="stats_seq", sequenceName="stats_seq", allocationSize=1)
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stats_seq")
+	@SequenceGenerator(name="statistic_seq", sequenceName="statistic_seq", allocationSize=1)
+  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="statistic_seq")
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
@@ -46,13 +81,13 @@ public class Statistic extends BaseDataModel {
 	}
 
 	@NotNull
-	@Column(name="external_stats_id", nullable=false)
-	public Integer getExternalStatsId() {
-		return externalStatsId;
+	@Column(name="stats_id", nullable=false)
+	public Long getStatsId() {
+		return statsId;
 	}
 
-	public void setExternalStatsId(Integer externalStatsId) {
-		this.externalStatsId = externalStatsId;
+	public void setStatsId(Long statsId) {
+		this.statsId = statsId;
 	}
 
 	@NotNull

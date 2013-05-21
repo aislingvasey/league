@@ -1,0 +1,10 @@
+<dataset>
+    <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
+    <league_type id="-2" name="Rugby" description="Rugby league" league_type_status="ACTIVE" />
+    <league />
+    
+    <statistic id="-1" stats_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
+    <statistic id="-2" stats_id="101" description="Red Card" league_type_id="-1" points="-10" />    
+    <statistic id="-3" stats_id="1" description="Try" league_type_id="-2" points="5" />
+    
+</dataset>

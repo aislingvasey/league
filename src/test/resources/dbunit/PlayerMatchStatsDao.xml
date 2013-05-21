@@ -1,0 +1,13 @@
+<dataset>
+    <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
+    <league />
+    <team id="-1" club_name="Team 1" team_name="Team 1" city="Here" />
+    <team id="-2" club_name="Team 2" team_name="Team 2" city="There" />
+    <statistic id="-1" stats_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
+    <statistic id="-2" stats_id="101" description="Red Card" league_type_id="-1" points="-10" />          
+    <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
+    <player id="-1" first_name="Bob" last_name="Smith" nick_name="Bob" shirt_number="5" team_id= "-1" position_id="-1" />
+    <match />
+    <player_match />
+    <player_match_stats />    
+</dataset>

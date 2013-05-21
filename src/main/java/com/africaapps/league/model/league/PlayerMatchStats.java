@@ -26,6 +26,38 @@ public class PlayerMatchStats extends BaseDataModel {
 	private Statistic statistic;
 	private Date dateTime;
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[PlayerMatchStats: ");
+		builder.append(" playerMatch:").append(playerMatch);
+		builder.append(" statistic:").append(statistic);
+		builder.append(" dateTime:").append(dateTime);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof PlayerMatchStats)) {
+			return false;
+		} else {
+			PlayerMatchStats s = (PlayerMatchStats) o;
+			if (s.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @SequenceGenerator(name="player_match_stats_seq", sequenceName="player_match_stats_seq", allocationSize=1)

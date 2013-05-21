@@ -21,6 +21,41 @@ public class Team extends BaseDataModel {
 	private String city;
 	private String manager;
 	private String coach;
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Team: ");
+		builder.append(" id:").append(id);
+		builder.append(" clubName:").append(clubName);
+		builder.append(" teamName:").append(teamName);
+		builder.append(" city:").append(city);
+		builder.append(" manager:").append(manager);
+		builder.append(" coach:").append(coach);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof Team)) {
+			return false;
+		} else {
+			Team t = (Team) o;
+			if (t.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 
 	@NotNull(groups={UpdateGroup.class})
 	@Id

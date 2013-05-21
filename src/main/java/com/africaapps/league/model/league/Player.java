@@ -25,6 +25,41 @@ public class Player extends BaseDataModel {
 	private Position position;
 	private Team team;
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Player: ");
+		builder.append(" id:").append(id);
+		builder.append(" firstName:").append(firstName);
+		builder.append(" lastName:").append(lastName);
+		builder.append(" nickName:").append(nickName);
+		builder.append(" position:").append(position);
+		builder.append(" team:").append(team == null ? "" : team.getClubName());
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof Player)) {
+			return false;
+		} else {
+			Player p = (Player) o;
+			if (p.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @Column(name="id", nullable=false)

@@ -2,6 +2,8 @@ package com.africaapps.league.service.webservice;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.ws.BindingProvider;
 
@@ -39,13 +41,18 @@ public class WebServiceClient {
 			((BindingProvider) service1).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, username);
 			((BindingProvider) service1).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, password);
 		} catch (MalformedURLException e) {
-			logger.error("Error with URL:" + e.getMessage());
+			logger.error("Error with web service URL:" + e.getMessage());
 		} catch (Throwable t) {
-			logger.error("Caught exception:", t);
+			logger.error("Caught web service exception:", t);
 		}
 	}
+	
+	public List<MatchFilActionStruct> getAvailableFilMatches() {
+		return getFirstAvailableFilMatch(service1);
+	}
 
-	public void getFirstAvailableFilMatch(IServiceAmiscoLive service1) {
+	public List<MatchFilActionStruct> getFirstAvailableFilMatch(IServiceAmiscoLive service1) {
+		List<MatchFilActionStruct> matchFilActionStructs = new ArrayList<MatchFilActionStruct>();		
 		ArrayOfKeyValueOfintstring intStrings = service1.getMatchFilActionStructDetailAvailable();
 		if (intStrings.getKeyValueOfintstring().size() > 0) {
 			// for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
@@ -59,25 +66,17 @@ public class WebServiceClient {
 				MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(),
 						entry.getKey());
 				if (matchStruct != null) {
-					DataLogUtil.logMatchFilStruct(matchStruct);
-
-					// 1st Team
-					// TeamStruct teamStruct =
-					// matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
-					// TeamStruct retrievedTeam =
-					// service1.getTeamStruct(matchStruct.getIdMatch(),
-					// teamStruct.getIdTeam(), entry.getKey());
-					// StringBuilder sb = new StringBuilder();
-					// DataLogUtil.logTeamStruct(sb, retrievedTeam);
-					// logger.info("Team: "+sb.toString());
-
+					logger.info("Got match struct for matchId: "+matchStruct.getIdMatch());
+//					DataLogUtil.logMatchFilStruct(matchStruct);
+					matchFilActionStructs.add(matchStruct);
 				} else {
 					logger.info("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
 				}
 			}
 		} else {
 			logger.info("No matches available");
-		}
+		}		
+		return matchFilActionStructs;
 	}
 
 	public void getFirstAvailableMatch(IServiceAmiscoLive service1) {

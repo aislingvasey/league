@@ -30,6 +30,42 @@ public class Match extends BaseDataModel {
 	private Team team2;
 	private MatchProcessingStatus status;
 	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[Match: ");
+		builder.append(" id:").append(id);
+		builder.append(" startDateTime:").append(startDateTime);
+		builder.append(" endDateTime:").append(endDateTime);
+		builder.append(" location:").append(location);
+		builder.append(" finalScore:").append(finalScore);
+		builder.append(" team1:").append(team1 == null ? "" : team1.getClubName());
+		builder.append(" team2:").append(team2 == null ? "" : team2.getClubName());
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		} else if (!(o instanceof Match)) {
+			return false;
+		} else {
+			Match m = (Match) o;
+			if (m.getId().equals(id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
   @Column(name="id", nullable=false)
