@@ -22,6 +22,7 @@ public class Match extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
+	private LeagueSeason leagueSeason;
 	private Date startDateTime;
 	private Date endDateTime;
 	private String location;
@@ -35,6 +36,7 @@ public class Match extends BaseDataModel {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[Match: ");
 		builder.append(" id:").append(id);
+		builder.append(" leagueSeason:").append(leagueSeason);
 		builder.append(" startDateTime:").append(startDateTime);
 		builder.append(" endDateTime:").append(endDateTime);
 		builder.append(" location:").append(location);
@@ -71,6 +73,16 @@ public class Match extends BaseDataModel {
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="league_season_id")
+	public LeagueSeason getLeagueSeason() {
+		return leagueSeason;
+	}
+
+	public void setLeagueSeason(LeagueSeason leagueSeason) {
+		this.leagueSeason = leagueSeason;
 	}
 
 	@NotNull

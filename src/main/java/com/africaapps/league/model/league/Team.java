@@ -75,9 +75,8 @@ public class Team extends BaseDataModel {
 		this.clubName = clubName;
 	}
 
-	@NotNull
 	@Size(min=1, max=500, message="{validate.teamname.range}")
-  @Column(name="team_name", length=500, nullable=false)
+  @Column(name="team_name", length=500, nullable=true)
 	public String getTeamName() {
 		return teamName;
 	}
@@ -86,9 +85,8 @@ public class Team extends BaseDataModel {
 		this.teamName = teamName;
 	}
 
-	@NotNull
 	@Size(min=1, max=500, message="{validate.city.range}")
-  @Column(name="city", length=500, nullable=false)
+  @Column(name="city", length=500, nullable=true)
 	public String getCity() {
 		return city;
 	}
@@ -107,7 +105,6 @@ public class Team extends BaseDataModel {
 		this.manager = manager;
 	}
 
-	@NotNull
 	@Size(min=1, max=500, message="{validate.coach.range}")
   @Column(name="coach", length=500, nullable=true)
 	public String getCoach() {

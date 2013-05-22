@@ -1,7 +1,5 @@
 package com.africaapps.league.model.league;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +22,7 @@ public class PlayerMatchStats extends BaseDataModel {
 
 	private PlayerMatch playerMatch;
 	private Statistic statistic;
-	private Date dateTime;
+	private String matchTime;
 	
 	@Override
 	public String toString() {
@@ -32,7 +30,7 @@ public class PlayerMatchStats extends BaseDataModel {
 		builder.append("[PlayerMatchStats: ");
 		builder.append(" playerMatch:").append(playerMatch);
 		builder.append(" statistic:").append(statistic);
-		builder.append(" dateTime:").append(dateTime);
+		builder.append(" matchTime:").append(matchTime);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -88,13 +86,12 @@ public class PlayerMatchStats extends BaseDataModel {
 	}
 
 	@NotNull
-	@Column(name="date_time", nullable=false)
-	public Date getDateTime() {
-		return dateTime;
+	@Column(name="match_time", nullable=false)
+	public String getMatchTime() {
+		return matchTime;
 	}
 
-	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
+	public void setMatchTime(String matchTime) {
+		this.matchTime = matchTime;
 	}
-
 }
