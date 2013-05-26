@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.africaapps.league.BaseSpringDbUnitTest;
 import com.africaapps.league.dao.league.LeagueTypeDao;
 import com.africaapps.league.dao.league.StatisticDao;
+import com.africaapps.league.model.league.LeagueType;
 import com.africaapps.league.model.league.Statistic;
 
 public class StatisticDaoTest extends BaseSpringDbUnitTest {
@@ -49,9 +50,10 @@ public class StatisticDaoTest extends BaseSpringDbUnitTest {
 		stats = statsDao.getStatistic(leagueTypeId, 102);
 		assertNull(stats);
 		
+		LeagueType leagueType = leagueTypeDao.getLeagueTypeByName("Soccer");
 		stats = new Statistic();
 		stats.setDescription("Goal");
-		stats.setLeagueType(leagueTypeDao.getLeagueTypeByName("Soccer"));
+		stats.setLeagueType(leagueType);
 		stats.setPoints(20);
 		stats.setStatsId(Long.valueOf(102));
 		statsDao.saveOrUpdate(stats);
@@ -63,15 +65,15 @@ public class StatisticDaoTest extends BaseSpringDbUnitTest {
 				
 			} else if (ss.getId().longValue() == -2) {
 				
-			} else if (ss.getId().longValue() != -1 && ss.getId().longValue() == -2) {
+			} else if (ss.getStatsId().equals(Long.valueOf(102))) {
 				logger.debug("Got: "+stats);
 				assertEquals("Goal", stats.getDescription());
 				assertEquals(20, stats.getPoints().intValue());
 				assertEquals(102, stats.getStatsId().intValue());
-				assertEquals(-1, stats.getId().longValue());
-				assertNotNull(stats.getLeagueType().getId());
+				assertNotNull(stats.getId().longValue());
+				assertEquals(leagueType.getId(), stats.getLeagueType().getId());
 			} else {
-				fail();
+				fail("Meh - unexpected statistic: "+ss);
 			}
 		}
 	}

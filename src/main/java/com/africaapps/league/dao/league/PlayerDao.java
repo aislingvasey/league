@@ -6,6 +6,6 @@ public interface PlayerDao {
 
 	public void saveOrUpdate(Player player);
 	
-	public Player getById(long playerId);
+	public Player getByPlayerId(int playerId);
 	
 }

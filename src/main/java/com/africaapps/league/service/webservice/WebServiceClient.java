@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.tempuri.IServiceAmiscoLive;
 import org.tempuri.ServiceAmiscoLive;
 
+import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.service.webservice.util.DataLogUtil;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfKeyValueOfintstring;
 
@@ -44,6 +45,23 @@ public class WebServiceClient {
 			logger.error("Error with web service URL:" + e.getMessage());
 		} catch (Throwable t) {
 			logger.error("Caught web service exception:", t);
+		}
+	}
+	
+	public boolean isServiceReady() {
+		if (service1 != null) {
+			return service1.isReady();
+		} else {
+			logger.error("Service not initialised for use");
+			return false;
+		}
+	}
+
+	public String getServiceVersion() {
+		if (service1 != null) {
+			return service1.serviceVersion();
+		} else {
+			return null;
 		}
 	}
 	
@@ -79,7 +97,13 @@ public class WebServiceClient {
 		return matchFilActionStructs;
 	}
 
-	public void getFirstAvailableMatch(IServiceAmiscoLive service1) {
+	public List<TeamStruct> getAvailableTeams(String leagueName) throws LeagueException {
+		return getFirstAvailableTeam(leagueName, service1);
+	}
+		
+	private List<TeamStruct> getFirstAvailableTeam(String leagueName, IServiceAmiscoLive service1) throws LeagueException {
+		List<TeamStruct> structs = new ArrayList<TeamStruct>();
+		
 		ArrayOfKeyValueOfintstring intStrings = service1.getMatchStructDetailAvailable();
 		if (intStrings.getKeyValueOfintstring().size() > 0) {
 			// for(ArrayOfKeyValueOfintstring.KeyValueOfintstring entry :
@@ -92,27 +116,37 @@ public class WebServiceClient {
 				// for(MatchLightStruct matchLightStruct :
 				// matchStructs.getMatchLightStruct()) {
 				MatchLightStruct matchLightStruct = matchStructs.getMatchLightStruct().get(0);
-				// DataLogUtil.logMatchLightStruct(matchLightStruct);
+				if (!matchLightStruct.getCompetitionName().getValue().equalsIgnoreCase(leagueName)) {
+					throw new LeagueException("League/Matches Mismatch! Expected matches for league: " + leagueName
+							+ " but got: " + matchLightStruct.getCompetitionName().getValue());
+				}
+				DataLogUtil.logMatchLightStruct(matchLightStruct);
 				MatchStruct matchStruct = service1.getMatchStruct(matchLightStruct.getIdMatch(), entry.getKey());
 				if (matchStruct != null) {
 					DataLogUtil.logMatchStruct(matchStruct);
-
-					// 1st Team
-					TeamStruct teamStruct = matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
-					TeamStruct retrievedTeam = service1.getTeamStruct(matchStruct.getIdMatch(), teamStruct.getIdTeam(),
-							entry.getKey());
-					StringBuilder sb = new StringBuilder();
-					DataLogUtil.logTeamStruct(sb, retrievedTeam);
-					logger.info("Team: " + sb.toString());
-
+					if (matchStruct.getLstTeamStruct() != null && matchStruct.getLstTeamStruct().getValue() != null
+							&& matchStruct.getLstTeamStruct().getValue().getTeamStruct().size() > 0) {
+						for(TeamStruct teamStruct : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
+							// 1st Team
+	//						TeamStruct teamStruct = matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
+							TeamStruct retrievedTeam = service1.getTeamStruct(matchStruct.getIdMatch(), teamStruct.getIdTeam(), entry.getKey());
+							structs.add(retrievedTeam);
+							logger.info("Retrieved teamStruct: "+retrievedTeam.getIdTeam());
+	//					StringBuilder sb = new StringBuilder();
+	//					DataLogUtil.logTeamStruct(sb, retrievedTeam);
+	//					logger.info("Team: " + sb.toString());
+							}
+						}
 				} else {
 					logger.info("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
 				}
 			}
 		}
+		return structs;
 	}
 
-/*	private void getAvailableRanking(IServiceAmiscoLive service1) {
+/*
+	private void getAvailableRanking(IServiceAmiscoLive service1) {
 		ArrayOfKeyValueOfintstring intStrings = service1.getDayRankingStructDetailAvailable();
 		for (ArrayOfKeyValueOfintstring.KeyValueOfintstring keyValue : intStrings.getKeyValueOfintstring()) {
 			logger.info("DayRanking: " + keyValue.getKey() + "=" + keyValue.getValue());
@@ -134,21 +168,4 @@ public class WebServiceClient {
 			}
 		}
 	}*/
-
-	public boolean isServiceReady() {
-		if (service1 != null) {
-			return service1.isReady();
-		} else {
-			logger.error("Service not initialised for use");
-			return false;
-		}
-	}
-
-	public String getServiceVersion() {
-		if (service1 != null) {
-			return service1.serviceVersion();
-		} else {
-			return null;
-		}
-	}
 }

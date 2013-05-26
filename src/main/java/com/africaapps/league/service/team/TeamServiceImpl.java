@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.africaapps.league.dao.league.TeamDao;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Team;
+import com.africaapps.league.service.transaction.ReadTransaction;
+import com.africaapps.league.service.transaction.WriteTransaction;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -18,11 +19,21 @@ public class TeamServiceImpl implements TeamService {
 	
 	private static Logger logger = LoggerFactory.getLogger(TeamServiceImpl.class);
 	
-	@Transactional(readOnly=false, rollbackFor=LeagueException.class)
+	@WriteTransaction
 	@Override
 	public void saveTeam(Team team) throws LeagueException {
+		Team existingTeam = teamDao.getBySeasonandTeamId(team.getLeagueSeason().getId(), team.getTeamId());
+		if (existingTeam != null) {
+			team.setId(team.getId());
+		}
 		logger.debug("Saving team:"+team);
 		teamDao.saveOrUpdate(team);
 		logger.debug("Saved team:"+team);
+	}
+
+	@ReadTransaction
+	@Override
+	public Team getTeam(long leagueSeasonId, int teamId) throws LeagueException {
+		return teamDao.getBySeasonandTeamId(leagueSeasonId, teamId);
 	}
 }

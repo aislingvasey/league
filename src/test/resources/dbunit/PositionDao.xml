@@ -2,4 +2,5 @@
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league />
 	<position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
+    <statistic />
 </dataset>

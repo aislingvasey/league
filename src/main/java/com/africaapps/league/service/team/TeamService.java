@@ -7,4 +7,6 @@ public interface TeamService {
 
 	public void saveTeam(Team team) throws LeagueException;
 	
+	public Team getTeam(long leagueSeasonId, int teamId) throws LeagueException;
+	
 }

@@ -1,5 +1,9 @@
 package com.africaapps.league.dao.league.hibernate;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
@@ -16,8 +20,16 @@ public class MatchDaoImpl extends BaseHibernateDao implements MatchDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Match getById(long matchId) {
-		return (Match) sessionFactory.getCurrentSession().get(Match.class, matchId);
+	public Match getByMatchId(int matchId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Match.class);
+		criteria.add(Restrictions.eq("matchId", matchId));
+		List<Match> matches = criteria.list();
+		if (matches.size() == 1) {
+			return matches.get(0);
+		} else {
+			return null;
+		}
 	}
 }

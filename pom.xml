@@ -173,6 +173,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>4.0.1.Final</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jboss</groupId>
+		    <artifactId>jboss-logging</artifactId>
+		    <version>3.1.0.GA</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jboss</groupId>
+		    <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+		    <version>1.0.0.Final</version>
+		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>antlr</groupId>

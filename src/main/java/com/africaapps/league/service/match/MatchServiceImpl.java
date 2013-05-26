@@ -25,8 +25,8 @@ public class MatchServiceImpl implements MatchService {
 	
 	@Transactional(readOnly=true)
 	@Override
-	public boolean isProcessedMatch(Long matchId) throws LeagueException {
-		Match match = matchDao.getById(matchId);
+	public boolean isProcessedMatch(int matchId) throws LeagueException {
+		Match match = matchDao.getByMatchId(matchId);
 		if (match != null) {
 			if (MatchProcessingStatus.COMPLETE.equals(match.getStatus())) {
 				logger.info("Match previously processed: "+matchId);
@@ -44,6 +44,10 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public void saveMatch(Match match) throws LeagueException {
 		if (match != null) {
+			Match existingMatch = matchDao.getByMatchId(match.getMatchId());
+			if (existingMatch != null) {
+				match.setId(existingMatch.getId());
+			}
 			logger.info("Saving match: "+match);
 			matchDao.saveOrUpdate(match);
 			logger.debug("Saved match: "+match);

@@ -1,6 +1,9 @@
 <dataset>
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
-	<league />
-	<team id="-1" city="Here" club_name="The Best" team_name="The Best Team" />
+	<league id="-1" name="ABSA Soccer League" description="Some description" league_type_id="-1" />
+	<league_season id="-1" league_id="-1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+	<team id="-1" team_id="11" city="Here" club_name="The Best" team_name="The Best Team" league_season_id="-1" />
     <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
+    <player />
+    <statistic />
 </dataset>

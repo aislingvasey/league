@@ -1,3 +1,9 @@
 <dataset>
     <league_type />
+    <league />
+    <league_season />
+    <team />
+    <player />
+    <position />
+    <statistic />    
 </dataset>

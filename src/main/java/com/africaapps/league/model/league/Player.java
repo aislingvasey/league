@@ -2,9 +2,12 @@ package com.africaapps.league.model.league;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,6 +21,7 @@ public class Player extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
+	private Integer playerId; //external id
 	private String firstName;
 	private String lastName;
 	private String nickName;
@@ -30,6 +34,7 @@ public class Player extends BaseDataModel {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[Player: ");
 		builder.append(" id:").append(id);
+		builder.append(" playerId:").append(playerId);
 		builder.append(" firstName:").append(firstName);
 		builder.append(" lastName:").append(lastName);
 		builder.append(" nickName:").append(nickName);
@@ -62,9 +67,21 @@ public class Player extends BaseDataModel {
 	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
+	@SequenceGenerator(name="player_seq", sequenceName="player_seq", allocationSize=1)
+  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="player_seq")
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
+	}
+
+	@NotNull
+  @Column(name="player_id", nullable=false)
+	public Integer getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(Integer playerId) {
+		this.playerId = playerId;
 	}
 
 	@NotNull
@@ -110,9 +127,8 @@ public class Player extends BaseDataModel {
 		this.shirtNumber = shirtNumber;
 	}
 
-	@NotNull
-	@ManyToOne(optional=false)
-	@JoinColumn(name="position_id")
+	@ManyToOne
+	@JoinColumn(name="position_id", nullable=true)
 	public Position getPosition() {
 		return position;
 	}

@@ -1,5 +1,9 @@
 package com.africaapps.league.dao.league.hibernate;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
@@ -16,8 +20,17 @@ public class TeamDaoImpl extends BaseHibernateDao implements TeamDao {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Team getById(long teamId) {
-		return (Team) sessionFactory.getCurrentSession().get(Team.class, teamId);
+	public Team getBySeasonandTeamId(long leagueSeasonId, int teamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Team.class);
+		criteria.add(Restrictions.eq("teamId", teamId));
+		criteria.createAlias("leagueSeason", "s").add(Restrictions.eq("s.id", leagueSeasonId));
+		List<Team> teams = criteria.list();
+		if (teams.size() == 1) {
+			return teams.get(0);
+		} else {
+			return null;
+		}
 	}
 }

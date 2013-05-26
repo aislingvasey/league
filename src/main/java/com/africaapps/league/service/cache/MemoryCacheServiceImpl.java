@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
+import com.africaapps.league.model.league.Position;
 import com.africaapps.league.model.league.Statistic;
 
 @Service
@@ -16,9 +17,11 @@ public class MemoryCacheServiceImpl implements CacheService {
 	//Save/cache each player's id and their corresponding PlayerMatch instances per match
 	private Map<Long, Map<Long, PlayerMatch>> playerMatchData = new HashMap<Long, Map<Long, PlayerMatch>>();	
 	
-	private Map<Long, Player> players = new HashMap<Long, Player>();
+	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
 	private Map<Long, Map<Long, Statistic>> statistics = new HashMap<Long, Map<Long, Statistic>>();
+	
+	private Map<Long, Map<Integer, Position>> leaguePositions = new HashMap<Long, Map<Integer,Position>>();
 
 	@Override
 	public PlayerMatch getPlayerMatch(Long matchId, Long playerId) throws LeagueException {
@@ -47,13 +50,13 @@ public class MemoryCacheServiceImpl implements CacheService {
 	}
 
 	@Override
-	public Player getPlayer(Long playerId) throws LeagueException {
+	public Player getPlayer(Integer playerId) throws LeagueException {
 		return players.get(playerId);
 	}
 
 	@Override
 	public void setPlayer(Player player) throws LeagueException {
-		players.put(player.getId(), player);
+		players.put(player.getPlayerId(), player);
 	}
 	
 	@Override
@@ -79,6 +82,32 @@ public class MemoryCacheServiceImpl implements CacheService {
 			Map<Long, Statistic> stats = new HashMap<Long, Statistic>();
 			stats.put(statistic.getStatsId(), statistic);
 			statistics.put(leagueTypeId, stats);
+		}
+	}
+
+	@Override
+	public Position getPosition(Long leagueTypeId, Integer positionNumber) throws LeagueException {
+		if (leaguePositions.containsKey(leagueTypeId)) {
+			Map<Integer, Position> poss = leaguePositions.get(leagueTypeId);
+			if (poss.containsKey(positionNumber)) {
+				return poss.get(positionNumber);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void setPosition(Long leagueTypeId, Position position) throws LeagueException {
+		if (leaguePositions.containsKey(leagueTypeId)) {
+			Map<Integer, Position> poss = leaguePositions.get(leagueTypeId);
+			if (poss.containsKey(position.getPositionNumber())) {
+				poss.remove(position);
+			}
+			poss.put(position.getPositionNumber(), position);
+		} else {
+			Map<Integer, Position> poss = new HashMap<Integer, Position>();
+			poss.put(position.getPositionNumber(), position);
+			leaguePositions.put(leagueTypeId, poss);
 		}
 	}
 }

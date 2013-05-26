@@ -1,0 +1,35 @@
+<dataset>
+
+    <league_type id="1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
+	<league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
+	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+    <team />    
+<!-- 
+TODO positions
+• 9 = Goalkeeper
+• 10 = Wide defender left
+• 11 = Central defender left
+• 12 = Sweeper
+• 13 = Central defender right
+• 14 = Wide defender right
+• 15 = Wide midfielder left
+• 16 = Wing back left
+• 17 = Central midfielder left
+• 18 = Holding central midfielder left
+• 19 = Central midfielder
+• 20 = Holding central midfielder
+• 21 = Holding central midfielder right
+• 22 = Central midfielder right
+• 23 = Wing back right
+• 24 = Wide midfielder right
+• 41 = Wide forward left
+• 42 = Centre forward
+• 43 = Supporting centre forward
+• 44 = Wide forward right
+• 45 = Centre forward left
+• 46 = Centre forward right
+ -->	
+	<position />	
+	<statistic />
+	<player />	
+</dataset>

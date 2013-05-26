@@ -6,7 +6,7 @@ import com.africaapps.league.model.league.PlayerMatch;
 
 public interface MatchService {
 
-	public boolean isProcessedMatch(Long matchId) throws LeagueException;
+	public boolean isProcessedMatch(int matchId) throws LeagueException;
 	
 	public void saveMatch(Match match) throws LeagueException;
 	

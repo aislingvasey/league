@@ -29,55 +29,57 @@ public class PlayerDaoTest extends BaseSpringDbUnitTest {
 		assertNotNull(playerDao);
 		assertNotNull(teamDao);
 		
-		long playerId = -1;
-		long playerId2 = -2;
+		int playerId = 1;
+		int playerId2 = 2;
 		long leagueTypeId = -1;
 		int positionNumber = 1;
-		long teamId = -1;
+		int teamId = 11;
 		
-		Player player = playerDao.getById(playerId);
+		Player player = playerDao.getByPlayerId(playerId);
 		assertNull(player);
 		
 		player = new Player();
-		player.setId(playerId);
+		player.setPlayerId(playerId);
 		player.setFirstName("Gold");
 		player.setLastName("Smith");
 		player.setNickName("Goldie");
 		player.setShirtNumber(5);
 		player.setPosition(positionDao.getPosition(leagueTypeId, positionNumber));
-		player.setTeam(teamDao.getById(teamId));
+		player.setTeam(teamDao.getBySeasonandTeamId(-1, teamId));
 		playerDao.saveOrUpdate(player);
 		
-		player = playerDao.getById(playerId);
+		player = playerDao.getByPlayerId(playerId);
 		assertNotNull(player);
 		logger.debug("Got: "+player);
-		assertEquals(playerId, player.getId().longValue());
+		assertNotNull(player.getId());
+		assertEquals(playerId, player.getPlayerId().intValue());
 		assertEquals("Gold", player.getFirstName());
 		assertEquals("Smith", player.getLastName());
 		assertEquals("Goldie", player.getNickName());
 		assertEquals(5, player.getShirtNumber().intValue());
 		assertEquals(-1, player.getPosition().getId().longValue());
-		assertEquals(teamId, player.getTeam().getId().longValue());
+		assertEquals(teamId, player.getTeam().getTeamId());
 		
 		player = new Player();
-		player.setId(playerId2);
+		player.setPlayerId(playerId2);
 		player.setFirstName("Robert");
 		player.setLastName("Smith");
 		player.setNickName("Bob");
 		player.setShirtNumber(6);
 		player.setPosition(positionDao.getPosition(leagueTypeId, positionNumber));
-		player.setTeam(teamDao.getById(teamId));
+		player.setTeam(teamDao.getBySeasonandTeamId(-1, teamId));
 		playerDao.saveOrUpdate(player);
 		
-		player = playerDao.getById(playerId2);
+		player = playerDao.getByPlayerId(playerId2);
 		assertNotNull(player);
 		logger.debug("Got: "+player);
-		assertEquals(playerId2, player.getId().longValue());
+		assertNotNull(player.getId());
+		assertEquals(playerId2, player.getPlayerId().intValue());
 		assertEquals("Robert", player.getFirstName());
 		assertEquals("Smith", player.getLastName());
 		assertEquals("Bob", player.getNickName());
 		assertEquals(6, player.getShirtNumber().intValue());
 		assertEquals(-1, player.getPosition().getId().longValue());
-		assertEquals(teamId, player.getTeam().getId().longValue());
+		assertEquals(teamId, player.getTeam().getTeamId());
 	}	
 }

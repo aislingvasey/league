@@ -1,4 +1,9 @@
 <dataset>
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league />
+    <league_season />
+    <team />
+    <position />
+    <player />
+    <statistic />
 </dataset>

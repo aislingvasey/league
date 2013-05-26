@@ -43,19 +43,19 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 	@Transactional(readOnly=false)
 	@Test
 	public void saveAndGet() throws Exception {
-		long matchId = 1234;
-		long playerId = -1;
+		int matchId = 1234;
+		int playerId = 5;
 		long statsId = -2;
 		
-		Match match = matchDao.getById(matchId);
+		Match match = matchDao.getByMatchId(matchId);
 		assertNull(match);
 		
-		match = new Match();
-		match.setId(matchId);
+		match = new Match();		
+		match.setMatchId(matchId);
 		match.setLocation("Cape Town Stadium");
 		match.setStatus(MatchProcessingStatus.INPROGRESS);
-		match.setTeam1(teamDao.getById(-1));		
-		match.setTeam2(teamDao.getById(-2));
+		match.setTeam1(teamDao.getBySeasonandTeamId(-1, 10));		
+		match.setTeam2(teamDao.getBySeasonandTeamId(-1, 11));
 		match.setFinalScore("2-1");
 		Date start = new SimpleDateFormat("yyyy-mm-dd HH:mm").parse("2013-05-10 20:30");
 		match.setStartDateTime(start);
@@ -63,8 +63,9 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		match.setEndDateTime(end);
 		matchDao.saveOrUpdate(match);
 		
-		Match match2 = matchDao.getById(matchId);
+		Match match2 = matchDao.getByMatchId(matchId);
 		assertNotNull(match2);
+		assertNotNull(match2.getId());
 		assertEquals(match.getFinalScore(), match2.getFinalScore());
 		assertEquals(match.getLocation(), match2.getLocation());
 		assertEquals(match.getEndDateTime(), match2.getEndDateTime());
@@ -74,7 +75,7 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		assertEquals(match.getTeam1().getId(), match2.getTeam1().getId());
 		assertEquals(match.getTeam2().getId(), match2.getTeam2().getId());
 		
-		Player player = playerDao.getById(playerId);
+		Player player = playerDao.getByPlayerId(playerId);
 		assertNotNull(player);
 		
 		PlayerMatch playerMatch = playerMatchDao.getByIds(match2.getId(), player.getId());
@@ -91,7 +92,7 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		assertEquals(0, stats.size());
 		
 		PlayerMatchStats playerMatchStats = new PlayerMatchStats();
-		playerMatchStats.setDateTime(new Date());
+		playerMatchStats.setMatchTime("00:05");
 		playerMatchStats.setStatistic(statsDao.getStatistic(-1, statsId));
 		playerMatchStats.setPlayerMatch(playerMatch2);
 		playerMatchStatsDao.saveOrUpdate(playerMatchStats);

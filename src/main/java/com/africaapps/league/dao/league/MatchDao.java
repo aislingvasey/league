@@ -6,6 +6,6 @@ public interface MatchDao {
 
 	public void saveOrUpdate(Match match);
 	
-	public Match getById(long matchId);
+	public Match getByMatchId(int matchId);
 	
 }

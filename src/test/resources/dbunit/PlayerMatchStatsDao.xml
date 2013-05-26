@@ -1,12 +1,13 @@
 <dataset>
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
-    <league />
-    <team id="-1" club_name="Team 1" team_name="Team 1" city="Here" />
-    <team id="-2" club_name="Team 2" team_name="Team 2" city="There" />
+    <league id="-1" name="ABSA Soccer League" description="Some description" league_type_id="-1" />
+	<league_season id="-1" league_id="-1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+    <team id="-1" team_id="10" club_name="Team 1" team_name="Team 1" city="Here" league_season_id="-1" />
+    <team id="-2" team_id="11" club_name="Team 2" team_name="Team 2" city="There" league_season_id="-1" />
     <statistic id="-1" stats_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
     <statistic id="-2" stats_id="101" description="Red Card" league_type_id="-1" points="-10" />          
     <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
-    <player id="-1" first_name="Bob" last_name="Smith" nick_name="Bob" shirt_number="5" team_id= "-1" position_id="-1" />
+    <player id="-1" player_id="5" first_name="Bob" last_name="Smith" nick_name="Bob" shirt_number="5" team_id= "-1" position_id="-1" />
     <match />
     <player_match />
     <player_match_stats />    

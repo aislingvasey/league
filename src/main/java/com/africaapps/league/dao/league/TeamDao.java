@@ -6,6 +6,6 @@ public interface TeamDao {
 
 	public void saveOrUpdate(Team team);
 	
-	public Team getById(long teamId);
+	public Team getBySeasonandTeamId(long leagueSeasonId, int teamId);
 	
 }

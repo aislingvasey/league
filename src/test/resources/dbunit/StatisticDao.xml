@@ -2,6 +2,10 @@
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league_type id="-2" name="Rugby" description="Rugby league" league_type_status="ACTIVE" />
     <league />
+    <league_season />
+    <team />
+    <position />
+    <player />    
     
     <statistic id="-1" stats_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
     <statistic id="-2" stats_id="101" description="Red Card" league_type_id="-1" points="-10" />    
