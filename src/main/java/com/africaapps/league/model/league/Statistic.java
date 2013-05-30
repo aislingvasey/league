@@ -13,6 +13,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
+
 import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
@@ -23,7 +25,7 @@ public class Statistic extends BaseDataModel {
 	private static final long serialVersionUID = 1L;
 
 	private LeagueType leagueType;
-	private Long statsId;
+	private Integer statsId;
 	private String description;
 	private Integer points;
 	
@@ -81,12 +83,13 @@ public class Statistic extends BaseDataModel {
 	}
 
 	@NotNull
+	@Index(name="stats_id_index", columnNames = "stats_id")
 	@Column(name="stats_id", nullable=false)
-	public Long getStatsId() {
+	public Integer getStatsId() {
 		return statsId;
 	}
 
-	public void setStatsId(Long statsId) {
+	public void setStatsId(Integer statsId) {
 		this.statsId = statsId;
 	}
 

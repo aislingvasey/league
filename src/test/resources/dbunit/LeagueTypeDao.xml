@@ -3,6 +3,7 @@
     <league />
     <league_season />
     <team />
+    <position />
     <player />
     <position />
     <statistic />    

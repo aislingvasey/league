@@ -13,6 +13,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
+
 import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
@@ -26,7 +28,6 @@ public class Team extends BaseDataModel {
 	private String clubName;
 	private String teamName;
 	private String city;
-	private String coach;
 	private LeagueSeason leagueSeason;
 	
 	@Override
@@ -38,7 +39,6 @@ public class Team extends BaseDataModel {
 		builder.append(" clubName:").append(clubName);
 		builder.append(" teamName:").append(teamName);
 		builder.append(" city:").append(city);
-		builder.append(" coach:").append(coach);
 		builder.append(" leagueSeason:").append(leagueSeason);
 		builder.append("]");
 		return builder.toString();
@@ -75,6 +75,7 @@ public class Team extends BaseDataModel {
 	}
 
 	@NotNull
+	@Index(name="team_id_index", columnNames = "team_id")
   @Column(name="team_id", nullable=false)
 	public int getTeamId() {
 		return teamId;
@@ -113,16 +114,6 @@ public class Team extends BaseDataModel {
 
 	public void setCity(String city) {
 		this.city = city;
-	}
-
-	@Size(min=1, max=500, message="{validate.coach.range}")
-  @Column(name="coach", length=500, nullable=true)
-	public String getCoach() {
-		return coach;
-	}
-
-	public void setCoach(String coach) {
-		this.coach = coach;
 	}
 
 	@ManyToOne

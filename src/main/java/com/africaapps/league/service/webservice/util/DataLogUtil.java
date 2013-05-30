@@ -166,14 +166,14 @@ public class DataLogUtil {
 		}
 		
 		//Substitutions
-		for(ActorSubstitutionStruct sub : team.getLstActorSubstitutionStruct().getValue().getActorSubstitutionStruct()) {
-			sb.append("\n[Substitution:");
-			sb.append(" time:").append(sub.getTimeMatchStr().getValue());
-			sb.append(" halfId:").append(sub.getHalfId());
-			sb.append(" playerIn:").append(sub.getPlayerIn().getValue().getIdA());
-			sb.append(" playerOut:").append(sub.getPlayerOut().getValue().getIdA());
-			sb.append("]");
-		}		
+//		for(ActorSubstitutionStruct sub : team.getLstActorSubstitutionStruct().getValue().getActorSubstitutionStruct()) {
+//			sb.append("\n[Substitution:");
+//			sb.append(" time:").append(sub.getTimeMatchStr().getValue());
+//			sb.append(" halfId:").append(sub.getHalfId());
+//			sb.append(" playerIn:").append(sub.getPlayerIn().getValue().getIdA());
+//			sb.append(" playerOut:").append(sub.getPlayerOut().getValue().getIdA());
+//			sb.append("]");
+//		}		
 		
 		//Scorers
 		for(ScorerStruct scorer : team.getLstScorerStruct().getValue().getScorerStruct()) {
@@ -188,41 +188,41 @@ public class DataLogUtil {
 		}
 		
 		//CIS
-		for(CIS cis: team.getLstCIS().getValue().getCIS()) {
-			sb.append("\nCIS: idClient:").append(cis.getIdClient().getValue()).append(" name:").append(cis.getName().getValue());
-		}
+//		for(CIS cis: team.getLstCIS().getValue().getCIS()) {
+//			sb.append("\nCIS: idClient:").append(cis.getIdClient().getValue()).append(" name:").append(cis.getName().getValue());
+//		}
 		
 		//STDS
-		for (SDTS sdts : team.getLstSDTS().getValue().getSDTS()) {
-			sb.append("\n[SDTS:");
-			sb.append(" idDT:").append(sdts.getIdDT());
-			sb.append(" name:").append(sdts.getName().getValue());
-			for(SS ss : sdts.getLstSS().getValue().getSS()) {
-				sb.append(" SS: id:").append(ss.getId()).append(" V:").append(ss.getV().getValue());
-				if (ss.getA2().getValue() != null) {
-					sb.append(" idA:").append(ss.getA2().getValue().getIdA());
-					sb.append(" FN:").append(ss.getA2().getValue().getFN().getValue());
-					sb.append(" NN:").append(ss.getA2().getValue().getNN().getValue());
-					sb.append(" SN:").append(ss.getA2().getValue().getSN().getValue());
-					sb.append(" UFN:").append(ss.getA2().getValue().getUFN().getValue());
-					for(CIS cis : ss.getA2().getValue().getLstCIS().getValue().getCIS()) {
-						sb.append(" CIS idClient:").append(cis.getIdClient().getValue());
-						sb.append(" name:").append(cis.getName().getValue());
-					}
-				}
-				for(SOS sos : ss.getLSOS().getValue().getSOS()) {
-					sb.append(" SOS:");
-					if (ss.getA2().getValue() != null) {
-						sb.append(" SOS's A2:").append(ss.getA2().getValue().getIdA());						
-					}
-					sb.append(" ETH:").append(sos.getETHstr().getValue());
-					sb.append(" ETM:").append(sos.getETMstr().getValue());
-					sb.append(" STH:").append(sos.getSTHstr().getValue());
-					sb.append(" STM:").append(sos.getSTMstr().getValue());
-				}
-			}
-			sb.append("]");
-		}
+//		for (SDTS sdts : team.getLstSDTS().getValue().getSDTS()) {
+//			sb.append("\n[SDTS:");
+//			sb.append(" idDT:").append(sdts.getIdDT());
+//			sb.append(" name:").append(sdts.getName().getValue());
+//			for(SS ss : sdts.getLstSS().getValue().getSS()) {
+//				sb.append(" SS: id:").append(ss.getId()).append(" V:").append(ss.getV().getValue());
+//				if (ss.getA2().getValue() != null) {
+//					sb.append(" idA:").append(ss.getA2().getValue().getIdA());
+//					sb.append(" FN:").append(ss.getA2().getValue().getFN().getValue());
+//					sb.append(" NN:").append(ss.getA2().getValue().getNN().getValue());
+//					sb.append(" SN:").append(ss.getA2().getValue().getSN().getValue());
+//					sb.append(" UFN:").append(ss.getA2().getValue().getUFN().getValue());
+//					for(CIS cis : ss.getA2().getValue().getLstCIS().getValue().getCIS()) {
+//						sb.append(" CIS idClient:").append(cis.getIdClient().getValue());
+//						sb.append(" name:").append(cis.getName().getValue());
+//					}
+//				}
+//				for(SOS sos : ss.getLSOS().getValue().getSOS()) {
+//					sb.append(" SOS:");
+//					if (ss.getA2().getValue() != null) {
+//						sb.append(" SOS's A2:").append(ss.getA2().getValue().getIdA());						
+//					}
+//					sb.append(" ETH:").append(sos.getETHstr().getValue());
+//					sb.append(" ETM:").append(sos.getETMstr().getValue());
+//					sb.append(" STH:").append(sos.getSTHstr().getValue());
+//					sb.append(" STM:").append(sos.getSTMstr().getValue());
+//				}
+//			}
+//			sb.append("]");
+//		}
 		
 		sb.append("\n]");
 	}
@@ -235,25 +235,25 @@ public class DataLogUtil {
 		sb.append(" shirtNumber:").append(actor.getShirtNumber().getValue());
 		sb.append(" idBlock:").append(actor.getIdBlock().getValue());
 		sb.append(" idPosition:").append(actor.getIdPosition().getValue());
-		for(SDTS sdts : actor.getLstSDTS().getValue().getSDTS()) {
-			sb.append("\n\t SDTS: idDT:").append(sdts.getIdDT())
-			.append(" name:").append(sdts.getName().getValue());
-			for(SS ss : sdts.getLstSS().getValue().getSS()) {
-				sb.append(" SS: id:").append(ss.getId());
-				if (ss.getLSOS() != null) {
-					for(SOS sos : ss.getLSOS().getValue().getSOS()) {
-						sb.append("\n\t\t SOS: ETH:").append(sos.getETHstr().getValue())
-						  .append(" ETM:").append(sos.getETMstr().getValue())
-						  .append(" STH:").append(sos.getSTHstr().getValue())
-						  .append(" STM:").append(sos.getSTMstr().getValue());							
-					}
-				}
-				sb.append(" idA:");
-				if (ss.getA2() != null && ss.getA2().getValue() != null) {
-					sb.append(ss.getA2().getValue().getIdA());
-				}
-			}
-		}
+//		for(SDTS sdts : actor.getLstSDTS().getValue().getSDTS()) {
+//			sb.append("\n\t SDTS: idDT:").append(sdts.getIdDT())
+//			.append(" name:").append(sdts.getName().getValue());
+//			for(SS ss : sdts.getLstSS().getValue().getSS()) {
+//				sb.append(" SS: id:").append(ss.getId());
+//				if (ss.getLSOS() != null) {
+//					for(SOS sos : ss.getLSOS().getValue().getSOS()) {
+//						sb.append("\n\t\t SOS: ETH:").append(sos.getETHstr().getValue())
+//						  .append(" ETM:").append(sos.getETMstr().getValue())
+//						  .append(" STH:").append(sos.getSTHstr().getValue())
+//						  .append(" STM:").append(sos.getSTMstr().getValue());							
+//					}
+//				}
+//				sb.append(" idA:");
+//				if (ss.getA2() != null && ss.getA2().getValue() != null) {
+//					sb.append(ss.getA2().getValue().getIdA());
+//				}
+//			}
+//		}
 		sb.append("]");
 	}
 	

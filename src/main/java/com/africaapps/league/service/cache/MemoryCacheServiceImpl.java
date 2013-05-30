@@ -19,7 +19,7 @@ public class MemoryCacheServiceImpl implements CacheService {
 	
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
-	private Map<Long, Map<Long, Statistic>> statistics = new HashMap<Long, Map<Long, Statistic>>();
+	private Map<Long, Map<Integer, Statistic>> statistics = new HashMap<Long, Map<Integer, Statistic>>();
 	
 	private Map<Long, Map<Integer, Position>> leaguePositions = new HashMap<Long, Map<Integer,Position>>();
 
@@ -60,9 +60,9 @@ public class MemoryCacheServiceImpl implements CacheService {
 	}
 	
 	@Override
-	public Statistic getStatistic(Long leagueTypeId, Long statsId) throws LeagueException {
+	public Statistic getStatistic(Long leagueTypeId, Integer statsId) throws LeagueException {
 		if (statistics.containsKey(leagueTypeId)) {
-			Map<Long, Statistic> stats = statistics.get(leagueTypeId);
+			Map<Integer, Statistic> stats = statistics.get(leagueTypeId);
 			if (stats.containsKey(statsId)) {
 				return stats.get(statsId);
 			}
@@ -73,13 +73,13 @@ public class MemoryCacheServiceImpl implements CacheService {
 	@Override
 	public void setStatistic(Long leagueTypeId, Statistic statistic) throws LeagueException {
 		if (statistics.containsKey(leagueTypeId)) {
-			Map<Long, Statistic> stats = statistics.get(leagueTypeId);
+			Map<Integer, Statistic> stats = statistics.get(leagueTypeId);
 			if (stats.containsKey(statistic.getStatsId())) {
 				stats.remove(statistic);
 			}
 			stats.put(statistic.getStatsId(), statistic);
 		} else {
-			Map<Long, Statistic> stats = new HashMap<Long, Statistic>();
+			Map<Integer, Statistic> stats = new HashMap<Integer, Statistic>();
 			stats.put(statistic.getStatsId(), statistic);
 			statistics.put(leagueTypeId, stats);
 		}

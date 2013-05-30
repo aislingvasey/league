@@ -17,6 +17,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
+
 import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
@@ -84,6 +86,7 @@ public class Match extends BaseDataModel {
 	}
 	
 	@NotNull
+	@Index(name="match_id_index", columnNames = "match_id")
   @Column(name="match_id", nullable=false)
 	public Integer getMatchId() {
 		return matchId;
@@ -94,7 +97,7 @@ public class Match extends BaseDataModel {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="league_season_id")
+	@JoinColumn(name="league_season_id", nullable=false)
 	public LeagueSeason getLeagueSeason() {
 		return leagueSeason;
 	}

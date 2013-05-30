@@ -37,7 +37,6 @@ public class TeamDaoTest extends BaseSpringDbUnitTest {
 		team.setCity("Bloemfontein");
 		team.setClubName("Sundowns");
 		team.setTeamName("Sundowns Team");
-		team.setCoach(null);
 		team.setLeagueSeason(leagueSeasonDao.getCurrentSeason(leagueId));
 		teamDao.saveOrUpdate(team);
 		
@@ -49,6 +48,5 @@ public class TeamDaoTest extends BaseSpringDbUnitTest {
 		assertEquals("Bloemfontein", team.getCity());
 		assertEquals("Sundowns", team.getClubName());
 		assertEquals("Sundowns Team", team.getTeamName());
-		assertNull(team.getCoach());
 	}
 }

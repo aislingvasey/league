@@ -8,4 +8,6 @@ public interface TeamDao {
 	
 	public Team getBySeasonandTeamId(long leagueSeasonId, int teamId);
 	
+	public Long getIdBySeasonandTeamId(long leagueSeasonId, int teamId);
+	
 }

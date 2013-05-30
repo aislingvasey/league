@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.africaapps.league.dao.league.MatchDao;
 import com.africaapps.league.dao.league.PlayerMatchDao;
@@ -12,6 +11,8 @@ import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.MatchProcessingStatus;
 import com.africaapps.league.model.league.PlayerMatch;
+import com.africaapps.league.service.transaction.ReadTransaction;
+import com.africaapps.league.service.transaction.WriteTransaction;
 
 @Service
 public class MatchServiceImpl implements MatchService {
@@ -23,41 +24,36 @@ public class MatchServiceImpl implements MatchService {
 	
 	private static Logger logger = LoggerFactory.getLogger(MatchServiceImpl.class);
 	
-	@Transactional(readOnly=true)
+	@ReadTransaction
 	@Override
-	public boolean isProcessedMatch(int matchId) throws LeagueException {
-		Match match = matchDao.getByMatchId(matchId);
+	public boolean isProcessedMatch(long leageaSeasonId, int matchId) throws LeagueException {
+		Match match = matchDao.getByLeagueSeasonAndMatchId(leageaSeasonId, matchId);
 		if (match != null) {
-			if (MatchProcessingStatus.COMPLETE.equals(match.getStatus())) {
-				logger.info("Match previously processed: "+matchId);
+			//TODO fix status back to complete later
+			if (MatchProcessingStatus./*COMPLETE*/SAVED.equals(match.getStatus())) {
 				return true;
-			} else {
-				logger.info("Match not processed yet: "+matchId);
 			}
-		} else {
-			logger.info("Unknown match: "+matchId);
 		}
 		return false;
 	}
 
-	@Transactional(readOnly=false)
+	@WriteTransaction
 	@Override
 	public void saveMatch(Match match) throws LeagueException {
 		if (match != null) {
-			Match existingMatch = matchDao.getByMatchId(match.getMatchId());
-			if (existingMatch != null) {
-				match.setId(existingMatch.getId());
-			}
+			match.setId(matchDao.getIdByMatchId(match.getLeagueSeason().getId(), match.getMatchId()));
 			logger.info("Saving match: "+match);
 			matchDao.saveOrUpdate(match);
 			logger.debug("Saved match: "+match);
 		}
 	}
 
+	@WriteTransaction
 	@Override
 	public void savePlayerMatch(PlayerMatch playerMatch) throws LeagueException {
 		if (playerMatch != null) {
-			logger.debug("Saving playerMatch: "+playerMatch);
+			playerMatch.setId(playerMatchDao.getIdByIds(playerMatch.getMatch().getId(), playerMatch.getPlayer().getId()));
+			logger.debug("Saving playerMatch: "+playerMatch);			
 			playerMatchDao.saveOrUpdate(playerMatch);
 			logger.debug("Saved playerMatch: "+playerMatch);
 		}

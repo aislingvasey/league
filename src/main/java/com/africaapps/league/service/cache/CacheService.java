@@ -18,11 +18,9 @@ public interface CacheService {
 	
 	public void setPlayer(Player player) throws LeagueException;
 	
-	public Statistic getStatistic(Long leagueTypeId, Long statsId) throws LeagueException;
-	
+	public Statistic getStatistic(Long leagueTypeId, Integer statsId) throws LeagueException;
 	public void setStatistic(Long leagueTypeId, Statistic statistic) throws LeagueException;
 	
 	public Position getPosition(Long leagueTypeId, Integer positionNumber) throws LeagueException;
-	
-	public void setPosition(Long leagueTypeId, Position position) throws LeagueException;
+	public void setPosition(Long leagueTypeId, Position position) throws LeagueException;	
 }

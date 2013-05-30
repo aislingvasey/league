@@ -6,6 +6,8 @@ public interface MatchDao {
 
 	public void saveOrUpdate(Match match);
 	
-	public Match getByMatchId(int matchId);
+	public Match getByLeagueSeasonAndMatchId(long leagueSeasonId, int matchId);
+	
+	public Long getIdByMatchId(long leagueSeasonId, int matchId);
 	
 }

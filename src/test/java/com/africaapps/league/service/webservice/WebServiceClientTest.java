@@ -9,9 +9,9 @@ import com.africaapps.league.service.webservice.WebServiceClient;
 
 public class WebServiceClientTest {
 
-	private String url = "file:///home/aisling/development/workspaces/games/league/src/test/resources/local-test-env.wsdl";
-	private String username = "";
-	private String password = "";
+	private String url = "file:///home/aisling/development/workspaces/games/league/src/test/resources/test-env.wsdl";
+	private String username = "ashley.kleynhans@gmail.com";
+	private String password = "Mxit_For_AmiscoSA!!";
 	
 	@Test
 	public void checkFeed() throws Exception {

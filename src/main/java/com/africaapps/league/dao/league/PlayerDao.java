@@ -8,4 +8,6 @@ public interface PlayerDao {
 	
 	public Player getByPlayerId(int playerId);
 	
+	public Long getIdByPlayerId(int playerId);
+	
 }

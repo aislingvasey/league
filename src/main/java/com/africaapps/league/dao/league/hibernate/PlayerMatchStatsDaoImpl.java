@@ -2,6 +2,7 @@ package com.africaapps.league.dao.league.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,20 @@ public class PlayerMatchStatsDaoImpl extends BaseHibernateDao implements PlayerM
 		return sessionFactory.getCurrentSession().createCriteria(PlayerMatchStats.class)
 				.createAlias("playerMatch", "pm").add(Restrictions.eq("pm.id", playerMatchId))
 				.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PlayerMatchStats getStats(Long playerMatchId, Long statisticId, String matchTime) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PlayerMatchStats.class);
+		criteria.createAlias("playerMatch", "pm").add(Restrictions.eq("pm.id", playerMatchId));
+		criteria.createAlias("statistic", "s").add(Restrictions.eq("s.id", statisticId));
+		criteria.add(Restrictions.eq("matchTime", matchTime));
+		List<PlayerMatchStats> stats = criteria.list();
+		if (stats.size() == 1) {
+			return stats.get(0);
+		} else {
+			return null;
+		}
 	}
 }

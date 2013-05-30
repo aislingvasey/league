@@ -12,4 +12,6 @@ public interface PlayerMatchStatsDao {
 
 	public List<PlayerMatchStats> getStats(long playerMatchId);
 	
+	public PlayerMatchStats getStats(Long playerMatchId, Long statisticId, String matchTime);
+	
 }

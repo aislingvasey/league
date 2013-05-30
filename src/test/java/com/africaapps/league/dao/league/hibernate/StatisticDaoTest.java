@@ -30,7 +30,7 @@ public class StatisticDaoTest extends BaseSpringDbUnitTest {
 		assertNotNull(leagueTypeDao);
 		
 		long leagueTypeId = -1;
-		long existingStatsId = 100;
+		int existingStatsId = 100;
 		
 		List<Statistic> s = statsDao.getStatistics(leagueTypeId);
 		assertEquals(2, s.size());
@@ -55,7 +55,7 @@ public class StatisticDaoTest extends BaseSpringDbUnitTest {
 		stats.setDescription("Goal");
 		stats.setLeagueType(leagueType);
 		stats.setPoints(20);
-		stats.setStatsId(Long.valueOf(102));
+		stats.setStatsId(102);
 		statsDao.saveOrUpdate(stats);
 		
 		s = statsDao.getStatistics(leagueTypeId);
@@ -65,7 +65,7 @@ public class StatisticDaoTest extends BaseSpringDbUnitTest {
 				
 			} else if (ss.getId().longValue() == -2) {
 				
-			} else if (ss.getStatsId().equals(Long.valueOf(102))) {
+			} else if (ss.getStatsId().equals(102)) {
 				logger.debug("Got: "+stats);
 				assertEquals("Goal", stats.getDescription());
 				assertEquals(20, stats.getPoints().intValue());

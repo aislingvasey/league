@@ -34,7 +34,7 @@ public class StatisticDaoImpl extends BaseHibernateDao implements StatisticDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Statistic getStatistic(long leagueTypeId, long statsId) {
+	public Statistic getStatistic(long leagueTypeId, int statsId) {
 		logger.info("statsId: "+statsId+" leagueTypeId: "+leagueTypeId);
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Statistic.class);
 		criteria.add(Restrictions.eq("statsId", statsId));

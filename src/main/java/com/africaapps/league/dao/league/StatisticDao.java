@@ -8,7 +8,7 @@ public interface StatisticDao {
 
 	public void saveOrUpdate(Statistic statistic);
 	
-	public Statistic getStatistic(long leagueTypeId, long statsId);
+	public Statistic getStatistic(long leagueTypeId, int statsId);
 	
 	public List<Statistic> getStatistics(long leagueTypeId);
 	

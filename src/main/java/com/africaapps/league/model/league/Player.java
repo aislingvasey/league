@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Index;
+
 import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
@@ -75,6 +77,7 @@ public class Player extends BaseDataModel {
 	}
 
 	@NotNull
+	@Index(name="player_id_index", columnNames = "player_id")
   @Column(name="player_id", nullable=false)
 	public Integer getPlayerId() {
 		return playerId;
@@ -86,7 +89,7 @@ public class Player extends BaseDataModel {
 
 	@NotNull
 	@Size(min=1, max=200, message="{validate.firstname.range}")
-  @Column(name="first_name", length=200, nullable=false)
+  @Column(name="first_name", length=200, nullable=true)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -97,7 +100,7 @@ public class Player extends BaseDataModel {
 
 	@NotNull
 	@Size(min=1, max=200, message="{validate.lastname.range}")
-  @Column(name="last_name", length=200, nullable=false)
+  @Column(name="last_name", length=200, nullable=true)
 	public String getLastName() {
 		return lastName;
 	}
@@ -108,7 +111,7 @@ public class Player extends BaseDataModel {
 
 	@NotNull
 	@Size(min=1, max=200, message="{validate.nickname.range}")
-  @Column(name="nick_name", length=200, nullable=false)
+  @Column(name="nick_name", length=200, nullable=true)
 	public String getNickName() {
 		return nickName;
 	}

@@ -22,10 +22,7 @@ public class TeamServiceImpl implements TeamService {
 	@WriteTransaction
 	@Override
 	public void saveTeam(Team team) throws LeagueException {
-		Team existingTeam = teamDao.getBySeasonandTeamId(team.getLeagueSeason().getId(), team.getTeamId());
-		if (existingTeam != null) {
-			team.setId(team.getId());
-		}
+		team.setId(teamDao.getIdBySeasonandTeamId(team.getLeagueSeason().getId(), team.getTeamId()));
 		logger.debug("Saving team:"+team);
 		teamDao.saveOrUpdate(team);
 		logger.debug("Saved team:"+team);

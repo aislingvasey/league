@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
+import com.africaapps.league.dao.league.LeagueSeasonDao;
 import com.africaapps.league.dao.league.MatchDao;
 import com.africaapps.league.dao.league.PlayerDao;
 import com.africaapps.league.dao.league.PlayerMatchDao;
 import com.africaapps.league.dao.league.PlayerMatchStatsDao;
 import com.africaapps.league.dao.league.StatisticDao;
 import com.africaapps.league.dao.league.TeamDao;
+import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.MatchProcessingStatus;
 import com.africaapps.league.model.league.Player;
@@ -37,6 +39,8 @@ public class PlayerMatchStatsDaoTest extends BaseSpringDbUnitTest {
 	private TeamDao teamDao;
 	@Autowired
 	private StatisticDao statsDao;
+	@Autowired
+	private LeagueSeasonDao leagueSeasonDao;
 	
 private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 	
@@ -45,13 +49,17 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 	public void saveAndGet() throws Exception {
 		int matchId = 1234;
 		int playerId = 5;
-		long statsId = -2;
+		int statsId = 101;
+		long leagueSeasonId = -1;
+		LeagueSeason season = leagueSeasonDao.getCurrentSeason(-1);
+		assertNotNull(season);
 		
-		Match match = matchDao.getByMatchId(matchId);
+		Match match = matchDao.getByLeagueSeasonAndMatchId(leagueSeasonId, matchId);
 		assertNull(match);
 		
 		match = new Match();		
 		match.setMatchId(matchId);
+		match.setLeagueSeason(season);
 		match.setLocation("Cape Town Stadium");
 		match.setStatus(MatchProcessingStatus.INPROGRESS);
 		match.setTeam1(teamDao.getBySeasonandTeamId(-1, 10));		
@@ -63,7 +71,7 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		match.setEndDateTime(end);
 		matchDao.saveOrUpdate(match);
 		
-		Match match2 = matchDao.getByMatchId(matchId);
+		Match match2 = matchDao.getByLeagueSeasonAndMatchId(leagueSeasonId, matchId);
 		assertNotNull(match2);
 		assertNotNull(match2.getId());
 		assertEquals(match.getFinalScore(), match2.getFinalScore());
