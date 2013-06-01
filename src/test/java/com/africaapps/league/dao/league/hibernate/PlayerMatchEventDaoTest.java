@@ -11,24 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
+import com.africaapps.league.dao.league.EventDao;
 import com.africaapps.league.dao.league.LeagueSeasonDao;
 import com.africaapps.league.dao.league.MatchDao;
 import com.africaapps.league.dao.league.PlayerDao;
 import com.africaapps.league.dao.league.PlayerMatchDao;
-import com.africaapps.league.dao.league.PlayerMatchStatsDao;
-import com.africaapps.league.dao.league.StatisticDao;
+import com.africaapps.league.dao.league.PlayerMatchEventDao;
 import com.africaapps.league.dao.league.TeamDao;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.MatchProcessingStatus;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
-import com.africaapps.league.model.league.PlayerMatchStats;
+import com.africaapps.league.model.league.PlayerMatchEvent;
 
-public class PlayerMatchStatsDaoTest extends BaseSpringDbUnitTest {
+public class PlayerMatchEventDaoTest extends BaseSpringDbUnitTest {
 
 	@Autowired
-	private PlayerMatchStatsDao playerMatchStatsDao;
+	private PlayerMatchEventDao playerMatchEventDao;
 	@Autowired
 	private MatchDao matchDao;
 	@Autowired
@@ -38,7 +38,7 @@ public class PlayerMatchStatsDaoTest extends BaseSpringDbUnitTest {
 	@Autowired
 	private TeamDao teamDao;
 	@Autowired
-	private StatisticDao statsDao;
+	private EventDao statsDao;
 	@Autowired
 	private LeagueSeasonDao leagueSeasonDao;
 	
@@ -60,23 +60,18 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		match = new Match();		
 		match.setMatchId(matchId);
 		match.setLeagueSeason(season);
-		match.setLocation("Cape Town Stadium");
 		match.setStatus(MatchProcessingStatus.INPROGRESS);
 		match.setTeam1(teamDao.getBySeasonandTeamId(-1, 10));		
 		match.setTeam2(teamDao.getBySeasonandTeamId(-1, 11));
 		match.setFinalScore("2-1");
 		Date start = new SimpleDateFormat("yyyy-mm-dd HH:mm").parse("2013-05-10 20:30");
 		match.setStartDateTime(start);
-		Date end = new SimpleDateFormat("yyyy-mm-dd HH:mm").parse("2013-05-10 22:00");
-		match.setEndDateTime(end);
 		matchDao.saveOrUpdate(match);
 		
 		Match match2 = matchDao.getByLeagueSeasonAndMatchId(leagueSeasonId, matchId);
 		assertNotNull(match2);
 		assertNotNull(match2.getId());
 		assertEquals(match.getFinalScore(), match2.getFinalScore());
-		assertEquals(match.getLocation(), match2.getLocation());
-		assertEquals(match.getEndDateTime(), match2.getEndDateTime());
 		assertEquals(match.getId(), match2.getId());
 		assertEquals(match.getStartDateTime(), match2.getStartDateTime());
 		assertEquals(match.getStatus(), match2.getStatus());
@@ -96,16 +91,16 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		PlayerMatch playerMatch2 = playerMatchDao.getByIds(match2.getId(), player.getId());
 		assertNotNull(playerMatch2);
 
-		List<PlayerMatchStats> stats = playerMatchStatsDao.getStats(playerMatch2.getId());
+		List<PlayerMatchEvent> stats = playerMatchEventDao.getEvents(playerMatch2.getId());
 		assertEquals(0, stats.size());
 		
-		PlayerMatchStats playerMatchStats = new PlayerMatchStats();
-		playerMatchStats.setMatchTime("00:05");
-		playerMatchStats.setStatistic(statsDao.getStatistic(-1, statsId));
-		playerMatchStats.setPlayerMatch(playerMatch2);
-		playerMatchStatsDao.saveOrUpdate(playerMatchStats);
+		PlayerMatchEvent playerMatchEvent = new PlayerMatchEvent();
+		playerMatchEvent.setMatchTime("00:05");
+		playerMatchEvent.setEvent(statsDao.getEvent(-1, statsId));
+		playerMatchEvent.setPlayerMatch(playerMatch2);
+		playerMatchEventDao.saveOrUpdate(playerMatchEvent);
 		
-		stats = playerMatchStatsDao.getStats(playerMatch2.getId());
+		stats = playerMatchEventDao.getEvents(playerMatch2.getId());
 		assertEquals(1, stats.size());
 		logger.info("Got: "+stats.get(0));
 	}

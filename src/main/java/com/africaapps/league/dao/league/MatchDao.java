@@ -10,4 +10,5 @@ public interface MatchDao {
 	
 	public Long getIdByMatchId(long leagueSeasonId, int matchId);
 	
+	public void calculatePlayerScores(long Id);
 }

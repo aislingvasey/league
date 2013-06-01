@@ -19,22 +19,22 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="statistic", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "stats_id"})})
-public class Statistic extends BaseDataModel {
+@Table(name="event", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "event_id"})})
+public class Event extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private LeagueType leagueType;
-	private Integer statsId;
+	private Integer eventId; //external id
 	private String description;
 	private Integer points;
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[Statistic: ");
+		builder.append("[Event: ");
 		builder.append(" id:").append(id);
-		builder.append(" statsId:").append(statsId);
+		builder.append(" eventId:").append(eventId);
 		builder.append(" description:").append(description);
 		builder.append(" points:").append(points);
 		builder.append(" type:").append(leagueType);		
@@ -46,10 +46,10 @@ public class Statistic extends BaseDataModel {
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
-		} else if (!(o instanceof Statistic)) {
+		} else if (!(o instanceof Event)) {
 			return false;
 		} else {
-			Statistic s = (Statistic) o;
+			Event s = (Event) o;
 			if (s.getId().equals(id)) {
 				return true;
 			} else {
@@ -83,14 +83,14 @@ public class Statistic extends BaseDataModel {
 	}
 
 	@NotNull
-	@Index(name="stats_id_index", columnNames = "stats_id")
-	@Column(name="stats_id", nullable=false)
-	public Integer getStatsId() {
-		return statsId;
+	@Index(name="event_id_index", columnNames = "event_id")
+	@Column(name="event_id", nullable=false)
+	public Integer getEventId() {
+		return eventId;
 	}
 
-	public void setStatsId(Integer statsId) {
-		this.statsId = statsId;
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
 	}
 
 	@NotNull

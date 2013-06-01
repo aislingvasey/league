@@ -29,8 +29,7 @@ public class MatchServiceImpl implements MatchService {
 	public boolean isProcessedMatch(long leageaSeasonId, int matchId) throws LeagueException {
 		Match match = matchDao.getByLeagueSeasonAndMatchId(leageaSeasonId, matchId);
 		if (match != null) {
-			//TODO fix status back to complete later
-			if (MatchProcessingStatus./*COMPLETE*/SAVED.equals(match.getStatus())) {
+			if (MatchProcessingStatus.COMPLETE.equals(match.getStatus())) {
 				return true;
 			}
 		}
@@ -56,6 +55,14 @@ public class MatchServiceImpl implements MatchService {
 			logger.debug("Saving playerMatch: "+playerMatch);			
 			playerMatchDao.saveOrUpdate(playerMatch);
 			logger.debug("Saved playerMatch: "+playerMatch);
+		}
+	}
+
+	@WriteTransaction
+	@Override
+	public void calculatePlayerScores(Match match) throws LeagueException {
+		if (match != null) {
+			matchDao.calculatePlayerScores(match.getId());
 		}
 	}
 }

@@ -9,7 +9,7 @@ import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Statistic;
+import com.africaapps.league.model.league.Event;
 
 @Service
 public class MemoryCacheServiceImpl implements CacheService {
@@ -19,7 +19,7 @@ public class MemoryCacheServiceImpl implements CacheService {
 	
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
 	
-	private Map<Long, Map<Integer, Statistic>> statistics = new HashMap<Long, Map<Integer, Statistic>>();
+	private Map<Long, Map<Integer, Event>> events = new HashMap<Long, Map<Integer, Event>>();
 	
 	private Map<Long, Map<Integer, Position>> leaguePositions = new HashMap<Long, Map<Integer,Position>>();
 
@@ -60,28 +60,28 @@ public class MemoryCacheServiceImpl implements CacheService {
 	}
 	
 	@Override
-	public Statistic getStatistic(Long leagueTypeId, Integer statsId) throws LeagueException {
-		if (statistics.containsKey(leagueTypeId)) {
-			Map<Integer, Statistic> stats = statistics.get(leagueTypeId);
-			if (stats.containsKey(statsId)) {
-				return stats.get(statsId);
+	public Event getEvent(Long leagueTypeId, Integer eventId) throws LeagueException {
+		if (events.containsKey(leagueTypeId)) {
+			Map<Integer, Event> e = events.get(leagueTypeId);
+			if (e.containsKey(eventId)) {
+				return e.get(eventId);
 			}
 		}
 		return null;
 	}
 	
 	@Override
-	public void setStatistic(Long leagueTypeId, Statistic statistic) throws LeagueException {
-		if (statistics.containsKey(leagueTypeId)) {
-			Map<Integer, Statistic> stats = statistics.get(leagueTypeId);
-			if (stats.containsKey(statistic.getStatsId())) {
-				stats.remove(statistic);
+	public void setEvent(Long leagueTypeId, Event event) throws LeagueException {
+		if (events.containsKey(leagueTypeId)) {
+			Map<Integer, Event> e = events.get(leagueTypeId);
+			if (e.containsKey(event.getEventId())) {
+				e.remove(event);
 			}
-			stats.put(statistic.getStatsId(), statistic);
+			e.put(event.getEventId(), event);
 		} else {
-			Map<Integer, Statistic> stats = new HashMap<Integer, Statistic>();
-			stats.put(statistic.getStatsId(), statistic);
-			statistics.put(leagueTypeId, stats);
+			Map<Integer, Event> e = new HashMap<Integer, Event>();
+			e.put(event.getEventId(), event);
+			events.put(leagueTypeId, e);
 		}
 	}
 

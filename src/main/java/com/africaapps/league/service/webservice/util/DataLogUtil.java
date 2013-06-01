@@ -1,7 +1,6 @@
 package com.africaapps.league.service.webservice.util;
 
 import org.datacontract.schemas._2004._07.livemediastructs.ActorStruct;
-import org.datacontract.schemas._2004._07.livemediastructs.ActorSubstitutionStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.CIS;
 import org.datacontract.schemas._2004._07.livemediastructs.DayRankingStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.DayScoringStruct;
@@ -235,25 +234,25 @@ public class DataLogUtil {
 		sb.append(" shirtNumber:").append(actor.getShirtNumber().getValue());
 		sb.append(" idBlock:").append(actor.getIdBlock().getValue());
 		sb.append(" idPosition:").append(actor.getIdPosition().getValue());
-//		for(SDTS sdts : actor.getLstSDTS().getValue().getSDTS()) {
-//			sb.append("\n\t SDTS: idDT:").append(sdts.getIdDT())
-//			.append(" name:").append(sdts.getName().getValue());
-//			for(SS ss : sdts.getLstSS().getValue().getSS()) {
-//				sb.append(" SS: id:").append(ss.getId());
-//				if (ss.getLSOS() != null) {
-//					for(SOS sos : ss.getLSOS().getValue().getSOS()) {
-//						sb.append("\n\t\t SOS: ETH:").append(sos.getETHstr().getValue())
-//						  .append(" ETM:").append(sos.getETMstr().getValue())
-//						  .append(" STH:").append(sos.getSTHstr().getValue())
-//						  .append(" STM:").append(sos.getSTMstr().getValue());							
-//					}
-//				}
-//				sb.append(" idA:");
-//				if (ss.getA2() != null && ss.getA2().getValue() != null) {
-//					sb.append(ss.getA2().getValue().getIdA());
-//				}
-//			}
-//		}
+		for(SDTS sdts : actor.getLstSDTS().getValue().getSDTS()) {
+			sb.append("\n\t SDTS: idDT:").append(sdts.getIdDT())
+			.append(" name:").append(sdts.getName().getValue());
+			for(SS ss : sdts.getLstSS().getValue().getSS()) {
+				sb.append(" SS: id:").append(ss.getId());
+				if (ss.getLSOS() != null) {
+					for(SOS sos : ss.getLSOS().getValue().getSOS()) {
+						sb.append("\n\t\t SOS: ETH:").append(sos.getETHstr().getValue())
+						  .append(" ETM:").append(sos.getETMstr().getValue())
+						  .append(" STH:").append(sos.getSTHstr().getValue())
+						  .append(" STM:").append(sos.getSTMstr().getValue());							
+					}
+				}
+				sb.append(" idA:");
+				if (ss.getA2() != null && ss.getA2().getValue() != null) {
+					sb.append(ss.getA2().getValue().getIdA());
+				}
+			}
+		}
 		sb.append("]");
 	}
 	

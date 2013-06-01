@@ -4,14 +4,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
-import com.africaapps.league.BaseSpringTest;
 import com.africaapps.league.service.feed.FeedService;
 
 public class FeedServiceTest extends BaseSpringDbUnitTest {
 	
-	private String url = "file:///home/aisling/development/workspaces/games/league/src/test/resources/test-env.wsdl";
-	private String username = "ashley.kleynhans@gmail.com";
-	private String password = "Mxit_For_AmiscoSA!!";
+	private String x = "file:///home/aisling/development/workspaces/games/league/src/test/resources/test-env.wsdl";
+	private String y = "ashley.kleynhans@gmail.com";
+	private String z = "Mxit_For_AmiscoSA!!";
 
 	@Autowired
 	private FeedService feedService;
@@ -19,6 +18,6 @@ public class FeedServiceTest extends BaseSpringDbUnitTest {
 	@Test
 	public void processFeed() throws Exception {
 		String leagueName = "ABSA Premier Soccer League";		
-		feedService.processFeed(leagueName, url, username, password);
+		feedService.processFeed(leagueName, x, y, z);
 	}
 }

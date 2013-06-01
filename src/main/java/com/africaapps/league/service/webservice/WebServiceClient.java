@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.tempuri.IServiceAmiscoLive;
 import org.tempuri.ServiceAmiscoLive;
 
+import com.africaapps.league.exception.InvalidLeagueException;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
@@ -67,57 +68,57 @@ public class WebServiceClient {
 			return null;
 		}
 	}
-	
-	public List<TeamStruct> getFirstAvailableTeam(String leagueName) throws LeagueException {
-		List<TeamStruct> structs = new ArrayList<TeamStruct>();
 
-		ArrayOfKeyValueOfintstring intStrings = service1.getMatchStructDetailAvailable();
-		if (intStrings.getKeyValueOfintstring().size() > 0) {
-			// for(ArrayOfKeyValueOfintstring.KeyValueOfintstring entry :
-			// intStrings.getKeyValueOfintstring()) {
-			ArrayOfKeyValueOfintstring.KeyValueOfintstring entry = intStrings.getKeyValueOfintstring().get(0);
-			logger.info("MatchDetailAvailable: " + entry.getKey() + "=" + entry.getValue());
-			ArrayOfMatchLightStruct matchStructs = service1.matchLightStructList(entry.getKey());
-			logger.info("Got " + matchStructs.getMatchLightStruct().size() + " (light) matches");
-			if (matchStructs.getMatchLightStruct().size() > 0) {
-				// for(MatchLightStruct matchLightStruct :
-				// matchStructs.getMatchLightStruct()) {
-				MatchLightStruct matchLightStruct = matchStructs.getMatchLightStruct().get(0);
-				if (!matchLightStruct.getCompetitionName().getValue().equalsIgnoreCase(leagueName)) {
-					throw new LeagueException("League/Matches Mismatch! Expected matches for league: " + leagueName
-							+ " but got: " + matchLightStruct.getCompetitionName().getValue());
-				}
-				// DataLogUtil.logMatchLightStruct(matchLightStruct);
-				MatchStruct matchStruct = service1.getMatchStruct(matchLightStruct.getIdMatch(), entry.getKey());
-				if (matchStruct != null) {
-					// DataLogUtil.logMatchStruct(matchStruct);
-					if (matchStruct.getLstTeamStruct() != null && matchStruct.getLstTeamStruct().getValue() != null
-							&& matchStruct.getLstTeamStruct().getValue().getTeamStruct().size() > 0) {
-						for (TeamStruct teamStruct : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
-							// 1st Team
-							// TeamStruct teamStruct = matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
-							TeamStruct retrievedTeam = service1.getTeamStruct(matchStruct.getIdMatch(), teamStruct.getIdTeam(),
-									entry.getKey());
-							structs.add(retrievedTeam);
-							logger.info("Retrieved teamStruct to process: " + retrievedTeam.getIdTeam());
-							// StringBuilder sb = new StringBuilder();
-							// DataLogUtil.logTeamStruct(sb, retrievedTeam);
-							// logger.info("Team: " + sb.toString());
-						}
-					}
-				} else {
-					logger.info("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
-				}
-			}
-		}
-		return structs;
-	}
-	
+//	public List<TeamStruct> getFirstAvailableTeam(String leagueName) throws LeagueException {
+//		List<TeamStruct> structs = new ArrayList<TeamStruct>();
+//
+//		ArrayOfKeyValueOfintstring intStrings = service1.getMatchStructDetailAvailable();
+//		if (intStrings.getKeyValueOfintstring().size() > 0) {
+//			// for(ArrayOfKeyValueOfintstring.KeyValueOfintstring entry :
+//			// intStrings.getKeyValueOfintstring()) {
+//			ArrayOfKeyValueOfintstring.KeyValueOfintstring entry = intStrings.getKeyValueOfintstring().get(0);
+//			logger.info("MatchDetailAvailable: " + entry.getKey() + "=" + entry.getValue());
+//			ArrayOfMatchLightStruct matchStructs = service1.matchLightStructList(entry.getKey());
+//			logger.info("Got " + matchStructs.getMatchLightStruct().size() + " (light) matches");
+//			if (matchStructs.getMatchLightStruct().size() > 0) {
+//				// for(MatchLightStruct matchLightStruct :
+//				// matchStructs.getMatchLightStruct()) {
+//				MatchLightStruct matchLightStruct = matchStructs.getMatchLightStruct().get(0);
+//				if (!matchLightStruct.getCompetitionName().getValue().equalsIgnoreCase(leagueName)) {
+//					throw new LeagueException("League/Matches Mismatch! Expected matches for league: " + leagueName + " but got: "
+//							+ matchLightStruct.getCompetitionName().getValue());
+//				}
+//				// DataLogUtil.logMatchLightStruct(matchLightStruct);
+//				MatchStruct matchStruct = service1.getMatchStruct(matchLightStruct.getIdMatch(), entry.getKey());
+//				if (matchStruct != null) {
+//					// DataLogUtil.logMatchStruct(matchStruct);
+//					if (matchStruct.getLstTeamStruct() != null && matchStruct.getLstTeamStruct().getValue() != null
+//							&& matchStruct.getLstTeamStruct().getValue().getTeamStruct().size() > 0) {
+//						for (TeamStruct teamStruct : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
+//							// 1st Team
+//							// TeamStruct teamStruct = matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
+//							TeamStruct retrievedTeam = service1.getTeamStruct(matchStruct.getIdMatch(), teamStruct.getIdTeam(),
+//									entry.getKey());
+//							structs.add(retrievedTeam);
+//							logger.info("Retrieved teamStruct to process: " + retrievedTeam.getIdTeam());
+//							// StringBuilder sb = new StringBuilder();
+//							// DataLogUtil.logTeamStruct(sb, retrievedTeam);
+//							// logger.info("Team: " + sb.toString());
+//						}
+//					}
+//				} else {
+//					logger.info("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+//				}
+//			}
+//		}
+//		return structs;
+//	}
+
 	private Integer getMatchKey() throws LeagueException {
 		Integer matchKey = null;
 		ArrayOfKeyValueOfintstring matchIntStrings = service1.getMatchStructDetailAvailable();
 		for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : matchIntStrings.getKeyValueOfintstring()) {
-			logger.info("Got match key entry: "+entry.getKey()+","+entry.getValue());
+			logger.info("Got match key entry: " + entry.getKey() + "," + entry.getValue());
 			if (matchKey == null) {
 				matchKey = Integer.valueOf(entry.getKey());
 			}
@@ -127,12 +128,12 @@ public class WebServiceClient {
 		}
 		return matchKey;
 	}
-	
+
 	private Integer getFilMatchKey() throws LeagueException {
 		Integer matchKey = null;
 		ArrayOfKeyValueOfintstring intStrings = service1.getMatchFilActionStructDetailAvailable();
 		for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
-			logger.info("Got Fil match key entry: "+entry.getKey()+","+entry.getValue());
+			logger.info("Got Fil match key entry: " + entry.getKey() + "," + entry.getValue());
 			if (matchKey == null) {
 				matchKey = Integer.valueOf(entry.getKey());
 			}
@@ -143,61 +144,68 @@ public class WebServiceClient {
 		return matchKey;
 	}
 
-	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, FeedService feedService) 
-		throws LeagueException {
-		List<Integer> processedMatchIds = new ArrayList<Integer>();		
+	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, FeedService feedService)
+			throws LeagueException {
+		List<Integer> processedMatchIds = new ArrayList<Integer>();
 		Integer matchId = null;
 		int key = getFilMatchKey();
 		int matchKey = getMatchKey();
 		int count = 0;
-//		for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
-//			key = entry.getKey();
-//			logger.info("MatchFilActionStructDetailAvailable: " + key + "=" + entry.getValue());
-			ArrayOfMatchFilActionLightStruct matchStructs = service1.matchFilActionLightStructList(key);
-			logger.info("Got " + matchStructs.getMatchFilActionLightStruct().size() + " light matches to check...");
-			for (MatchFilActionLightStruct matchLightStruct : matchStructs.getMatchFilActionLightStruct()) {
-				matchId = matchLightStruct.getIdMatch();
+		// for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
+		// key = entry.getKey();
+		// logger.info("MatchFilActionStructDetailAvailable: " + key + "=" + entry.getValue());
+		ArrayOfMatchFilActionLightStruct matchStructs = service1.matchFilActionLightStructList(key);
+		logger.info("Got " + matchStructs.getMatchFilActionLightStruct().size() + " light matches to check...");
+		for (MatchFilActionLightStruct matchLightStruct : matchStructs.getMatchFilActionLightStruct()) {
+			matchId = matchLightStruct.getIdMatch();
+			try {
 				checkMatchCompetition(league, matchLightStruct);
 				if (!feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
-					logger.info("Unprocessed match: "+matchId);					
+					logger.info("Match: " + matchId+" is unprocessed, processing it now...");
 					MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
-					if (matchStruct != null) {						
-						logger.info("Got match struct to process for matchId: " + matchStruct.getIdMatch());
+					if (matchStruct != null) {
+						logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
 						saveMatchTeams(league, leagueSeason, feedService, matchKey, matchStruct);
 						DataLogUtil.logMatchFilStruct(matchStruct);
 						processMatch(league, leagueSeason, feedService, matchStruct);
 						processedMatchIds.add(matchId);
-						logger.info("Processed match struct for matchId: "+matchStruct.getIdMatch());
+						logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
 					} else {
 						logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
-					}				
+					}
 				}
-				count++;
-				if (count >= 1) {
-					break;
-				}
+			} catch (InvalidLeagueException e) {
+				logger.error(e.getMessage());
 			}
-//		}		
+			// TODO for testing only - remove to process all
+			count++;
+			if (count >= 1) {
+				break;
+			}
+		}
+		// }
 		return processedMatchIds;
 	}
-	
-	private void checkMatchCompetition(League league, MatchFilActionLightStruct matchLightStruct) throws LeagueException {
+
+	private void checkMatchCompetition(League league, MatchFilActionLightStruct matchLightStruct) throws InvalidLeagueException {
 		if (matchLightStruct.getCompetitionName() != null) {
 			if (!league.getName().equalsIgnoreCase(matchLightStruct.getCompetitionName().getValue())) {
-				/*throw new LeagueException*/logger.error("Processing match for league: "+league
-						+" but received match for competition: "+matchLightStruct.getCompetitionName().getValue()
-						+" matchId: "+matchLightStruct.getIdMatch());
+				throw new InvalidLeagueException(
+						" Received match for competitionName: " + matchLightStruct.getCompetitionName().getValue() 
+						+ " matchId: " + matchLightStruct.getIdMatch()
+						+ " Currently processing matches for league: " + league);
 			}
 		}
 	}
 
-	protected void saveMatchTeams(League league, LeagueSeason leagueSeason, FeedService feedService, Integer key, MatchFilActionStruct matchStruct)
-			throws LeagueException {
+	protected void saveMatchTeams(League league, LeagueSeason leagueSeason, FeedService feedService, Integer key,
+			MatchFilActionStruct matchStruct) throws LeagueException {
 		if (matchStruct.getLstTeamMatchFilActionStruct() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct() != null) {
 			Integer teamId = null;
-			for(TeamMatchFilActionStruct teamMatchStruct : matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct()) {
+			for (TeamMatchFilActionStruct teamMatchStruct : matchStruct.getLstTeamMatchFilActionStruct().getValue()
+					.getTeamMatchFilActionStruct()) {
 				teamId = teamMatchStruct.getIdTeam();
 				TeamStruct teamStruct = service1.getTeamStruct(matchStruct.getIdMatch(), teamId, key);
 				StringBuilder sb = new StringBuilder();
@@ -208,8 +216,8 @@ public class WebServiceClient {
 		}
 	}
 
-	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService, MatchFilActionStruct matchStruct) 
-			throws LeagueException {
+	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService,
+			MatchFilActionStruct matchStruct) throws LeagueException {
 		DataLogUtil.logMatchFilStruct(matchStruct);
 		feedService.processMatch(league, leagueSeason, matchStruct);
 	}

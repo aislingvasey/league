@@ -2,9 +2,9 @@ package com.africaapps.league.service.player;
 
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Player;
-import com.africaapps.league.model.league.PlayerMatchStats;
+import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Statistic;
+import com.africaapps.league.model.league.Event;
 
 public interface PlayerService {
 
@@ -14,8 +14,8 @@ public interface PlayerService {
 	public Position getPosition(long leagueTypeId, int positionNumber) throws LeagueException;
 	public void savePosition(Position position) throws LeagueException;
 	
-	public Statistic getStatistic(long leagueTypeId, int statsId) throws LeagueException;
-	public void saveStatistic(Statistic statistic) throws LeagueException;
+	public Event getEvent(long leagueTypeId, int eventId) throws LeagueException;
+	public void saveEvent(Event event) throws LeagueException;
 	
-	public void savePlayerMatchStats(PlayerMatchStats playerMatchStats) throws LeagueException;
+	public void savePlayerMatchStats(PlayerMatchEvent playerMatchEvent) throws LeagueException;
 }

@@ -7,8 +7,8 @@
     <position />
     <player />    
     
-    <statistic id="-1" stats_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
-    <statistic id="-2" stats_id="101" description="Red Card" league_type_id="-1" points="-10" />    
-    <statistic id="-3" stats_id="1" description="Try" league_type_id="-2" points="5" />
+    <event id="-1" event_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
+    <event id="-2" event_id="101" description="Red Card" league_type_id="-1" points="-10" />    
+    <event id="-3" event_id="1" description="Try" league_type_id="-2" points="5" />
     
 </dataset>

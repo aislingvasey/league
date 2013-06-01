@@ -4,7 +4,7 @@ import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Statistic;
+import com.africaapps.league.model.league.Event;
 
 public interface CacheService {
 
@@ -18,8 +18,8 @@ public interface CacheService {
 	
 	public void setPlayer(Player player) throws LeagueException;
 	
-	public Statistic getStatistic(Long leagueTypeId, Integer statsId) throws LeagueException;
-	public void setStatistic(Long leagueTypeId, Statistic statistic) throws LeagueException;
+	public Event getEvent(Long leagueTypeId, Integer eventId) throws LeagueException;
+	public void setEvent(Long leagueTypeId, Event event) throws LeagueException;
 	
 	public Position getPosition(Long leagueTypeId, Integer positionNumber) throws LeagueException;
 	public void setPosition(Long leagueTypeId, Position position) throws LeagueException;	

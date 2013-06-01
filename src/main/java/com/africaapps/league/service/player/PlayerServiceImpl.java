@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.league.PlayerDao;
-import com.africaapps.league.dao.league.PlayerMatchStatsDao;
+import com.africaapps.league.dao.league.PlayerMatchEventDao;
 import com.africaapps.league.dao.league.PositionDao;
-import com.africaapps.league.dao.league.StatisticDao;
+import com.africaapps.league.dao.league.EventDao;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Player;
-import com.africaapps.league.model.league.PlayerMatchStats;
+import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Statistic;
+import com.africaapps.league.model.league.Event;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -25,9 +25,9 @@ public class PlayerServiceImpl implements PlayerService {
 	@Autowired
 	private PositionDao positionDao;
 	@Autowired
-	private StatisticDao statisticDao;
+	private EventDao eventDao;
 	@Autowired
-	private PlayerMatchStatsDao playerMatchStatsDao;
+	private PlayerMatchEventDao playerMatchEventDao;
 
 	private static Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 	
@@ -62,29 +62,32 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@ReadTransaction
 	@Override
-	public Statistic getStatistic(long leagueTypeId, int statsId) throws LeagueException {
-		return statisticDao.getStatistic(leagueTypeId, statsId);
+	public Event getEvent(long leagueTypeId, int eventId) throws LeagueException {
+		return eventDao.getEvent(leagueTypeId, eventId);
 	}
 
 	@WriteTransaction
 	@Override
-	public void saveStatistic(Statistic statistic) throws LeagueException {
-		Statistic existing = statisticDao.getStatistic(statistic.getLeagueType().getId(), statistic.getStatsId());
-		if (existing != null) {
-			statistic.setId(existing.getId());
-		}
-		statisticDao.saveOrUpdate(statistic);
-	}
-
-	@WriteTransaction
-	@Override
-	public void savePlayerMatchStats(PlayerMatchStats playerMatchStats) throws LeagueException {		
-		PlayerMatchStats existing = playerMatchStatsDao.getStats(playerMatchStats.getPlayerMatch().getId(), playerMatchStats.getStatistic().getId(), playerMatchStats.getMatchTime());
+	public void saveEvent(Event event) throws LeagueException {
+		Event existing = eventDao.getEvent(event.getLeagueType().getId(), event.getEventId());
 		if (existing == null) {
-			playerMatchStatsDao.saveOrUpdate(playerMatchStats);
-			logger.debug("Saved stats: "+playerMatchStats);
+			eventDao.saveOrUpdate(event);
 		} else {
-			logger.debug("Not resaving existing stats: "+existing);
+			logger.info("Not saving existing event: "+event);
+		}		
+	}
+
+	@WriteTransaction
+	@Override
+	public void savePlayerMatchStats(PlayerMatchEvent playerMatchEvent) throws LeagueException {		
+		PlayerMatchEvent existing = playerMatchEventDao.getEvent(playerMatchEvent.getPlayerMatch().getId(), 
+																														 playerMatchEvent.getEvent().getId(), 
+																														 playerMatchEvent.getMatchTime());
+		if (existing == null) {
+			playerMatchEventDao.saveOrUpdate(playerMatchEvent);
+			logger.debug("Saved PlayerMatchEvent: "+playerMatchEvent);
+		} else {
+			logger.debug("Not saving existing PlayerMatchEvent: "+existing);
 		}
 	}
 }

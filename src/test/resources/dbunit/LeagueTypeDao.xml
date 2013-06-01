@@ -6,5 +6,6 @@
     <position />
     <player />
     <position />
-    <statistic />    
+    <event />    
+    <player_match_event />
 </dataset>

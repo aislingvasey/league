@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
@@ -13,7 +15,18 @@ import com.africaapps.league.model.league.Match;
 
 @Repository
 public class MatchDaoImpl extends BaseHibernateDao implements MatchDao {
+	
+	private static final String CALC_PLAYER_SCORE = "UPDATE player_match SET player_score = t.score"  
++" FROM ("  
++"  select player_match_id, sum(e.points) as score"
++"  from player_match_event pme join event e on pme.event_id = e.id" 
++"  where player_match_id in (select id from player_match where match_id = :matchId )"
++"    group by player_match_id"
++" ) t"  
++" WHERE player_match.id = t.player_match_id";
 
+	private static Logger logger = LoggerFactory.getLogger(MatchDaoImpl.class);
+	
 	@Override
 	public void saveOrUpdate(Match match) {
 		if (match != null) {
@@ -48,5 +61,11 @@ public class MatchDaoImpl extends BaseHibernateDao implements MatchDao {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public void calculatePlayerScores(long id) {
+		long rows = sessionFactory.getCurrentSession().createSQLQuery(CALC_PLAYER_SCORE).setLong("matchId", id).executeUpdate();
+		logger.info("Set "+rows+" player's scores");
 	}
 }

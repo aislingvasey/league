@@ -4,52 +4,26 @@
 	<league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
 	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
     <team />
-    <match />    
-<!-- 
-TODO positions
-• 9 = Goalkeeper
-• 10 = Wide defender left
-• 11 = Central defender left
-• 12 = Sweeper
-• 13 = Central defender right
-• 14 = Wide defender right
-• 15 = Wide midfielder left
-• 16 = Wing back left
-• 17 = Central midfielder left
-• 18 = Holding central midfielder left
-• 19 = Central midfielder
-• 20 = Holding central midfielder
-• 21 = Holding central midfielder right
-• 22 = Central midfielder right
-• 23 = Wing back right
-• 24 = Wide midfielder right
-• 41 = Wide forward left
-• 42 = Centre forward
-• 43 = Supporting centre forward
-• 44 = Wide forward right
-• 45 = Centre forward left
-• 46 = Centre forward right
- -->	 	
-	<position />	 
-	
-    <statistic id="1"  stats_id="5" description="Goal" points="20" league_type_id="1" />
-    <statistic id="2"  stats_id="6" description="Goal on penalty" points="15" league_type_id="1" />
-    <statistic id="3"  stats_id="7" description="Own goal" points="-20" league_type_id="1" />
-    <statistic id="4"  stats_id="8" description="Penalty" points="-15" league_type_id="1" />
-    <statistic id="5"  stats_id="9" description="Chance" points="5" league_type_id="1" />
-    <statistic id="6"  stats_id="10" description="Shot not on target" points="0" league_type_id="1" />
-    <statistic id="7"  stats_id="11" description="Shot on target" points="5" league_type_id="1" />
-    <statistic id="8"  stats_id="12" description="Offside" points="-5" league_type_id="1" />
-    <statistic id="9"  stats_id="13" description="Corner" points="5" league_type_id="1" />
-    <statistic id="10"  stats_id="14" description="Cross" points="0" league_type_id="1" />
-    <statistic id="11"  stats_id="15" description="Successful cross" points="5" league_type_id="1" />
-    <statistic id="12"  stats_id="16" description="Foul made" points="-5" league_type_id="1" />
-    <statistic id="13"  stats_id="17" description="Yellow card" points="-10" league_type_id="1" />
-    <statistic id="14"  stats_id="18" description="Red card" points="-15" league_type_id="1" />
-    <statistic id="15"  stats_id="19" description="Catch" points="0" league_type_id="1" />
-    <statistic id="16"  stats_id="20" description="Punch" points="0" league_type_id="1" />
-    <statistic id="17"  stats_id="21" description="Player in" points="0" league_type_id="1" />
-    <statistic id="18"  stats_id="22" description="Player out" points="0" league_type_id="1" />              
+    <match />    	 	
+	<position />
+    <event id="1"  event_id="5" description="Goal" points="20" league_type_id="1" />
+    <event id="2"  event_id="6" description="Goal on penalty" points="15" league_type_id="1" />
+    <event id="3"  event_id="7" description="Own goal" points="-20" league_type_id="1" />
+    <event id="4"  event_id="8" description="Penalty" points="-15" league_type_id="1" />
+    <event id="5"  event_id="9" description="Chance" points="5" league_type_id="1" />
+    <event id="6"  event_id="10" description="Shot not on target" points="0" league_type_id="1" />
+    <event id="7"  event_id="11" description="Shot on target" points="5" league_type_id="1" />
+    <event id="8"  event_id="12" description="Offside" points="-5" league_type_id="1" />
+    <event id="9"  event_id="13" description="Corner" points="5" league_type_id="1" />
+    <event id="10"  event_id="14" description="Cross" points="0" league_type_id="1" />
+    <event id="11"  event_id="15" description="Successful cross" points="5" league_type_id="1" />
+    <event id="12"  event_id="16" description="Foul made" points="-5" league_type_id="1" />
+    <event id="13"  event_id="17" description="Yellow card" points="-10" league_type_id="1" />
+    <event id="14"  event_id="18" description="Red card" points="-15" league_type_id="1" />
+    <event id="15"  event_id="19" description="Catch" points="0" league_type_id="1" />
+    <event id="16"  event_id="20" description="Punch" points="0" league_type_id="1" />
+    <event id="17"  event_id="21" description="Player in" points="0" league_type_id="1" />
+    <event id="18"  event_id="22" description="Player out" points="0" league_type_id="1" />              
 <!--   
 - 1 = Start of half
 – 2 = End of half
@@ -72,9 +46,8 @@ TODO positions
 – 20 = Punch
 – 21 = Player in
 – 22 = Player out 
- -->
-  	
+ -->  	
 	<player />
 	<player_match />
-	<player_match_stats />	
+	<player_match_event />	
 </dataset>

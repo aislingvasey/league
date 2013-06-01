@@ -2,6 +2,8 @@ package com.africaapps.league.model.league;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,7 @@ public class Player extends BaseDataModel {
 	private String nickName;
 	private Integer shirtNumber;
 	private Position position;
+	private BlockType block;
 	private Team team;
 	
 	@Override
@@ -41,6 +44,7 @@ public class Player extends BaseDataModel {
 		builder.append(" lastName:").append(lastName);
 		builder.append(" nickName:").append(nickName);
 		builder.append(" position:").append(position);
+		builder.append(" block:").append(block);
 		builder.append(" team:").append(team == null ? "" : team.getClubName());
 		builder.append("]");
 		return builder.toString();
@@ -138,6 +142,16 @@ public class Player extends BaseDataModel {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	@Column(name="block", nullable=true)
+	@Enumerated(EnumType.STRING)
+	public BlockType getBlock() {
+		return block;
+	}
+
+	public void setBlock(BlockType block) {
+		this.block = block;
 	}
 
 	@NotNull

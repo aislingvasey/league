@@ -12,4 +12,5 @@ public interface MatchService {
 	
 	public void savePlayerMatch(PlayerMatch playerMatch) throws LeagueException;
 	
+	public void calculatePlayerScores(Match match) throws LeagueException;
 }

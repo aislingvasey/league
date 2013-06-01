@@ -15,21 +15,21 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="player_match_stats")
-public class PlayerMatchStats extends BaseDataModel {
+@Table(name="player_match_event")
+public class PlayerMatchEvent extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private PlayerMatch playerMatch;
-	private Statistic statistic;
+	private Event event;
 	private String matchTime;
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[PlayerMatchStats: ");
+		builder.append("[PlayerMatchEvent: ");
 		builder.append(" playerMatch:").append(playerMatch);
-		builder.append(" statistic:").append(statistic);
+		builder.append(" event:").append(event);
 		builder.append(" matchTime:").append(matchTime);
 		builder.append("]");
 		return builder.toString();
@@ -39,10 +39,10 @@ public class PlayerMatchStats extends BaseDataModel {
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
-		} else if (!(o instanceof PlayerMatchStats)) {
+		} else if (!(o instanceof PlayerMatchEvent)) {
 			return false;
 		} else {
-			PlayerMatchStats s = (PlayerMatchStats) o;
+			PlayerMatchEvent s = (PlayerMatchEvent) o;
 			if (s.getId().equals(id)) {
 				return true;
 			} else {
@@ -76,13 +76,13 @@ public class PlayerMatchStats extends BaseDataModel {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="statistic_id")
-	public Statistic getStatistic() {
-		return statistic;
+	@JoinColumn(name="event_id")
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setStatistic(Statistic statistic) {
-		this.statistic = statistic;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	@NotNull
