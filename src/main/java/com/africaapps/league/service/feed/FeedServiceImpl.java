@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.Event;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.LeagueType;
@@ -25,12 +27,12 @@ import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.model.league.Position;
 import com.africaapps.league.model.league.PositionType;
-import com.africaapps.league.model.league.Event;
 import com.africaapps.league.model.league.Team;
 import com.africaapps.league.service.cache.CacheService;
 import com.africaapps.league.service.league.LeagueService;
 import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
+import com.africaapps.league.service.pool.PoolService;
 import com.africaapps.league.service.team.TeamService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
@@ -50,6 +52,8 @@ public class FeedServiceImpl implements FeedService {
 	private PlayerService playerService;
 	@Autowired
 	private CacheService cacheService;
+	@Autowired
+	private PoolService poolService;
 
 	private static Logger logger = LoggerFactory.getLogger(FeedServiceImpl.class);
 
@@ -57,19 +61,22 @@ public class FeedServiceImpl implements FeedService {
 
 	@Override
 	public void processFeed(String leagueName, String wsdlUrl, String username, String password) throws LeagueException {
+		cacheService.clear();
+		
 		League league = getLeague(leagueName);
 		LeagueSeason leagueSeason = getLeagueSeason(league);
+		Pool pool = getPool(leagueSeason);
 		WebServiceClient webServiceClient = setupWebServiceClient(wsdlUrl, username, password);
 		
-		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, this);
+		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, pool, this);
 		logger.info("Processed "+processedMatchIds.size() +" matches");
 		//TODO Calculate each user's team score for the processed matches		
 	}
 	
 	@WriteTransaction
-	public void saveTeamAndPlayers(League league, LeagueSeason leagueSeason, TeamStruct teamStruct) throws LeagueException {
+	public void saveTeamAndPlayers(League league, LeagueSeason leagueSeason, Pool pool, TeamStruct teamStruct) throws LeagueException {
 		Team team = saveTeam(league, leagueSeason, teamStruct);
-		savePlayers(league, teamStruct, team);
+		savePlayers(league, pool, teamStruct, team);
 	}
 
 	protected Team saveTeam(League league, LeagueSeason leagueSeason, TeamStruct teamStruct) throws LeagueException {
@@ -84,7 +91,7 @@ public class FeedServiceImpl implements FeedService {
 		return team;
 	}
 	
-	protected void savePlayers(League league, TeamStruct teamStruct, Team team) throws LeagueException {
+	protected void savePlayers(League league, Pool pool, TeamStruct teamStruct, Team team) throws LeagueException {
 		if (teamStruct.getLstActorStruct() != null 
 				&& teamStruct.getLstActorStruct().getValue() != null
 				&& teamStruct.getLstActorStruct().getValue().getActorStruct() != null) {
@@ -101,6 +108,8 @@ public class FeedServiceImpl implements FeedService {
 				player.setTeam(team);
 				playerService.savePlayer(player);
 				logger.debug("Saved player: "+player);
+				poolService.savePlayer(pool, player);
+				logger.debug("Saved poolPlayer: "+pool+" "+player);
 			}
 		}
 	}
@@ -117,7 +126,7 @@ public class FeedServiceImpl implements FeedService {
 			logger.debug("Getting position for league type: "+league.getLeagueType().getId()+" positionNumber:"+positionNumber);
 			position = playerService.getPosition(league.getLeagueType().getId(), positionNumber);
 			if (position == null) {
-				logger.warn("Unknown position for league: "+league+" and positionNumber: " + positionNumber);
+				logger.debug("Unknown position for league: "+league+" and positionNumber: " + positionNumber);
 				position = new Position();
 				position.setLeagueType(league.getLeagueType());
 				position.setPositionNumber(positionNumber);
@@ -159,6 +168,15 @@ public class FeedServiceImpl implements FeedService {
 		} else {
 			logger.info("Current season: " + season);
 			return season;
+		}
+	}
+	
+	protected Pool getPool(LeagueSeason leagueSeason) throws LeagueException {
+		Pool pool = poolService.getPool(leagueSeason);
+		if (pool == null) {
+			throw new LeagueException("No Pool specified for LeagueSeason: "+leagueSeason);
+		} else {
+			return pool;
 		}
 	}
 
@@ -242,23 +260,23 @@ public class FeedServiceImpl implements FeedService {
 			int size = matchStruct.getLstEventMatchFilActionStruct().getValue().getEventMatchFilActionStruct().size();
 			for (int i=0;i<size;i++) {
 				eventStruct = matchStruct.getLstEventMatchFilActionStruct().getValue().getEventMatchFilActionStruct().get(i);
-				logger.info("Checking stat -  score:"+getCurrentScore(eventStruct)
+				logger.info("Checking current event: score:"+getCurrentScore(eventStruct)
 						+" matchTime: "+eventStruct.getTimeMatchStr().getValue());
 				if (eventStruct.getActor1() != null && eventStruct.getActor1().getValue() != null) {
-					PlayerMatchEvent stats = new PlayerMatchEvent();
-					stats.setMatchTime(eventStruct.getTimeMatchStr().getValue());
-					stats.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor1().getValue()));
-					stats.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
-					playerService.savePlayerMatchStats(stats);
-					logger.debug("Saved actor1 stats: "+stats);
+					PlayerMatchEvent event = new PlayerMatchEvent();
+					event.setMatchTime(eventStruct.getTimeMatchStr().getValue());
+					event.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor1().getValue()));
+					event.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
+					playerService.savePlayerMatchStats(event);
+					logger.info("Saved player1's event: "+event);
 				}				
 				if (eventStruct.getActor2() != null && eventStruct.getActor2().getValue() != null) {
-					PlayerMatchEvent stats = new PlayerMatchEvent();
-					stats.setMatchTime(eventStruct.getTimeMatchStr().getValue());
-					stats.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor2().getValue()));
-					stats.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
-					playerService.savePlayerMatchStats(stats);
-					logger.debug("Saved actor2 stats: "+stats);
+					PlayerMatchEvent event = new PlayerMatchEvent();
+					event.setMatchTime(eventStruct.getTimeMatchStr().getValue());
+					event.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor2().getValue()));
+					event.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
+					playerService.savePlayerMatchStats(event);
+					logger.info("Saved player2's event: "+event);
 				}
 				//Last event - save the match's final score
 				if (i == size-1) {
@@ -320,7 +338,7 @@ public class FeedServiceImpl implements FeedService {
 		if (event != null) {
 			return event;
 		} else {
-			logger.info("Getting statistic for league type: "+leagueType.getId()+" eventId:"+eventId);
+			logger.debug("Getting event leagueType: "+leagueType.getId()+" eventId:"+eventId);
 			event = playerService.getEvent(leagueType.getId(), eventId);
 			if (event == null) {
 				logger.error("Unknown event for leagueType: "+leagueType+" eventId: " + eventId);

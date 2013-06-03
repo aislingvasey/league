@@ -3,6 +3,7 @@
     <league_type id="1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
 	<league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
 	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+    <game_pool id="1" league_season_id="1" /> 
     <team />
     <match />    	 	
 	<position />

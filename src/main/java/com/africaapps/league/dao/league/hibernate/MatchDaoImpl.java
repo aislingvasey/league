@@ -66,6 +66,6 @@ public class MatchDaoImpl extends BaseHibernateDao implements MatchDao {
 	@Override
 	public void calculatePlayerScores(long id) {
 		long rows = sessionFactory.getCurrentSession().createSQLQuery(CALC_PLAYER_SCORE).setLong("matchId", id).executeUpdate();
-		logger.info("Set "+rows+" player's scores");
+		logger.info("Set "+rows+" players' match scores for match: "+id);
 	}
 }

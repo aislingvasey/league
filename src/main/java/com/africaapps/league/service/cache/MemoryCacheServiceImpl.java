@@ -22,6 +22,14 @@ public class MemoryCacheServiceImpl implements CacheService {
 	private Map<Long, Map<Integer, Event>> events = new HashMap<Long, Map<Integer, Event>>();
 	
 	private Map<Long, Map<Integer, Position>> leaguePositions = new HashMap<Long, Map<Integer,Position>>();
+	
+	@Override
+	public void clear() {
+		playerMatchData.clear();
+		players.clear();
+		events.clear();
+		leaguePositions.clear();
+	}
 
 	@Override
 	public PlayerMatch getPlayerMatch(Long matchId, Long playerId) throws LeagueException {

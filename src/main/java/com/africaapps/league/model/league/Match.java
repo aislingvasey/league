@@ -20,6 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Index;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.game.PlayingWeek;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -35,6 +36,7 @@ public class Match extends BaseDataModel {
 	private Team team1;
 	private Team team2;
 	private MatchProcessingStatus status;
+	private PlayingWeek playingWeek;
 
 	@Override
 	public String toString() {
@@ -47,6 +49,7 @@ public class Match extends BaseDataModel {
 		builder.append(" finalScore:").append(finalScore);
 		builder.append(" team1:").append(team1 == null ? "" : team1.getClubName());
 		builder.append(" team2:").append(team2 == null ? "" : team2.getClubName());
+		builder.append(" playingWeek:").append(playingWeek);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -150,5 +153,15 @@ public class Match extends BaseDataModel {
 
 	public void setStatus(MatchProcessingStatus status) {
 		this.status = status;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="playing_week_id", nullable=true)
+	public PlayingWeek getPlayingWeek() {
+		return playingWeek;
+	}
+
+	public void setPlayingWeek(PlayingWeek playingWeek) {
+		this.playingWeek = playingWeek;
 	}
 }

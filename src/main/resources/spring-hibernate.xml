@@ -49,6 +49,15 @@
 			<value>com.africaapps.league.model.league.Position</value>
 			<value>com.africaapps.league.model.league.Event</value>
 			<value>com.africaapps.league.model.league.Team</value>
+			
+			<value>com.africaapps.league.model.game.PlayingWeek</value>
+			<value>com.africaapps.league.model.game.Pool</value>
+			<value>com.africaapps.league.model.game.PoolPlayer</value>
+			<value>com.africaapps.league.model.game.TeamFormat</value>
+			<value>com.africaapps.league.model.game.User</value>
+			<value>com.africaapps.league.model.game.UserLeague</value>
+			<value>com.africaapps.league.model.game.UserPlayer</value>
+			<value>com.africaapps.league.model.game.UserTeam</value>
         </list> 
      </property>  
    </bean>

@@ -8,11 +8,8 @@ import java.util.List;
 import javax.xml.ws.BindingProvider;
 
 import org.datacontract.schemas._2004._07.livemediastructs.ArrayOfMatchFilActionLightStruct;
-import org.datacontract.schemas._2004._07.livemediastructs.ArrayOfMatchLightStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.MatchFilActionLightStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.MatchFilActionStruct;
-import org.datacontract.schemas._2004._07.livemediastructs.MatchLightStruct;
-import org.datacontract.schemas._2004._07.livemediastructs.MatchStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.TeamMatchFilActionStruct;
 import org.datacontract.schemas._2004._07.livemediastructs.TeamStruct;
 import org.slf4j.Logger;
@@ -22,10 +19,10 @@ import org.tempuri.ServiceAmiscoLive;
 
 import com.africaapps.league.exception.InvalidLeagueException;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.service.feed.FeedService;
-import com.africaapps.league.service.webservice.util.DataLogUtil;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfKeyValueOfintstring;
 
 public class WebServiceClient {
@@ -68,52 +65,7 @@ public class WebServiceClient {
 			return null;
 		}
 	}
-
-//	public List<TeamStruct> getFirstAvailableTeam(String leagueName) throws LeagueException {
-//		List<TeamStruct> structs = new ArrayList<TeamStruct>();
-//
-//		ArrayOfKeyValueOfintstring intStrings = service1.getMatchStructDetailAvailable();
-//		if (intStrings.getKeyValueOfintstring().size() > 0) {
-//			// for(ArrayOfKeyValueOfintstring.KeyValueOfintstring entry :
-//			// intStrings.getKeyValueOfintstring()) {
-//			ArrayOfKeyValueOfintstring.KeyValueOfintstring entry = intStrings.getKeyValueOfintstring().get(0);
-//			logger.info("MatchDetailAvailable: " + entry.getKey() + "=" + entry.getValue());
-//			ArrayOfMatchLightStruct matchStructs = service1.matchLightStructList(entry.getKey());
-//			logger.info("Got " + matchStructs.getMatchLightStruct().size() + " (light) matches");
-//			if (matchStructs.getMatchLightStruct().size() > 0) {
-//				// for(MatchLightStruct matchLightStruct :
-//				// matchStructs.getMatchLightStruct()) {
-//				MatchLightStruct matchLightStruct = matchStructs.getMatchLightStruct().get(0);
-//				if (!matchLightStruct.getCompetitionName().getValue().equalsIgnoreCase(leagueName)) {
-//					throw new LeagueException("League/Matches Mismatch! Expected matches for league: " + leagueName + " but got: "
-//							+ matchLightStruct.getCompetitionName().getValue());
-//				}
-//				// DataLogUtil.logMatchLightStruct(matchLightStruct);
-//				MatchStruct matchStruct = service1.getMatchStruct(matchLightStruct.getIdMatch(), entry.getKey());
-//				if (matchStruct != null) {
-//					// DataLogUtil.logMatchStruct(matchStruct);
-//					if (matchStruct.getLstTeamStruct() != null && matchStruct.getLstTeamStruct().getValue() != null
-//							&& matchStruct.getLstTeamStruct().getValue().getTeamStruct().size() > 0) {
-//						for (TeamStruct teamStruct : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
-//							// 1st Team
-//							// TeamStruct teamStruct = matchStruct.getLstTeamStruct().getValue().getTeamStruct().get(0);
-//							TeamStruct retrievedTeam = service1.getTeamStruct(matchStruct.getIdMatch(), teamStruct.getIdTeam(),
-//									entry.getKey());
-//							structs.add(retrievedTeam);
-//							logger.info("Retrieved teamStruct to process: " + retrievedTeam.getIdTeam());
-//							// StringBuilder sb = new StringBuilder();
-//							// DataLogUtil.logTeamStruct(sb, retrievedTeam);
-//							// logger.info("Team: " + sb.toString());
-//						}
-//					}
-//				} else {
-//					logger.info("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
-//				}
-//			}
-//		}
-//		return structs;
-//	}
-
+	
 	private Integer getMatchKey() throws LeagueException {
 		Integer matchKey = null;
 		ArrayOfKeyValueOfintstring matchIntStrings = service1.getMatchStructDetailAvailable();
@@ -144,7 +96,7 @@ public class WebServiceClient {
 		return matchKey;
 	}
 
-	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, FeedService feedService)
+	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService)
 			throws LeagueException {
 		List<Integer> processedMatchIds = new ArrayList<Integer>();
 		Integer matchId = null;
@@ -165,8 +117,8 @@ public class WebServiceClient {
 					MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
 					if (matchStruct != null) {
 						logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
-						saveMatchTeams(league, leagueSeason, feedService, matchKey, matchStruct);
-						DataLogUtil.logMatchFilStruct(matchStruct);
+						saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
+//						DataLogUtil.logMatchFilStruct(matchStruct);
 						processMatch(league, leagueSeason, feedService, matchStruct);
 						processedMatchIds.add(matchId);
 						logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
@@ -198,8 +150,10 @@ public class WebServiceClient {
 		}
 	}
 
-	protected void saveMatchTeams(League league, LeagueSeason leagueSeason, FeedService feedService, Integer key,
-			MatchFilActionStruct matchStruct) throws LeagueException {
+	protected void saveMatchTeams(League league, LeagueSeason leagueSeason,
+																Pool pool,
+																FeedService feedService, Integer key,
+																MatchFilActionStruct matchStruct) throws LeagueException {
 		if (matchStruct.getLstTeamMatchFilActionStruct() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct() != null) {
@@ -208,17 +162,17 @@ public class WebServiceClient {
 					.getTeamMatchFilActionStruct()) {
 				teamId = teamMatchStruct.getIdTeam();
 				TeamStruct teamStruct = service1.getTeamStruct(matchStruct.getIdMatch(), teamId, key);
-				StringBuilder sb = new StringBuilder();
-				DataLogUtil.logTeamStruct(sb, teamStruct);
-				logger.info(sb.toString());
-				feedService.saveTeamAndPlayers(league, leagueSeason, teamStruct);
+//				StringBuilder sb = new StringBuilder();
+//				DataLogUtil.logTeamStruct(sb, teamStruct);
+//				logger.info(sb.toString());
+				feedService.saveTeamAndPlayers(league, leagueSeason, pool, teamStruct);
 			}
 		}
 	}
 
 	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService,
 			MatchFilActionStruct matchStruct) throws LeagueException {
-		DataLogUtil.logMatchFilStruct(matchStruct);
+//		DataLogUtil.logMatchFilStruct(matchStruct);
 		feedService.processMatch(league, leagueSeason, matchStruct);
 	}
 }

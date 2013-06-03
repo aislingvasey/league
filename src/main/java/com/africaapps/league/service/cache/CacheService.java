@@ -8,6 +8,8 @@ import com.africaapps.league.model.league.Event;
 
 public interface CacheService {
 
+	public void clear();
+	
 	//TODO make these all league or league type specific
 	
 	public PlayerMatch getPlayerMatch(Long matchId, Long playerId) throws LeagueException;
