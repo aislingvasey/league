@@ -2,7 +2,7 @@
 
     <league_type id="1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
 	<league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
-	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />	
     <game_pool id="1" league_season_id="1" /> 
     <team />
     <match />    	 	
@@ -25,30 +25,8 @@
     <event id="16"  event_id="20" description="Punch" points="0" league_type_id="1" />
     <event id="17"  event_id="21" description="Player in" points="0" league_type_id="1" />
     <event id="18"  event_id="22" description="Player out" points="0" league_type_id="1" />              
-<!--   
-- 1 = Start of half
-– 2 = End of half
-– 3 = End of match
-– 5 = Goal
-– 6 = Goal on penalty
-– 7 = Own goal
-– 8 = Penalty
-– 9 = Chance
-– 10 = Shot not on target
-– 11 = Shot on target
-– 12 = Offside
-– 13 = Corner
-– 14 = Cross
-– 15 = Successful cross
-– 16 = Foul made
-– 17 = Yellow card
-– 18 = Red card
-– 19 = Catch
-– 20 = Punch
-– 21 = Player in
-– 22 = Player out 
- -->  	
 	<player />
+	<game_pool_player />
 	<player_match />
 	<player_match_event />	
 </dataset>

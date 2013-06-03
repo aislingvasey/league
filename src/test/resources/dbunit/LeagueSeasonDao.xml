@@ -2,6 +2,7 @@
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league id="-1" name="ABSA Soccer League" description="Some description" league_type_id="-1" />
     <league_season />
+    <game_pool />
     <position />
     <event />
 </dataset>

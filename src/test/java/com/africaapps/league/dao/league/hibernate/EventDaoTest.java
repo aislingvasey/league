@@ -6,13 +6,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
-import com.africaapps.league.dao.league.LeagueTypeDao;
 import com.africaapps.league.dao.league.EventDao;
-import com.africaapps.league.model.league.LeagueType;
+import com.africaapps.league.dao.league.LeagueTypeDao;
 import com.africaapps.league.model.league.Event;
+import com.africaapps.league.model.league.LeagueType;
+import com.africaapps.league.service.transaction.WriteTransaction;
 
 public class EventDaoTest extends BaseSpringDbUnitTest {
 
@@ -23,7 +23,7 @@ public class EventDaoTest extends BaseSpringDbUnitTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(EventDaoTest.class);
 	
-	@Transactional(readOnly=false)
+	@WriteTransaction
 	@Test
 	public void saveUpdateAndGet() throws Exception {
 		assertNotNull(statsDao);

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size;
 import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
+@NamedQuery(name="isExistingUsername", query="select count(u.id) from User u where u.username = :username")
 @Entity
 @Table(name="game_user_details")
 public class User extends BaseDataModel {

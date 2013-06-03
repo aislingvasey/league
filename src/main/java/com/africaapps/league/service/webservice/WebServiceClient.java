@@ -129,11 +129,6 @@ public class WebServiceClient {
 			} catch (InvalidLeagueException e) {
 				logger.error(e.getMessage());
 			}
-			// TODO for testing only - remove to process all
-			count++;
-			if (count >= 1) {
-				break;
-			}
 		}
 		// }
 		return processedMatchIds;

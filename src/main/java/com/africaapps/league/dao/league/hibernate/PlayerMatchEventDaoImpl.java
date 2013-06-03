@@ -20,12 +20,6 @@ public class PlayerMatchEventDaoImpl extends BaseHibernateDao implements PlayerM
 		}
 	}
 
-	@Override
-	public Integer getTotalPoints(long PlayerMatchId) {
-		// TODO 
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PlayerMatchEvent> getEvents(long playerMatchId) {		

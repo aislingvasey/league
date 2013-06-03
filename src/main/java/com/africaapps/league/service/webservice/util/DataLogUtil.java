@@ -114,7 +114,6 @@ public class DataLogUtil {
 		sb.append(" source:").append(matchStruct.getSource().getValue());
 		sb.append(" stadium:").append(matchStruct.getStadiumName().getValue());
 		
-		//TODO
 //		sb.append(" ").append(matchStruct.getLstCIS());
 //		sb.append(" ").append(matchStruct.getLstReferees());
 //		sb.append(" ").append(matchStruct.getLstSDTS());

@@ -10,14 +10,10 @@ public interface CacheService {
 
 	public void clear();
 	
-	//TODO make these all league or league type specific
-	
-	public PlayerMatch getPlayerMatch(Long matchId, Long playerId) throws LeagueException;
-	
+	public PlayerMatch getPlayerMatch(Long matchId, Long playerId) throws LeagueException;	
 	public void setPlayerMatch(Long matchId, Long playerId, PlayerMatch playerMatch) throws LeagueException;
 	
 	public Player getPlayer(Integer playerId) throws LeagueException;
-	
 	public void setPlayer(Player player) throws LeagueException;
 	
 	public Event getEvent(Long leagueTypeId, Integer eventId) throws LeagueException;

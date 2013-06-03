@@ -16,17 +16,18 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="game_user_team")
+@Table(name = "game_user_team")
 public class UserTeam extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private int currentScore;
-	private long availableMoney;	
+	private long availableMoney;
 	private TeamFormat currentFormat;
 	private User user;
-	
+	private UserLeague userLeague;
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -40,7 +41,7 @@ public class UserTeam extends BaseDataModel {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -56,24 +57,24 @@ public class UserTeam extends BaseDataModel {
 			}
 		}
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return id.hashCode();
 	}
-	
-	@NotNull(groups={UpdateGroup.class})
+
+	@NotNull(groups = { UpdateGroup.class })
 	@Id
-  @SequenceGenerator(name="user_team_seq", sequenceName="user_team_seq", allocationSize=1)
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_team_seq")
-  @Column(name="id", nullable=false)
+	@SequenceGenerator(name = "user_team_seq", sequenceName = "user_team_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_team_seq")
+	@Column(name = "id", nullable = false)
 	public Long getId() {
 		return id;
 	}
 
 	@NotNull
-	@Size(min=1, max=100, message="{validate.name.range}")
-  @Column(name="name", length=100, nullable=false)
+	@Size(min = 1, max = 100, message = "{validate.name.range}")
+	@Column(name = "name", length = 100, nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -83,7 +84,7 @@ public class UserTeam extends BaseDataModel {
 	}
 
 	@NotNull
-  @Column(name="current_score", nullable=false)
+	@Column(name = "current_score", nullable = false)
 	public int getCurrentScore() {
 		return currentScore;
 	}
@@ -93,7 +94,7 @@ public class UserTeam extends BaseDataModel {
 	}
 
 	@NotNull
-  @Column(name="available_money", nullable=false)
+	@Column(name = "available_money", nullable = false)
 	public long getAvailableMoney() {
 		return availableMoney;
 	}
@@ -103,7 +104,7 @@ public class UserTeam extends BaseDataModel {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="team_format_id")
+	@JoinColumn(name = "team_format_id")
 	public TeamFormat getCurrentFormat() {
 		return currentFormat;
 	}
@@ -113,12 +114,22 @@ public class UserTeam extends BaseDataModel {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="user_details_id")
+	@JoinColumn(name = "user_details_id")
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="user_league_id", nullable=false)
+	public UserLeague getUserLeague() {
+		return userLeague;
+	}
+
+	public void setUserLeague(UserLeague userLeague) {
+		this.userLeague = userLeague;
 	}
 }
