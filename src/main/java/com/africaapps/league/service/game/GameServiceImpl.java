@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.exception.LeagueException;
-import com.africaapps.league.model.game.UserLeague;
 import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.service.game.league.UserLeagueService;
 import com.africaapps.league.service.game.team.UserTeamService;
