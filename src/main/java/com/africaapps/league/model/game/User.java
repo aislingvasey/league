@@ -93,7 +93,7 @@ public class User extends BaseDataModel {
 	}
 	
 	@Size(min=1, max=1000, message="{validate.password.range}")
-  @Column(name="name", length=1000, nullable=true)
+  @Column(name="password", length=1000, nullable=true)
 	public String getPassword() {
 		return password;
 	}

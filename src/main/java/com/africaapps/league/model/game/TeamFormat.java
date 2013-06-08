@@ -21,9 +21,10 @@ public class TeamFormat extends BaseDataModel {
 
 	private String name;
 	private String description;
+	private boolean defaultFormat;
 	private int defenderCount;
 	private int midfielderCount;	
-	private int strikerCount;
+	private int strikerCount; //forwards
 
 	@Override
 	public String toString() {
@@ -31,6 +32,7 @@ public class TeamFormat extends BaseDataModel {
 		builder.append("[TeamFormat: ");
 		builder.append(" id:").append(id);
 		builder.append(" name:").append(name);
+		builder.append(" defaultFormat:").append(defaultFormat);
 		builder.append(" description:").append(description);
 		builder.append(" defenderCount:").append(defenderCount);
 		builder.append(" midfielderCount:").append(midfielderCount);
@@ -71,7 +73,7 @@ public class TeamFormat extends BaseDataModel {
 	
 	@NotNull
 	@Size(min=1, max=100, message="{validate.name.range}")
-  @Column(name="username", length=100, nullable=false, unique=true)
+  @Column(name="name", length=100, nullable=false, unique=true)
 	public String getName() {
 		return name;
 	}
@@ -88,6 +90,16 @@ public class TeamFormat extends BaseDataModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@NotNull
+	@Column(name="default_format")
+	public boolean isDefaultFormat() {
+		return defaultFormat;
+	}
+
+	public void setDefaultFormat(boolean defaultFormat) {
+		this.defaultFormat = defaultFormat;
 	}
 
 	@NotNull

@@ -24,6 +24,25 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
+	
+	@ReadTransaction
+	@Override
+	public User getUser(Long userId) throws LeagueException {
+		if (userId != null) {
+			return userDao.getUser(userId);			
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public Long getUserId(String username) throws LeagueException {
+		if (username != null) {
+			return userDao.getUserId(username);			
+		} else {
+			return null;
+		}
+	}
 
 	@WriteTransaction
 	@Override

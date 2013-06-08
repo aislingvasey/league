@@ -6,4 +6,5 @@ public interface UserLeagueDao {
 	
 	public void saveOrUpdate(UserLeague userLeague);
 	
+	public UserLeague getDefault();
 }

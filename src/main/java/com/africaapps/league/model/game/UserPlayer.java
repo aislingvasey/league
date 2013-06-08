@@ -23,7 +23,7 @@ public class UserPlayer extends BaseDataModel {
 
 	private Player player;
 	private UserPlayerStatus status;
-	private UserTeam team;	
+	private UserTeam userTeam;	
 	private Pool pool;
 	
 	@Override
@@ -33,7 +33,7 @@ public class UserPlayer extends BaseDataModel {
 		builder.append(" id:").append(id);
 		builder.append(" player:").append(player);
 		builder.append(" status:").append(status);
-		builder.append(" team:").append(team);
+		builder.append(" userTeam:").append(userTeam);
 		builder.append(" pool:").append(pool);
 		builder.append("]");
 		return builder.toString();
@@ -91,12 +91,12 @@ public class UserPlayer extends BaseDataModel {
 
 	@ManyToOne
 	@JoinColumn(name="user_team_id", nullable=false)
-	public UserTeam getTeam() {
-		return team;
+	public UserTeam getUserTeam() {
+		return userTeam;
 	}
 
-	public void setTeam(UserTeam team) {
-		this.team = team;
+	public void setUserTeam(UserTeam team) {
+		this.userTeam = team;
 	}
 
 	@ManyToOne

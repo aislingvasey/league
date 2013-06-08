@@ -8,7 +8,5 @@ import com.africaapps.league.model.game.UserTeam;
 public interface GameService {
 	
 	public List<UserTeam> getUserTeams(long userId) throws LeagueException;
-		
-	public void saveUserTeam(UserTeam userTeam) throws LeagueException;
-	
+			
 }

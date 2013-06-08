@@ -1,5 +1,7 @@
 package com.africaapps.league.model.game;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,6 +30,8 @@ public class UserTeam extends BaseDataModel {
 	private TeamFormat currentFormat;
 	private User user;
 	private UserLeague userLeague;
+	private boolean validTeam;
+	private Set<UserPlayer> userPlayers;
 
 	@Override
 	public String toString() {
@@ -38,6 +43,8 @@ public class UserTeam extends BaseDataModel {
 		builder.append(" availableMoney:").append(availableMoney);
 		builder.append(" currentFormat:").append(currentFormat);
 		builder.append(" user:").append(user);
+		builder.append(" userLeague:").append(userLeague);
+		builder.append(" validTeam:").append(validTeam);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -131,5 +138,24 @@ public class UserTeam extends BaseDataModel {
 
 	public void setUserLeague(UserLeague userLeague) {
 		this.userLeague = userLeague;
+	}
+
+	@NotNull
+	@Column(name="valid_team")
+	public boolean isValidTeam() {
+		return validTeam;
+	}
+
+	public void setValidTeam(boolean validTeam) {
+		this.validTeam = validTeam;
+	}
+
+	@OneToMany(mappedBy="userTeam")
+	public Set<UserPlayer> getUserPlayers() {
+		return userPlayers;
+	}
+
+	public void setUserPlayers(Set<UserPlayer> userPlayers) {
+		this.userPlayers = userPlayers;
 	}
 }

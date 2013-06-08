@@ -22,11 +22,4 @@ public class GameServiceImpl implements GameService {
 	public List<UserTeam> getUserTeams(long userId) throws LeagueException {
 		return userTeamService.getTeams(userId);
 	}
-
-	@Override
-	public void saveUserTeam(UserTeam userTeam) throws LeagueException {
-		if (userTeam != null) {
-			userTeamService.saveTeam(userTeam);
-		}
-	}
 }

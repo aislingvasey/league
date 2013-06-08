@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.League;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -28,6 +29,8 @@ public class UserLeague extends BaseDataModel {
 	private UserLeagueStatus status;	
 	private UserLeagueType type;
 	private User owner;
+	private boolean defaultUserLeague;
+	private League league;
 
 	@Override
 	public String toString() {
@@ -39,6 +42,8 @@ public class UserLeague extends BaseDataModel {
 		builder.append(" status:").append(status);
 		builder.append(" type:").append(type);
 		builder.append(" owner:").append(owner);
+		builder.append(" defaultUserLeague:").append(defaultUserLeague);
+		builder.append(" league:").append(league);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -122,5 +127,25 @@ public class UserLeague extends BaseDataModel {
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	@NotNull
+	@Column(name="default_league", nullable=false)
+	public boolean isDefaultUserLeague() {
+		return defaultUserLeague;
+	}
+
+	public void setDefaultUserLeague(boolean defaultUserLeague) {
+		this.defaultUserLeague = defaultUserLeague;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="league_id", nullable=false)
+	public League getLeague() {
+		return league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
 	}
 }

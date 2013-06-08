@@ -8,5 +8,7 @@ public interface UserTeamDao {
 
 	public List<UserTeam> getTeams(long userId);
 	
+	public UserTeam getTeam(long userId, String teamName);
+	
 	public void saveOrUpdate(UserTeam userTeam);
 }

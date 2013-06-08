@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,25 @@ public class UserDaoImpl extends BaseHibernateDao implements UserDao {
 			criteria.add(Restrictions.eq("password", password));
 		}
 		List<User> users = criteria.list();
+		if (users.size() == 1) {
+			return users.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public User getUser(Long userId) {
+		return (User) sessionFactory.getCurrentSession().get(User.class, userId);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Long getUserId(String username) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
+		criteria.add(Restrictions.eq("username", username));
+		criteria.setProjection(Projections.property("id"));
+		List<Long> users = criteria.list();
 		if (users.size() == 1) {
 			return users.get(0);
 		} else {
