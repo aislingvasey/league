@@ -91,8 +91,7 @@ public class Player extends BaseDataModel {
 		this.playerId = playerId;
 	}
 
-	@NotNull
-	@Size(min=1, max=200, message="{validate.firstname.range}")
+	@Size(max=200, message="{validate.firstname.range}")
   @Column(name="first_name", length=200, nullable=true)
 	public String getFirstName() {
 		return firstName;
@@ -102,8 +101,7 @@ public class Player extends BaseDataModel {
 		this.firstName = firstName;
 	}
 
-	@NotNull
-	@Size(min=1, max=200, message="{validate.lastname.range}")
+	@Size(max=200, message="{validate.lastname.range}")
   @Column(name="last_name", length=200, nullable=true)
 	public String getLastName() {
 		return lastName;
@@ -113,8 +111,7 @@ public class Player extends BaseDataModel {
 		this.lastName = lastName;
 	}
 
-	@NotNull
-	@Size(min=1, max=200, message="{validate.nickname.range}")
+	@Size(max=200, message="{validate.nickname.range}")
   @Column(name="nick_name", length=200, nullable=true)
 	public String getNickName() {
 		return nickName;

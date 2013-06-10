@@ -1,17 +1,31 @@
 package com.africaapps.league.dao.game.hibernate;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.UserLeagueDao;
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
+import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.model.game.UserLeague;
 
 @Repository
 public class UserLeagueDaoImpl extends BaseHibernateDao implements UserLeagueDao {
+	
+	private static final String LEAGUE_TEAMS 
+	= "SELECT l.id as leagueId, t.id as teamId, t.current_score, t.name, t.user_details_id, u.username "
+   +" FROM game_user_league l "
+	 +" left join game_user_team t on l.id = t.user_league_id "
+   +" left join game_user_details u on t.user_details_id = u.id "
+   +" where l.id = :leagueId "
+   +" order by t.current_score desc "
+   +" limit :limit offset :offset";
 
 	@Override
 	public void saveOrUpdate(UserLeague userLeague) {
@@ -30,5 +44,40 @@ public class UserLeagueDaoImpl extends BaseHibernateDao implements UserLeagueDao
 			return leagues.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public String getLeagueName(long userLeagueId) {
+		return (String) sessionFactory.getCurrentSession()
+				                          .createCriteria(UserLeague.class)
+				                          .add(Restrictions.eq("id", userLeagueId))
+				                          .setProjection(Projections.property("name"))
+				                          .uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TeamSummary> getLeagueTeamSummary(long userLeagueId, int teamNumber, int start) {
+		List<TeamSummary> summaries = new ArrayList<TeamSummary>();
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(LEAGUE_TEAMS);
+		query.setLong("leagueId", userLeagueId);
+		query.setInteger("limit", teamNumber);
+		query.setInteger("offset", start);
+		TeamSummary summary = null;
+		List<Object[]> teams = query.list();
+		Object[] team = null;
+		for(int i=0;i<teams.size();i++) {
+			team = teams.get(i);
+			summary = new TeamSummary();
+			summary.setPositionInLeague(i+1+start);
+			summary.setLeagueId(((BigInteger) team[0]).longValue());
+			summary.setOwnerId(((BigInteger) team[4]).longValue());
+			summary.setUsername((String) team[5]);
+			summary.setTeamId(((BigInteger) team[1]).longValue());
+			summary.setTeamName((String) team[3]);
+			summary.setCurrentScore((Integer) team[2]);
+			summaries.add(summary);
+		}
+		return summaries;
 	}
 }

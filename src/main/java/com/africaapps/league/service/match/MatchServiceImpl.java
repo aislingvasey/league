@@ -29,7 +29,8 @@ public class MatchServiceImpl implements MatchService {
 	public boolean isProcessedMatch(long leageaSeasonId, int matchId) throws LeagueException {
 		Match match = matchDao.getByLeagueSeasonAndMatchId(leageaSeasonId, matchId);
 		if (match != null) {
-			if (MatchProcessingStatus.COMPLETE.equals(match.getStatus())) {
+			//TODO change this later
+			if (MatchProcessingStatus./*COMPLETE*/SAVED.equals(match.getStatus())) {
 				return true;
 			}
 		}

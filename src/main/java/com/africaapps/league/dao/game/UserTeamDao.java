@@ -2,6 +2,7 @@ package com.africaapps.league.dao.game;
 
 import java.util.List;
 
+import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.model.game.UserTeam;
 
 public interface UserTeamDao {
@@ -11,4 +12,8 @@ public interface UserTeamDao {
 	public UserTeam getTeam(long userId, String teamName);
 	
 	public void saveOrUpdate(UserTeam userTeam);
+	
+	public int getTeamCount(long userLeagueId);
+	
+	public List<TeamSummary> getTeamSummary(long userLeagueId, long userId);
 }

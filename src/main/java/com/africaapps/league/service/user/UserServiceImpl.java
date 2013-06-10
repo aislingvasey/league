@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
+	@ReadTransaction
 	@Override
 	public Long getUserId(String username) throws LeagueException {
 		if (username != null) {
