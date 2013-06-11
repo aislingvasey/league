@@ -2,6 +2,8 @@ package com.africaapps.league.service.game.team;
 
 import java.util.List;
 
+import com.africaapps.league.dto.UserPlayerSummary;
+import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.TeamFormat;
 import com.africaapps.league.model.game.UserLeague;
@@ -14,9 +16,14 @@ public interface UserTeamService {
 	public void saveTeam(UserTeam userTeam) throws LeagueException;
 
 	public UserTeam getTeam(long userId, String teamName) throws LeagueException;
+	public UserTeam getTeam(long userTeamId) throws LeagueException;
 	
 	public UserLeague getDefaultUserLeague() throws LeagueException;
 	
 	public TeamFormat getDefaultTeamFormat() throws LeagueException;
+	
+	public UserTeamSummary getTeamWithPlayers(long teamId) throws LeagueException;
+	
+	public List<UserPlayerSummary> getTeamPlayers(long teamId, long userTeamId, String type) throws LeagueException;
 	
 }

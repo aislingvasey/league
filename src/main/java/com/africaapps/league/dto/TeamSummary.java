@@ -11,6 +11,15 @@ public class TeamSummary extends BaseDto {
 	private Integer positionInLeague;
 	private Long ownerId;
 	private String username;
+	
+	public TeamSummary() {
+		
+	}
+	
+	public TeamSummary(Long teamId, String teamName) {
+		this.teamId = teamId;
+		this.teamName = teamName;
+	}
 
 	public Long getTeamId() {
 		return teamId;

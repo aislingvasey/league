@@ -29,7 +29,7 @@
     <!--  Quartz tasks --> 
     <task:scheduled-tasks>
         <!-- Fire at 00:15am every day: 0 15 0 ? * * -->
-        <task:scheduled ref="service.task" method="processMatches" cron="30 22 19 ? * *"/>
+        <task:scheduled ref="service.task" method="processMatches" cron="30 32 21 ? * *"/>
     </task:scheduled-tasks> 
     
 </beans>

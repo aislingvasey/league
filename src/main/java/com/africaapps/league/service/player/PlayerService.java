@@ -1,10 +1,12 @@
 package com.africaapps.league.service.player;
 
+import java.util.List;
+
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.league.Event;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Event;
 
 public interface PlayerService {
 
@@ -18,4 +20,6 @@ public interface PlayerService {
 	public void saveEvent(Event event) throws LeagueException;
 	
 	public void savePlayerMatchStats(PlayerMatchEvent playerMatchEvent) throws LeagueException;
+	
+	public List<Player> getTeamPlayersByType(long teamId, String type);
 }

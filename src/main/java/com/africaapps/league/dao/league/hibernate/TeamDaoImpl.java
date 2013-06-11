@@ -49,4 +49,12 @@ public class TeamDaoImpl extends BaseHibernateDao implements TeamDao {
 			return null;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Team> getBySeasonId(long leagueSeasonId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Team.class);
+		criteria.createAlias("leagueSeason", "s").add(Restrictions.eq("s.id", leagueSeasonId));
+		return criteria.list();
+	}
 }

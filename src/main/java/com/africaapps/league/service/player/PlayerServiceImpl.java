@@ -1,19 +1,22 @@
 package com.africaapps.league.service.player;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.africaapps.league.dao.league.EventDao;
 import com.africaapps.league.dao.league.PlayerDao;
 import com.africaapps.league.dao.league.PlayerMatchEventDao;
 import com.africaapps.league.dao.league.PositionDao;
-import com.africaapps.league.dao.league.EventDao;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.Event;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Event;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -89,5 +92,21 @@ public class PlayerServiceImpl implements PlayerService {
 		} else {
 			logger.debug("Not saving existing PlayerMatchEvent: "+existing);
 		}
+	}
+
+	@Override
+	public List<Player> getTeamPlayersByType(long teamId, String type) {
+		BlockType blockType = getBlockType(type);
+		return playerDao.getByTeamIdAndPlayerType(teamId, blockType);
+	}
+	
+	private BlockType getBlockType(String type) {
+		for(BlockType bt : BlockType.values()) {
+			if (bt.name().equalsIgnoreCase(type)) {
+				return bt;
+			}
+		}
+		logger.error("Unknown BlockType: "+type);
+		return null;
 	}
 }

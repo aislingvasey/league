@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.africaapps.league.model.BaseDataModel;
-import com.africaapps.league.model.league.Player;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -21,7 +20,7 @@ public class UserPlayer extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Player player;
+	private PoolPlayer poolPlayer;
 	private UserPlayerStatus status;
 	private UserTeam userTeam;	
 	private Pool pool;
@@ -31,7 +30,7 @@ public class UserPlayer extends BaseDataModel {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[UserPlayer: ");
 		builder.append(" id:").append(id);
-		builder.append(" player:").append(player);
+		builder.append(" poolPlayer:").append(poolPlayer);
 		builder.append(" status:").append(status);
 		builder.append(" userTeam:").append(userTeam);
 		builder.append(" pool:").append(pool);
@@ -70,13 +69,13 @@ public class UserPlayer extends BaseDataModel {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="player_id", nullable=false)
-	public Player getPlayer() {
-		return player;
+	@JoinColumn(name="pool_player_id", nullable=false)
+	public PoolPlayer getPoolPlayer() {
+		return poolPlayer;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void setPoolPlayer(PoolPlayer poolPlayer) {
+		this.poolPlayer = poolPlayer;
 	}
 
 	@NotNull

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,11 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	}
 
 	@Override
+	public UserTeam getTeam(long userTeamId) {
+		return (UserTeam) sessionFactory.getCurrentSession().get(UserTeam.class, userTeamId);
+	}
+	
+	@Override
 	public void saveOrUpdate(UserTeam userTeam) {
 		if (userTeam != null) {
 			sessionFactory.getCurrentSession().saveOrUpdate(userTeam);
@@ -83,5 +89,13 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 			summaries.add(summary);
 		}
 		return summaries;
+	}
+
+	@Override
+	public UserTeam getTeamWithPlayers(long teamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class)
+    .add(Restrictions.idEq(teamId))
+    .setFetchMode("players", FetchMode.JOIN); 
+		return (UserTeam) criteria.uniqueResult();
 	}
 }

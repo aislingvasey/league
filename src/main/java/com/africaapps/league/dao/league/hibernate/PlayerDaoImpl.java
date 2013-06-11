@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
 import com.africaapps.league.dao.league.PlayerDao;
+import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.Player;
 
 @Repository
@@ -46,5 +47,14 @@ public class PlayerDaoImpl extends BaseHibernateDao implements PlayerDao {
 		} else {
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Player> getByTeamIdAndPlayerType(long teamId, BlockType blockType) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Player.class);
+		criteria.add(Restrictions.eq("block", blockType));
+		criteria.createAlias("team", "t").add(Restrictions.eq("t.id", teamId));
+		return criteria.list();
 	}
 }

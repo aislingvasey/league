@@ -9,5 +9,5 @@ public interface TeamFormatDao {
 	public TeamFormat getDefault();
 	
 	public List<TeamFormat> getAll();
-	
+		
 }

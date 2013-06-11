@@ -11,9 +11,13 @@ public interface UserTeamDao {
 	
 	public UserTeam getTeam(long userId, String teamName);
 	
+	public UserTeam getTeam(long userTeamId);
+	
 	public void saveOrUpdate(UserTeam userTeam);
 	
 	public int getTeamCount(long userLeagueId);
 	
 	public List<TeamSummary> getTeamSummary(long userLeagueId, long userId);
+		
+	public UserTeam getTeamWithPlayers(long teamId);
 }

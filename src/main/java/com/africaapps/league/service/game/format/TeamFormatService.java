@@ -10,5 +10,5 @@ public interface TeamFormatService {
 	public TeamFormat getDefaultFormat() throws LeagueException;
 	
 	public List<TeamFormat> getTeamFormats() throws LeagueException;
-	
+		
 }
