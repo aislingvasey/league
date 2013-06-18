@@ -31,6 +31,7 @@ public class UserLeague extends BaseDataModel {
 	private User owner;
 	private boolean defaultUserLeague;
 	private League league;
+	private Pool pool;
 
 	@Override
 	public String toString() {
@@ -44,6 +45,7 @@ public class UserLeague extends BaseDataModel {
 		builder.append(" owner:").append(owner);
 		builder.append(" defaultUserLeague:").append(defaultUserLeague);
 		builder.append(" league:").append(league);
+		builder.append(" pool:").append(pool);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -147,5 +149,15 @@ public class UserLeague extends BaseDataModel {
 
 	public void setLeague(League league) {
 		this.league = league;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="pool_id", nullable=false)
+	public Pool getPool() {
+		return pool;
+	}
+
+	public void setPool(Pool pool) {
+		this.pool = pool;
 	}
 }

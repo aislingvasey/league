@@ -20,4 +20,5 @@ public interface UserTeamDao {
 	public List<TeamSummary> getTeamSummary(long userLeagueId, long userId);
 		
 	public UserTeam getTeamWithPlayers(long teamId);
+	
 }

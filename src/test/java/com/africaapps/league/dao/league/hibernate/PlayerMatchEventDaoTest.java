@@ -96,7 +96,7 @@ private static Logger logger = LoggerFactory.getLogger(LeagueDaoTest.class);
 		
 		PlayerMatchEvent playerMatchEvent = new PlayerMatchEvent();
 		playerMatchEvent.setMatchTime("00:05");
-		playerMatchEvent.setEvent(statsDao.getEvent(-1, statsId));
+		playerMatchEvent.setEvent(statsDao.getEvent(-1, statsId, null));
 		playerMatchEvent.setPlayerMatch(playerMatch2);
 		playerMatchEventDao.saveOrUpdate(playerMatchEvent);
 		

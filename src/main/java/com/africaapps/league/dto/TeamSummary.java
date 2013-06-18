@@ -13,7 +13,7 @@ public class TeamSummary extends BaseDto {
 	private String username;
 	
 	public TeamSummary() {
-		
+		this.positionInLeague = Integer.valueOf(1);
 	}
 	
 	public TeamSummary(Long teamId, String teamName) {

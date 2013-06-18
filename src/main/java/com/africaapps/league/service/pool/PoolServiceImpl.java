@@ -39,7 +39,7 @@ public class PoolServiceImpl implements PoolService {
 	@Override
 	public void savePlayer(Pool pool, Player player) throws LeagueException {
 		if (pool != null && player != null) {
-			PoolPlayer pp = poolPlayerDao.getByPoolAndPlayer(pool.getId(), player.getId());
+			PoolPlayer pp = getPoolPlayer(pool.getId(), player.getId());
 			if (pp == null) {
 				pp = new PoolPlayer();
 				pp.setPool(pool);
@@ -47,10 +47,16 @@ public class PoolServiceImpl implements PoolService {
 				pp.setPlayerPrice(0);
 				pp.setPlayerCurrentScore(0);
 				poolPlayerDao.saveOrUpdate(pp);
-				logger.warn("Set price for new PoolPlayer: "+pp+"!!!");
+				logger.warn("TODO *** Set price for new PoolPlayer: "+pp.getId()+" "+pp.getPlayer().getFirstName()+" "+pp.getPlayer().getLastName()+"!!!");
 			}
 		} else {
 			throw new LeagueException("Unable to save PoolPlayer for invalid input: "+pool+", "+player);
 		}
+	}
+
+	@ReadTransaction
+	@Override
+	public PoolPlayer getPoolPlayer(long poolId, long playerId) throws LeagueException {
+		return poolPlayerDao.getByPoolAndPlayer(poolId, playerId);
 	}
 }

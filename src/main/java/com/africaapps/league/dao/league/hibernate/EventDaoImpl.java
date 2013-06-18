@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
 import com.africaapps.league.dao.league.EventDao;
+import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.Event;
 
 @Repository
@@ -34,11 +35,16 @@ public class EventDaoImpl extends BaseHibernateDao implements EventDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Event getEvent(long leagueTypeId, int eventId) {
-		logger.info("eventId: "+eventId+" leagueTypeId: "+leagueTypeId);
+	public Event getEvent(long leagueTypeId, int eventId, BlockType block) {
+		logger.info("eventId: "+eventId+" leagueTypeId: "+leagueTypeId+" block:"+block);
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Event.class);
 		criteria.add(Restrictions.eq("eventId", eventId));
 		criteria.createAlias("leagueType", "t").add(Restrictions.eq("t.id", leagueTypeId));
+		if (block != null) {
+			criteria.add(Restrictions.eq("block", block));
+		} else {
+			criteria.add(Restrictions.isNull("block"));
+		}
 		List<Event> e = criteria.list();
 		logger.info("Got events: "+e.size());
 		if (e.size() == 1) {

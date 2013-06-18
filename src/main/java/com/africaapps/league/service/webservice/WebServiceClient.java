@@ -103,6 +103,7 @@ public class WebServiceClient {
 		int key = getFilMatchKey();
 		int matchKey = getMatchKey();
 		int count = 0;
+		logger.info("Using FilMatchKey:"+key+" matchKey: "+matchKey);
 		// for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
 		// key = entry.getKey();
 		// logger.info("MatchFilActionStructDetailAvailable: " + key + "=" + entry.getValue());
@@ -118,7 +119,6 @@ public class WebServiceClient {
 					if (matchStruct != null) {
 						logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
 						saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
-//						DataLogUtil.logMatchFilStruct(matchStruct);
 						processMatch(league, leagueSeason, feedService, matchStruct);
 						processedMatchIds.add(matchId);
 						logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
@@ -156,6 +156,7 @@ public class WebServiceClient {
 			for (TeamMatchFilActionStruct teamMatchStruct : matchStruct.getLstTeamMatchFilActionStruct().getValue()
 					.getTeamMatchFilActionStruct()) {
 				teamId = teamMatchStruct.getIdTeam();
+				logger.info("Getting team struct from service...");
 				TeamStruct teamStruct = service1.getTeamStruct(matchStruct.getIdMatch(), teamId, key);
 //				StringBuilder sb = new StringBuilder();
 //				DataLogUtil.logTeamStruct(sb, teamStruct);
@@ -167,7 +168,7 @@ public class WebServiceClient {
 
 	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService,
 			MatchFilActionStruct matchStruct) throws LeagueException {
-//		DataLogUtil.logMatchFilStruct(matchStruct);
+//	DataLogUtil.logMatchFilStruct(matchStruct);
 		feedService.processMatch(league, leagueSeason, matchStruct);
 	}
 }

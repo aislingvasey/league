@@ -63,6 +63,7 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public void calculatePlayerScores(Match match) throws LeagueException {
 		if (match != null) {
+			logger.info("Calculating players scores...");
 			matchDao.calculatePlayerScores(match.getId());
 		}
 	}

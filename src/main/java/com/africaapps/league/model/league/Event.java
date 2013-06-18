@@ -2,6 +2,8 @@ package com.africaapps.league.model.league;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="event", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "event_id"})})
+@Table(name="event", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "event_id", "block_type"})})
 public class Event extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
@@ -28,6 +30,7 @@ public class Event extends BaseDataModel {
 	private Integer eventId; //external id
 	private String description;
 	private Integer points;
+	private BlockType block;
 	
 	@Override
 	public String toString() {
@@ -38,6 +41,7 @@ public class Event extends BaseDataModel {
 		builder.append(" description:").append(description);
 		builder.append(" points:").append(points);
 		builder.append(" type:").append(leagueType);		
+		builder.append(" block:").append(block);		
 		builder.append("]");
 		return builder.toString();
 	}
@@ -65,8 +69,8 @@ public class Event extends BaseDataModel {
 	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
-	@SequenceGenerator(name="statistic_seq", sequenceName="statistic_seq", allocationSize=1)
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="statistic_seq")
+	@SequenceGenerator(name="event_seq", sequenceName="event_seq", allocationSize=1)
+  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="event_seq")
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
@@ -112,5 +116,15 @@ public class Event extends BaseDataModel {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	@Column(name="block_type", nullable=true)
+	@Enumerated(EnumType.STRING)
+	public BlockType getBlock() {
+		return block;
+	}
+
+	public void setBlock(BlockType block) {
+		this.block = block;
 	}
 }

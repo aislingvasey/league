@@ -10,6 +10,79 @@
     
     <context:property-placeholder location="classpath*:hibernate-test.properties" ignore-unresolvable="true" />
     
-    <import resource="classpath*:spring.xml" />
+    <!-- Automatically scan and load annotated classes -->
+    <context:annotation-config />
+    <context:component-scan base-package="com.africaapps.league" />      
+    <!-- Automatically scan and create proxy instances for aspect-related classes -->                                             
+    <aop:aspectj-autoproxy/>       
+    
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+    <qualifier value="dataSource" />
+    <property name="driverClass"><value>${jdbc.driver}</value></property>
+    <property name="jdbcUrl"><value>${jdbc.url}</value></property>
+    <property name="user"><value>${jdbc.username}</value></property>
+    <property name="password"><value>${jdbc.password}</value></property>    
+    <property name="acquireIncrement"><value>${c3p0.acquire_increment}</value></property>
+    <property name="initialPoolSize"><value>${c3p0.min_size}</value></property>
+    <property name="maxPoolSize"><value>${c3p0.max_size}</value></property>
+    <property name="minPoolSize"><value>${c3p0.min_size}</value></property>
+    <property name="maxIdleTime"><value>${c3p0.timeout}</value></property>    
+  </bean>
+  
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <qualifier value="sessionFactory" />    
+    <property name="dataSource">
+      <ref bean="dataSource" />
+    </property>
+    <property name="hibernateProperties">
+      <props>
+         <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+         <prop key="hibernate.show_sql">${hibernate.show.sql}</prop>
+         <prop key="hibernate.format_sql">${hibernate.format.sql}</prop>               
+         <prop key="hibernate.connection.release_mode">after_transaction</prop>                 
+      </props>
+    </property> 
+      <property name="annotatedClasses">
+        <list>
+            <value>com.africaapps.league.model.league.LeagueType</value>
+            <value>com.africaapps.league.model.league.League</value>
+            <value>com.africaapps.league.model.league.LeagueSeason</value>
+            <value>com.africaapps.league.model.league.Match</value>
+            <value>com.africaapps.league.model.league.Player</value>
+            <value>com.africaapps.league.model.league.PlayerMatch</value>
+            <value>com.africaapps.league.model.league.PlayerMatchEvent</value>
+            <value>com.africaapps.league.model.league.Position</value>
+            <value>com.africaapps.league.model.league.Event</value>
+            <value>com.africaapps.league.model.league.Team</value>
+            
+            <value>com.africaapps.league.model.game.PlayingWeek</value>
+            <value>com.africaapps.league.model.game.Pool</value>
+            <value>com.africaapps.league.model.game.PoolPlayer</value>
+            <value>com.africaapps.league.model.game.TeamFormat</value>
+            <value>com.africaapps.league.model.game.User</value>
+            <value>com.africaapps.league.model.game.UserLeague</value>
+            <value>com.africaapps.league.model.game.UserPlayer</value>
+            <value>com.africaapps.league.model.game.UserTeam</value>
+        </list> 
+     </property>  
+   </bean>
+  
+  
+  <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory"><ref bean="sessionFactory" /></property>
+    <property name="dataSource"><ref bean="dataSource" /></property>
+  </bean>
+  
+  <!-- Enable the configuration of transactional behavior based on annotations -->
+  <tx:annotation-driven />
+    
+    <context:property-placeholder location="classpath:feed.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
+    
+    <bean id="feedSettings" class="com.africaapps.league.service.feed.FeedSettings">
+        <property name="wsdlUrl" value="${feed.wsdl.url}" />
+        <property name="username" value="${feed.username}" />
+        <property name="password" value="${feed.password}" />
+        <property name="leagueName" value="${feed.league.name}" />    
+    </bean>    
     
 </beans>

@@ -26,6 +26,7 @@ public class Pool extends BaseDataModel {
 
 	private LeagueSeason leagueSeason;
 	private Set<PoolPlayer> players;
+	private Set<UserLeague> userLeagues;
 
 	@Override
 	public String toString() {
@@ -85,5 +86,14 @@ public class Pool extends BaseDataModel {
 
 	public void setPlayers(Set<PoolPlayer> players) {
 		this.players = players;
+	}
+
+	@OneToMany(mappedBy = "pool")
+	public Set<UserLeague> getUserLeagues() {
+		return userLeagues;
+	}
+
+	public void setUserLeagues(Set<UserLeague> userLeagues) {
+		this.userLeagues = userLeagues;
 	}
 }

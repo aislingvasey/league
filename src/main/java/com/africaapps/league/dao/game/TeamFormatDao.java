@@ -8,6 +8,8 @@ public interface TeamFormatDao {
 
 	public TeamFormat getDefault();
 	
+	public TeamFormat get(long teamFormatId);
+	
 	public List<TeamFormat> getAll();
 		
 }

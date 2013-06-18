@@ -18,12 +18,14 @@ public class UserTeamSummary extends BaseDto {
 	private List<UserPlayerSummary> defenders;
 	private List<UserPlayerSummary> midfielders;
 	private List<UserPlayerSummary> strikers;
+	private List<UserPlayerSummary> substitutes;
 	
 	public UserTeamSummary() {
 		this.goalKeepers = new ArrayList<UserPlayerSummary>();
 		this.defenders = new ArrayList<UserPlayerSummary>();
 		this.midfielders = new ArrayList<UserPlayerSummary>();
 		this.strikers = new ArrayList<UserPlayerSummary>();
+		this.substitutes = new ArrayList<UserPlayerSummary>();
 	}
 	
 	public boolean getRequiresGoalKeepers() {
@@ -40,6 +42,10 @@ public class UserTeamSummary extends BaseDto {
 	
 	public boolean getRequiresStrikers() {
 		return strikers.size() < teamFormat.getStrikerCount();
+	}
+	
+	public boolean getRequiresSubstitutes() {
+		return substitutes.size() < 4;
 	}
 	
 	public Long getUserId() {
@@ -108,6 +114,14 @@ public class UserTeamSummary extends BaseDto {
 	}
 	
 	public int getPlayersCount() {
-		return (defenders.size() + midfielders.size() + goalKeepers.size() + strikers.size());
+		return (defenders.size() + midfielders.size() + goalKeepers.size() + strikers.size() + substitutes.size());
+	}
+
+	public List<UserPlayerSummary> getSubstitutes() {
+		return substitutes;
+	}
+
+	public void setSubstitutes(List<UserPlayerSummary> substitutes) {
+		this.substitutes = substitutes;
 	}
 }

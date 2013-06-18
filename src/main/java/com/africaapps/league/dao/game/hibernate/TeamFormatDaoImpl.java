@@ -31,4 +31,9 @@ public class TeamFormatDaoImpl extends BaseHibernateDao implements TeamFormatDao
 	public List<TeamFormat> getAll() {
 		return sessionFactory.getCurrentSession().createCriteria(TeamFormat.class).list();
 	}
+
+	@Override
+	public TeamFormat get(long teamFormatId) {
+		return (TeamFormat) sessionFactory.getCurrentSession().get(TeamFormat.class, teamFormatId);
+	}
 }

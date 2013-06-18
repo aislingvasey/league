@@ -27,4 +27,13 @@ public class TeamFormatServiceImpl implements TeamFormatService {
 	public List<TeamFormat> getTeamFormats() throws LeagueException {
 		return teamFormatDao.getAll();
 	}
+
+	@Override
+	public TeamFormat getTeamFormat(Long teamFormatId) throws LeagueException {
+		if (teamFormatId != null) {
+			return teamFormatDao.get(teamFormatId);
+		} else {
+			return null;
+		}
+	}
 }

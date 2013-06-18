@@ -22,6 +22,10 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
+	
+	//TODO move to db or properties file
+	private static Integer GOAL_EVENT_ID = Integer.valueOf(5);
+	
 
 	@Autowired
 	private PlayerDao playerDao;
@@ -66,13 +70,19 @@ public class PlayerServiceImpl implements PlayerService {
 	@ReadTransaction
 	@Override
 	public Event getEvent(long leagueTypeId, int eventId) throws LeagueException {
-		return eventDao.getEvent(leagueTypeId, eventId);
+		return eventDao.getEvent(leagueTypeId, eventId, null);
+	}
+	
+	@ReadTransaction
+	@Override
+	public Event getEvent(long leagueTypeId, int eventId, BlockType block) throws LeagueException {
+		return eventDao.getEvent(leagueTypeId, eventId, block);
 	}
 
 	@WriteTransaction
 	@Override
 	public void saveEvent(Event event) throws LeagueException {
-		Event existing = eventDao.getEvent(event.getLeagueType().getId(), event.getEventId());
+		Event existing = eventDao.getEvent(event.getLeagueType().getId(), event.getEventId(), event.getBlock());
 		if (existing == null) {
 			eventDao.saveOrUpdate(event);
 		} else {
@@ -82,16 +92,45 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@WriteTransaction
 	@Override
-	public void savePlayerMatchStats(PlayerMatchEvent playerMatchEvent) throws LeagueException {		
+	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent) throws LeagueException {	
+		Event event = playerMatchEvent.getEvent();
+		logger.info("Saving PlayerMatchEvent: "+playerMatchEvent);
+		Event adjustedEvent = getPlayerTypeEvent(playerMatchEvent);
+		if (adjustedEvent != null) {
+			playerMatchEvent.setEvent(adjustedEvent);
+		}		
 		PlayerMatchEvent existing = playerMatchEventDao.getEvent(playerMatchEvent.getPlayerMatch().getId(), 
 																														 playerMatchEvent.getEvent().getId(), 
 																														 playerMatchEvent.getMatchTime());
 		if (existing == null) {
 			playerMatchEventDao.saveOrUpdate(playerMatchEvent);
-			logger.debug("Saved PlayerMatchEvent: "+playerMatchEvent);
+			logger.info("Saved PlayerMatchEvent: "+playerMatchEvent);
 		} else {
 			logger.debug("Not saving existing PlayerMatchEvent: "+existing);
 		}
+		//TODO save any opposite events for the current event eg: goal conceeded for opposite goal keeper
+		
+	}
+	
+	@ReadTransaction
+	private Event getPlayerTypeEvent(PlayerMatchEvent playerMatchEvent) throws LeagueException {		
+		logger.info("Checking for alt Event...");
+		Player player = playerMatchEvent.getPlayerMatch().getPlayer();
+		if (GOAL_EVENT_ID.equals(playerMatchEvent.getEvent().getEventId())) {
+			logger.info("Getting alt goal event");
+			if (player.getBlock() != null) {
+				Long leagueTypeId = playerMatchEvent.getEvent().getLeagueType().getId();
+				Integer eventId = playerMatchEvent.getEvent().getEventId();
+				BlockType block = player.getBlock();
+				logger.info("Looking for event:"+leagueTypeId+", "+eventId+", "+block);
+				Event newEvent = getEvent(leagueTypeId, eventId, block);
+				logger.info("Replace Goal Event:"+playerMatchEvent.getEvent().getEventId()+" with new version:"+newEvent);
+				return newEvent;
+			}	else {
+				logger.warn("Unable to get alt event as player's block is null");
+			}
+		}
+		return null;
 	}
 
 	@Override
