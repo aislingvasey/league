@@ -246,9 +246,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (userPlayer != null) {
 			UserPlayerStatus s = getStatus(status);
 			if (s != null) {
+				if (s == UserPlayerStatus.CAPTAIN) {
+					UserPlayer existingCaptain = userPlayerService.getCaptain(userTeamId);
+					if (existingCaptain != null && existingCaptain.getPoolPlayer().getId().longValue() != poolPlayerId) {
+						throw new InvalidPlayerException("Team already has a captain!");
+					}
+				}
 				userPlayer.setStatus(s);
 				userPlayerService.saveUserPlayer(userPlayer);
-				logger.info("Updated player's status: " + userPlayer);
+				logger.info("Updated player's status: " + userPlayer);				
 			}
 		} else {
 			logger.error("Unknown poolPlayerId:" + poolPlayerId + " userTeamId:" + userTeamId);
