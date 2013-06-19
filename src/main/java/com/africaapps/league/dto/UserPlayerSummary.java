@@ -10,7 +10,7 @@ public class UserPlayerSummary extends BaseDto {
 	private Long poolPlayerId;
 	private String firstName;
 	private String lastName;
-	private BlockType type;
+	private BlockType block;
 	private long price;	
 	private int currentScore;
 	private UserPlayerStatus status;
@@ -33,11 +33,11 @@ public class UserPlayerSummary extends BaseDto {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public BlockType getType() {
-		return type;
+	public BlockType getBlock() {
+		return block;
 	}
-	public void setType(BlockType type) {
-		this.type = type;
+	public void setBlock(BlockType type) {
+		this.block = type;
 	}
 
 	public long getPrice() {

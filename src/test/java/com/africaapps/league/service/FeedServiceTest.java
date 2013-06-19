@@ -23,6 +23,6 @@ public class FeedServiceTest extends BaseSpringDbUnitTest {
 //	@Test
 	public void processFeed() throws Exception {
 		String leagueName = "ABSA Premier Soccer League";		
-		feedService.processFeed(leagueName, x, y, z);
+		feedService.processFeed(leagueName, x, y, z, null);
 	}
 }

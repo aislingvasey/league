@@ -32,4 +32,9 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 		}
 		return null;
 	}
+
+	@Override
+	public PoolPlayer get(long poolPlayerId) {
+		return (PoolPlayer) sessionFactory.getCurrentSession().get(PoolPlayer.class, poolPlayerId);
+	}
 }

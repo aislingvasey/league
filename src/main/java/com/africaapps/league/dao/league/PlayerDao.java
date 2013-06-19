@@ -15,4 +15,5 @@ public interface PlayerDao {
 	
 	public List<Player> getByTeamIdAndPlayerType(long teamId, BlockType blockType);
 	
+	public List<Player> getByTeamId(long teamId);
 }

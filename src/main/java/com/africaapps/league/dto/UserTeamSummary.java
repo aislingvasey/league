@@ -14,6 +14,7 @@ public class UserTeamSummary extends BaseDto {
 	private String teamName;
 	private Long availableMoney;
 	private TeamFormat teamFormat;
+	private String captain;
 	private List<UserPlayerSummary> goalKeepers;
 	private List<UserPlayerSummary> defenders;
 	private List<UserPlayerSummary> midfielders;
@@ -21,6 +22,7 @@ public class UserTeamSummary extends BaseDto {
 	private List<UserPlayerSummary> substitutes;
 	
 	public UserTeamSummary() {
+		this.captain = "Not Selected";
 		this.goalKeepers = new ArrayList<UserPlayerSummary>();
 		this.defenders = new ArrayList<UserPlayerSummary>();
 		this.midfielders = new ArrayList<UserPlayerSummary>();
@@ -123,5 +125,13 @@ public class UserTeamSummary extends BaseDto {
 
 	public void setSubstitutes(List<UserPlayerSummary> substitutes) {
 		this.substitutes = substitutes;
+	}
+
+	public String getCaptain() {
+		return captain;
+	}
+
+	public void setCaptain(String captain) {
+		this.captain = captain;
 	}
 }

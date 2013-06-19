@@ -23,6 +23,8 @@ import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.service.feed.FeedService;
+import com.africaapps.league.service.feed.MatchFilter;
+import com.africaapps.league.util.WebServiceXmlUtil;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfKeyValueOfintstring;
 
 public class WebServiceClient {
@@ -65,7 +67,7 @@ public class WebServiceClient {
 			return null;
 		}
 	}
-	
+
 	private Integer getMatchKey() throws LeagueException {
 		Integer matchKey = null;
 		ArrayOfKeyValueOfintstring matchIntStrings = service1.getMatchStructDetailAvailable();
@@ -96,14 +98,13 @@ public class WebServiceClient {
 		return matchKey;
 	}
 
-	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService)
-			throws LeagueException {
+	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService,
+			MatchFilter matchFilter) throws LeagueException {
 		List<Integer> processedMatchIds = new ArrayList<Integer>();
 		Integer matchId = null;
 		int key = getFilMatchKey();
 		int matchKey = getMatchKey();
-		int count = 0;
-		logger.info("Using FilMatchKey:"+key+" matchKey: "+matchKey);
+		logger.info("Using FilMatchKey:" + key + " matchKey: " + matchKey);
 		// for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
 		// key = entry.getKey();
 		// logger.info("MatchFilActionStructDetailAvailable: " + key + "=" + entry.getValue());
@@ -114,16 +115,20 @@ public class WebServiceClient {
 			try {
 				checkMatchCompetition(league, matchLightStruct);
 				if (!feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
-					logger.info("Match: " + matchId+" is unprocessed, processing it now...");
-					MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
-					if (matchStruct != null) {
-						logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
-						saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
-						processMatch(league, leagueSeason, feedService, matchStruct);
-						processedMatchIds.add(matchId);
-						logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
+					if (matchFilter != null && !matchFilter.isValidMatch(matchId, WebServiceXmlUtil.getDate(matchLightStruct.getDateAndTime()))) {
+						logger.warn("Skipping processing match:" + matchId + " due to match filter");
 					} else {
-						logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+						logger.info("Match: " + matchId + " is unprocessed Processing it now...");
+						MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
+						if (matchStruct != null) {
+							logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
+							saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
+							processMatch(league, leagueSeason, feedService, matchStruct);
+							processedMatchIds.add(matchId);
+							logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
+						} else {
+							logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+						}
 					}
 				}
 			} catch (InvalidLeagueException e) {
@@ -134,21 +139,19 @@ public class WebServiceClient {
 		return processedMatchIds;
 	}
 
-	private void checkMatchCompetition(League league, MatchFilActionLightStruct matchLightStruct) throws InvalidLeagueException {
+	private void checkMatchCompetition(League league, MatchFilActionLightStruct matchLightStruct)
+			throws InvalidLeagueException {
 		if (matchLightStruct.getCompetitionName() != null) {
 			if (!league.getName().equalsIgnoreCase(matchLightStruct.getCompetitionName().getValue())) {
-				throw new InvalidLeagueException(
-						" Received match for competitionName: " + matchLightStruct.getCompetitionName().getValue() 
-						+ " matchId: " + matchLightStruct.getIdMatch()
+				throw new InvalidLeagueException(" Received match for competitionName: "
+						+ matchLightStruct.getCompetitionName().getValue() + " matchId: " + matchLightStruct.getIdMatch()
 						+ " Currently processing matches for league: " + league);
 			}
 		}
 	}
 
-	protected void saveMatchTeams(League league, LeagueSeason leagueSeason,
-																Pool pool,
-																FeedService feedService, Integer key,
-																MatchFilActionStruct matchStruct) throws LeagueException {
+	protected void saveMatchTeams(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService, Integer key,
+			MatchFilActionStruct matchStruct) throws LeagueException {
 		if (matchStruct.getLstTeamMatchFilActionStruct() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct() != null) {
@@ -158,9 +161,9 @@ public class WebServiceClient {
 				teamId = teamMatchStruct.getIdTeam();
 				logger.info("Getting team struct from service...");
 				TeamStruct teamStruct = service1.getTeamStruct(matchStruct.getIdMatch(), teamId, key);
-//				StringBuilder sb = new StringBuilder();
-//				DataLogUtil.logTeamStruct(sb, teamStruct);
-//				logger.info(sb.toString());
+				// StringBuilder sb = new StringBuilder();
+				// DataLogUtil.logTeamStruct(sb, teamStruct);
+				// logger.info(sb.toString());
 				feedService.saveTeamAndPlayers(league, leagueSeason, pool, teamStruct);
 			}
 		}
@@ -168,7 +171,7 @@ public class WebServiceClient {
 
 	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService,
 			MatchFilActionStruct matchStruct) throws LeagueException {
-//	DataLogUtil.logMatchFilStruct(matchStruct);
+		// DataLogUtil.logMatchFilStruct(matchStruct);
 		feedService.processMatch(league, leagueSeason, matchStruct);
 	}
 }

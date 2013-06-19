@@ -108,8 +108,7 @@ public class PlayerServiceImpl implements PlayerService {
 		} else {
 			logger.debug("Not saving existing PlayerMatchEvent: "+existing);
 		}
-		//TODO save any opposite events for the current event eg: goal conceeded for opposite goal keeper
-		
+		saveOppositePlayerMatchEvent(playerMatchEvent, event);
 	}
 	
 	@ReadTransaction
@@ -133,6 +132,10 @@ public class PlayerServiceImpl implements PlayerService {
 		return null;
 	}
 
+	private void saveOppositePlayerMatchEvent(PlayerMatchEvent playerMatchEvent, Event event) throws LeagueException {
+	//TODO save any opposite events for the current event eg: goal conceeded for opposite goal keeper
+	}
+	
 	@Override
 	public List<Player> getTeamPlayersByType(long teamId, String type) {
 		BlockType blockType = getBlockType(type);
@@ -147,5 +150,10 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		logger.error("Unknown BlockType: "+type);
 		return null;
+	}
+
+	@Override
+	public List<Player> getTeamPlayersByType(long teamId) {
+		return playerDao.getByTeamId(teamId);
 	}
 }

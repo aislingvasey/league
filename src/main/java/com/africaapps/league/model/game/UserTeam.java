@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,9 +31,9 @@ public class UserTeam extends BaseDataModel {
 	private TeamFormat currentFormat;
 	private User user;
 	private UserLeague userLeague;
-	private boolean validTeam;
 	private Set<UserPlayer> userPlayers;
-
+	private boolean validTeam;
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -140,8 +141,7 @@ public class UserTeam extends BaseDataModel {
 		this.userLeague = userLeague;
 	}
 
-	@NotNull
-	@Column(name="valid_team")
+	@Transient
 	public boolean isValidTeam() {
 		return validTeam;
 	}

@@ -60,7 +60,8 @@ public class FeedServiceImpl implements FeedService {
 	// TODO schedule feed processing - with retrys for failures, save status, datetime, etc
 
 	@Override
-	public void processFeed(String leagueName, String wsdlUrl, String username, String password) throws LeagueException {
+	public void processFeed(String leagueName, String wsdlUrl, String username, String password, MatchFilter matchFilter) 
+	  throws LeagueException {
 		cacheService.clear();
 		
 		League league = getLeague(leagueName);
@@ -68,7 +69,7 @@ public class FeedServiceImpl implements FeedService {
 		Pool pool = getPool(leagueSeason);
 		WebServiceClient webServiceClient = setupWebServiceClient(wsdlUrl, username, password);
 		
-		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, pool, this);
+		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, pool, this, matchFilter);
 		logger.info("Processed "+processedMatchIds.size() +" matches");
 		//TODO Calculate each user's team score for the processed matches		
 	}

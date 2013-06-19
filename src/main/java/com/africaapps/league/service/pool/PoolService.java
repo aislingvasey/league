@@ -14,4 +14,6 @@ public interface PoolService {
 	
 	public PoolPlayer getPoolPlayer(long poolId, long playerId) throws LeagueException;
 	
+	public PoolPlayer getPoolPlayer(long poolPlayerId) throws LeagueException;
+	
 }

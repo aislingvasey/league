@@ -59,4 +59,10 @@ public class PoolServiceImpl implements PoolService {
 	public PoolPlayer getPoolPlayer(long poolId, long playerId) throws LeagueException {
 		return poolPlayerDao.getByPoolAndPlayer(poolId, playerId);
 	}
+
+	@ReadTransaction
+	@Override
+	public PoolPlayer getPoolPlayer(long poolPlayerId) throws LeagueException {
+		return poolPlayerDao.get(poolPlayerId);
+	}
 }

@@ -8,4 +8,6 @@ public interface PoolPlayerDao {
 	
 	public PoolPlayer getByPoolAndPlayer(long poolId, long playerId);
 	
+	public PoolPlayer get(long poolPlayerId);
+	
 }

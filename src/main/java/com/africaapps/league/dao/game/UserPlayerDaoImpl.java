@@ -17,7 +17,7 @@ public class UserPlayerDaoImpl extends BaseHibernateDao implements UserPlayerDao
 	public UserPlayer getUserPlayer(long userTeamId, long playerId) {
 			Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserPlayer.class);
 			criteria.createAlias("userTeam", "t").add(Restrictions.eq("t.id", userTeamId));
-			criteria.createAlias("poolPlayer", "pp").add(Restrictions.eq("pp.player.id", playerId));
+			criteria.createAlias("poolPlayer", "pp").add(Restrictions.eq("pp.id", playerId));
 			List<UserPlayer> players = criteria.list();
 			if (players.size() == 1) {
 				return players.get(0);

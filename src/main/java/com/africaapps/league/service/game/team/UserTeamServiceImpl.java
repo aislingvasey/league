@@ -85,11 +85,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public TeamFormat getDefaultTeamFormat() throws LeagueException {
 		return teamFormatService.getDefaultFormat();
 	}
-	
+
 	@Override
 	public List<TeamFormat> getTeamFormats(long leagueId) throws LeagueException {
-		//TODO should be specific for a league?
-		return teamFormatService.getTeamFormats(/*leagueId*/);
+		// TODO should be specific for a league?
+		return teamFormatService.getTeamFormats(/* leagueId */);
 	}
 
 	@WriteTransaction
@@ -97,7 +97,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public void setTeamFormat(Long userTeamId, Long teamFormatId) throws LeagueException {
 		UserTeam userTeam = getTeam(userTeamId);
 		if (userTeam != null) {
-			//TODO specific league?
+			// TODO specific league?
 			userTeam.setCurrentFormat(teamFormatService.getTeamFormat(/* leagueId, */teamFormatId));
 			saveTeam(userTeam);
 		}
@@ -132,26 +132,38 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserPlayerSummary playerSummary = null;
 		while (userPlayers.hasNext()) {
 			userPlayer = userPlayers.next();
-			playerSummary = new UserPlayerSummary();
-			playerSummary.setCurrentScore(userPlayer.getPoolPlayer().getPlayerCurrentScore());
-			playerSummary.setFirstName(userPlayer.getPoolPlayer().getPlayer().getFirstName());
-			playerSummary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
-			playerSummary.setPoolPlayerId(userPlayer.getPoolPlayer().getId());
-			playerSummary.setPrice(userPlayer.getPoolPlayer().getPlayerPrice());
-			playerSummary.setType(userPlayer.getPoolPlayer().getPlayer().getBlock());
-			playerSummary.setStatus(userPlayer.getStatus());
-			if (BlockType.DEFENDER.equals(playerSummary.getType())) {
-				summary.getDefenders().add(playerSummary);
-			} else if (BlockType.GOALKEEPER.equals(playerSummary.getType())) {
-				summary.getGoalKeepers().add(playerSummary);
-			} else if (BlockType.MIDFIELDER.equals(playerSummary.getType())) {
-				summary.getMidfielders().add(playerSummary);
-			} else if (BlockType.STRIKER.equals(playerSummary.getType())) {
-				summary.getStrikers().add(playerSummary);
-			} else if (BlockType.SUBSTITUTE.equals(playerSummary.getType())) {
-				summary.getSubstitutes().add(playerSummary);	
-			} else {
-				logger.error("Unknown player BlockType: " + userPlayer.getPoolPlayer().getPlayer());
+			if (userPlayer.getStatus() != UserPlayerStatus.DROPPED) {
+				playerSummary = new UserPlayerSummary();
+				playerSummary.setCurrentScore(userPlayer.getPoolPlayer().getPlayerCurrentScore());
+				playerSummary.setFirstName(userPlayer.getPoolPlayer().getPlayer().getFirstName());
+				playerSummary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
+				playerSummary.setPoolPlayerId(userPlayer.getPoolPlayer().getId());
+				playerSummary.setPrice(userPlayer.getPoolPlayer().getPlayerPrice());
+				// Check that the player is possibly a sub for the user's team
+				if (userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
+					playerSummary.setBlock(BlockType.SUBSTITUTE);
+				} else {
+					playerSummary.setBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
+				}
+				playerSummary.setStatus(userPlayer.getStatus());
+				// Add to correct player grouping
+				if (BlockType.DEFENDER.equals(playerSummary.getBlock())) {
+					summary.getDefenders().add(playerSummary);
+				} else if (BlockType.GOALKEEPER.equals(playerSummary.getBlock())) {
+					summary.getGoalKeepers().add(playerSummary);
+				} else if (BlockType.MIDFIELDER.equals(playerSummary.getBlock())) {
+					summary.getMidfielders().add(playerSummary);
+				} else if (BlockType.STRIKER.equals(playerSummary.getBlock())) {
+					summary.getStrikers().add(playerSummary);
+				} else if (BlockType.SUBSTITUTE.equals(playerSummary.getBlock())) {
+					summary.getSubstitutes().add(playerSummary);
+				} else {
+					logger.error("Unknown player BlockType: " + playerSummary.getBlock());
+				}
+				// Check if captain
+				if (playerSummary.getStatus() == UserPlayerStatus.CAPTAIN) {
+					summary.setCaptain("Selected");
+				}
 			}
 		}
 	}
@@ -160,10 +172,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public List<UserPlayerSummary> getTeamPlayers(long teamId, long userTeamId, String type) throws LeagueException {
 		List<UserPlayerSummary> summaries = new ArrayList<UserPlayerSummary>();
-		UserTeam team = userTeamDao.getTeamWithPlayers(userTeamId);		
+		UserTeam team = userTeamDao.getTeamWithPlayers(userTeamId);
 		if (team != null) {
 			long poolId = team.getUserLeague().getPool().getId();
-			List<Player> players = playerService.getTeamPlayersByType(teamId, type);
+			List<Player> players = null;
+			if (type.equalsIgnoreCase(BlockType.SUBSTITUTE.name())) {
+				players = playerService.getTeamPlayersByType(teamId);
+			} else {
+				players = playerService.getTeamPlayersByType(teamId, type);
+			}
 			UserPlayerSummary summary = null;
 			PoolPlayer poolPlayer = null;
 			PoolPlayer pPlayer = null;
@@ -178,10 +195,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 						summary.setLastName(player.getLastName());
 						summary.setPrice(pPlayer.getPlayerPrice());
 						summary.setCurrentScore(pPlayer.getPlayerCurrentScore());
-						summary.setType(player.getBlock());
+						summary.setBlock(player.getBlock());
 						summaries.add(summary);
 					} else {
-						logger.error("Unable to find corresponding pool player for playerId: "+player.getId());
+						logger.error("Unable to find corresponding pool player for playerId: " + player.getId());
 					}
 				}
 			}
@@ -195,33 +212,87 @@ public class UserTeamServiceImpl implements UserTeamService {
 		Iterator<UserPlayer> ps = players.iterator();
 		while (ps.hasNext()) {
 			UserPlayer up = ps.next();
-			if (up.getPoolPlayer().getPlayer().getId().longValue() == playerId) {
+			if (up.getPoolPlayer().getPlayer().getId().longValue() == playerId && up.getStatus() != UserPlayerStatus.DROPPED) {
 				return up.getPoolPlayer();
 			}
 		}
 		return null;
 	}
 
+	@ReadTransaction
+	@Override
+	public UserPlayerSummary getTeamPlayer(long userTeamId, long poolPlayerId) throws LeagueException {
+		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
+		if (userPlayer != null) {
+			UserPlayerSummary summary = new UserPlayerSummary();
+			summary.setPoolPlayerId(userPlayer.getPoolPlayer().getId());
+			summary.setFirstName(userPlayer.getPoolPlayer().getPlayer().getFirstName());
+			summary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
+			summary.setPrice(userPlayer.getPoolPlayer().getPlayerPrice());
+			summary.setCurrentScore(userPlayer.getPoolPlayer().getPlayerCurrentScore());
+			summary.setBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
+			summary.setStatus(userPlayer.getStatus());
+			return summary;
+		} else {
+			logger.error("No UserPlayer found for userTeamId: " + userTeamId + " poolPlayerId:" + poolPlayerId);
+			return null;
+		}
+	}
+
 	@WriteTransaction
 	@Override
-	public String addPlayerToUserTeam(User user, long userTeamId, long teamId, long playerId, String playerType)
+	public void setPlayerStatus(long userTeamId, long poolPlayerId, String status) throws LeagueException {
+		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
+		if (userPlayer != null) {
+			UserPlayerStatus s = getStatus(status);
+			if (s != null) {
+				userPlayer.setStatus(s);
+				userPlayerService.saveUserPlayer(userPlayer);
+				logger.info("Updated player's status: " + userPlayer);
+			}
+		} else {
+			logger.error("Unknown poolPlayerId:" + poolPlayerId + " userTeamId:" + userTeamId);
+		}
+	}
+
+	private UserPlayerStatus getStatus(String status) {
+		for (UserPlayerStatus s : UserPlayerStatus.values()) {
+			if (s.name().equalsIgnoreCase(status)) {
+				return s;
+			}
+		}
+		logger.error("Unknown UserPlayerStatus: " + status);
+		return null;
+	}
+
+	@WriteTransaction
+	@Override
+	public String addPlayerToUserTeam(User user, long userTeamId, long teamId, long poolPlayerId, String playerType)
 			throws LeagueException {
-		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, playerId);
+		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
 		if (userPlayer == null || UserPlayerStatus.DROPPED.equals(userPlayer.getStatus())) {
 			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 			BlockType block = getBlockType(playerType);
 			checkValidPlayerType(userTeam, block);
 			Pool pool = userTeam.getUserLeague().getPool();
-			PoolPlayer poolPlayer = poolService.getPoolPlayer(userTeam.getUserLeague().getPool().getId(), playerId);
+			PoolPlayer poolPlayer = poolService.getPoolPlayer(userTeam.getUserLeague().getPool().getId(), poolPlayerId);
 			if (poolPlayer.getPlayerPrice() < userTeam.getAvailableMoney()) {
 				if (userPlayer == null) {
 					userPlayer = new UserPlayer();
 					userPlayer.setPool(pool);
 					userPlayer.setPoolPlayer(poolPlayer);
-					userPlayer.setStatus(UserPlayerStatus.PLAYER);
+					if (block == BlockType.SUBSTITUTE) {
+						userPlayer.setStatus(UserPlayerStatus.SUBSTITUTE);
+					} else {
+						userPlayer.setStatus(UserPlayerStatus.PLAYER);
+					}
 					userPlayer.setUserTeam(userTeam);
 				} else {
-					userPlayer.setStatus(UserPlayerStatus.PLAYER);
+					if (block == BlockType.SUBSTITUTE) {
+						userPlayer.setStatus(UserPlayerStatus.SUBSTITUTE);
+					} else {
+						userPlayer.setStatus(UserPlayerStatus.PLAYER);
+					}
 				}
 				userPlayerService.saveUserPlayer(userPlayer);
 				// update the user's team
@@ -253,35 +324,46 @@ public class UserTeamServiceImpl implements UserTeamService {
 			}
 			if (BlockType.SUBSTITUTE.name().equalsIgnoreCase(playerType)) {
 				return BlockType.SUBSTITUTE;
-			}			
-		} 
+			}
+		}
 		throw new InvalidPlayerException("Unknown player type: " + playerType);
 	}
-	
+
 	private void checkValidPlayerType(UserTeam userTeam, BlockType block) throws InvalidPlayerException, LeagueException {
-		if (userTeam.getUserPlayers().size() >= 15) {
+		if (getTeamPlayersCount(userTeam) >= 15) {
 			throw new InvalidPlayerException("Too many players on the squad!");
 		}
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
+		logger.info("Checking player's count: " + playerTypeCounts.toString());
 		switch (block) {
-		case DEFENDER: 
-			if (userTeam.getCurrentFormat().getDefenderCount() >= playerTypeCounts.get(BlockType.DEFENDER)) {
+		case DEFENDER:
+			if (playerTypeCounts.get(BlockType.DEFENDER) >= userTeam.getCurrentFormat().getDefenderCount()) {
 				throw new InvalidPlayerException("Too many defenders on the team!");
 			}
 			break;
-		case MIDFIELDER: 
-			if (userTeam.getCurrentFormat().getMidfielderCount() >= playerTypeCounts.get(BlockType.MIDFIELDER)) {
+		case MIDFIELDER:
+			if (playerTypeCounts.get(BlockType.MIDFIELDER) >= userTeam.getCurrentFormat().getMidfielderCount()) {
 				throw new InvalidPlayerException("Too many midfielders on the team!");
 			}
-			break;	
-		case STRIKER: 
-			if (userTeam.getCurrentFormat().getMidfielderCount() >= playerTypeCounts.get(BlockType.STRIKER)) {
+			break;
+		case STRIKER:
+			if (playerTypeCounts.get(BlockType.STRIKER) >= userTeam.getCurrentFormat().getMidfielderCount()) {
 				throw new InvalidPlayerException("Too many strikers on the team!");
 			}
-			break;		
+			break;
 		}
 	}
-	
+
+	private int getTeamPlayersCount(UserTeam userTeam) {
+		int count = 0;
+		for (UserPlayer player : userTeam.getUserPlayers()) {
+			if (player.getStatus() != UserPlayerStatus.DROPPED) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	private Map<BlockType, Integer> getPlayerTypeCounts(UserTeam userTeam) throws LeagueException {
 		Map<BlockType, Integer> counts = new HashMap<BlockType, Integer>();
 		counts.put(BlockType.DEFENDER, Integer.valueOf(0));
@@ -289,22 +371,24 @@ public class UserTeamServiceImpl implements UserTeamService {
 		counts.put(BlockType.MIDFIELDER, Integer.valueOf(0));
 		counts.put(BlockType.STRIKER, Integer.valueOf(0));
 		counts.put(BlockType.SUBSTITUTE, Integer.valueOf(0));
-		for(UserPlayer userPlayer : userTeam.getUserPlayers()) {
-			if (BlockType.DEFENDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-				int newCount = counts.get(BlockType.DEFENDER) + 1;
-				counts.put(BlockType.DEFENDER, newCount);
-			} else if (BlockType.GOALKEEPER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-				int newCount = counts.get(BlockType.GOALKEEPER) + 1;
-				counts.put(BlockType.GOALKEEPER, newCount);
-			} else if (BlockType.MIDFIELDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-				int newCount = counts.get(BlockType.MIDFIELDER) + 1;
-				counts.put(BlockType.MIDFIELDER, newCount);
-			} else if (BlockType.STRIKER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-				int newCount = counts.get(BlockType.STRIKER) + 1;
-				counts.put(BlockType.STRIKER, newCount);
-			} else {
-				int newCount = counts.get(BlockType.SUBSTITUTE) + 1;
-				counts.put(BlockType.SUBSTITUTE, newCount);
+		for (UserPlayer userPlayer : userTeam.getUserPlayers()) {
+			if (userPlayer.getStatus() != UserPlayerStatus.DROPPED) {
+				if (BlockType.DEFENDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+					int newCount = counts.get(BlockType.DEFENDER) + 1;
+					counts.put(BlockType.DEFENDER, newCount);
+				} else if (BlockType.GOALKEEPER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+					int newCount = counts.get(BlockType.GOALKEEPER) + 1;
+					counts.put(BlockType.GOALKEEPER, newCount);
+				} else if (BlockType.MIDFIELDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+					int newCount = counts.get(BlockType.MIDFIELDER) + 1;
+					counts.put(BlockType.MIDFIELDER, newCount);
+				} else if (BlockType.STRIKER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+					int newCount = counts.get(BlockType.STRIKER) + 1;
+					counts.put(BlockType.STRIKER, newCount);
+				} else {
+					int newCount = counts.get(BlockType.SUBSTITUTE) + 1;
+					counts.put(BlockType.SUBSTITUTE, newCount);
+				}
 			}
 		}
 		return counts;

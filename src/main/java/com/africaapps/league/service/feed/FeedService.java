@@ -10,7 +10,8 @@ import com.africaapps.league.model.league.LeagueSeason;
 
 public interface FeedService {
 
-	public void processFeed(String leagueName, String wsdlUrl, String username, String password) throws LeagueException;
+	public void processFeed(String leagueName, String wsdlUrl, String username, String password, MatchFilter matchFilter) 
+		throws LeagueException;
 	
 	public boolean isProcessedMatch(long leagueSeasonId, int matchId) throws LeagueException;
 	public void saveTeamAndPlayers(League league, LeagueSeason leagueSeason, Pool pool, TeamStruct teamStruct) throws LeagueException;

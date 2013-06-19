@@ -2,6 +2,8 @@ package com.africaapps.league.model.game;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,6 +82,7 @@ public class UserPlayer extends BaseDataModel {
 
 	@NotNull
 	@Column(name="status", length=50, nullable=false)
+	@Enumerated(EnumType.STRING)
 	public UserPlayerStatus getStatus() {
 		return status;
 	}

@@ -24,4 +24,5 @@ public interface PlayerService {
 	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent) throws LeagueException;
 	
 	public List<Player> getTeamPlayersByType(long teamId, String type);
+	public List<Player> getTeamPlayersByType(long teamId);
 }

@@ -28,6 +28,8 @@ public interface UserTeamService {
 	public UserTeamSummary getTeamWithPlayers(long teamId) throws LeagueException;
 	
 	public List<UserPlayerSummary> getTeamPlayers(long teamId, long userTeamId, String type) throws LeagueException;
+	public UserPlayerSummary getTeamPlayer(long teamId, long poolPlayerId) throws LeagueException;
 	
-	public String addPlayerToUserTeam(User user, long userTeamId, long teamId, long playerId, String playerType) throws LeagueException;
+	public String addPlayerToUserTeam(User user, long userTeamId, long teamId, long poolPlayerId, String playerType) throws LeagueException;
+	public void setPlayerStatus(long teamId, long poolPlayerId, String status) throws LeagueException;
 }
