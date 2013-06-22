@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.league.MatchDao;
 import com.africaapps.league.dao.league.PlayerMatchDao;
+import com.africaapps.league.dao.league.PlayerMatchEventDao;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.MatchProcessingStatus;
 import com.africaapps.league.model.league.PlayerMatch;
+import com.africaapps.league.model.league.PlayerMatchEvent;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -23,6 +25,8 @@ public class MatchServiceImpl implements MatchService {
 	private MatchDao matchDao;
 	@Autowired
 	private PlayerMatchDao playerMatchDao;
+	@Autowired
+	private PlayerMatchEventDao playerMatchEventDao;
 	
 	private static Logger logger = LoggerFactory.getLogger(MatchServiceImpl.class);
 	
@@ -73,5 +77,22 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public List<PlayerMatch> getPlayerMatches(long matchId) throws LeagueException {
 		return playerMatchDao.getForMatch(matchId);
+	}
+
+	@Override
+	public PlayerMatchEvent getEvent(Long playerMatchId, Long statisticId, String matchTime) throws LeagueException {
+		return playerMatchEventDao.getEvent(playerMatchId, statisticId, matchTime);
+	}
+
+	@Override
+	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent) {
+		if (playerMatchEvent != null) {
+			playerMatchEventDao.saveOrUpdate(playerMatchEvent);
+		}
+	}
+
+	@Override
+	public PlayerMatch getPlayerMatch(long matchId, long playerId) throws LeagueException {
+		return playerMatchDao.getForMatch(matchId, playerId);
 	}
 }

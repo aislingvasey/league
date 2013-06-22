@@ -13,4 +13,5 @@ public interface PlayerMatchDao {
 	public Long getIdByIds(long matchId, long playerId);
 	
 	public List<PlayerMatch> getForMatch(long matchId);
+	public PlayerMatch getForMatch(long matchId, long playerId);
 }

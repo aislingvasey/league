@@ -89,4 +89,18 @@ public class PlayerDaoImpl extends BaseHibernateDao implements PlayerDao {
 		criteria.createAlias("team", "t").add(Restrictions.eq("t.teamId", teamId));
 		return criteria.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Player getByTeamIdAndBlock(long teamId, BlockType block) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Player.class);		
+		criteria.createAlias("team", "t").add(Restrictions.eq("t.teamId", teamId));
+		criteria.add(Restrictions.eq("block", block));
+		List<Player> players = criteria.list();
+		if (players.size() == 1) {
+			return players.get(0);
+		} else {
+			return null;
+		}
+	}
 }

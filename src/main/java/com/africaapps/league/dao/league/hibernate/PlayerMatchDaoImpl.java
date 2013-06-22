@@ -55,4 +55,17 @@ public class PlayerMatchDaoImpl extends BaseHibernateDao implements PlayerMatchD
 		criteria.createAlias("match", "m").add(Restrictions.eq("m.id", matchId));
 		return criteria.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PlayerMatch getForMatch(long matchId, long playerId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PlayerMatch.class);
+		criteria.createAlias("match", "m").add(Restrictions.eq("m.id", matchId));
+		criteria.createAlias("player", "p").add(Restrictions.eq("p.id", playerId));
+		List<PlayerMatch> players = criteria.list();
+		if (players.size() == 1) {
+			return players.get(0);
+		}
+		return null;
+	}
 }

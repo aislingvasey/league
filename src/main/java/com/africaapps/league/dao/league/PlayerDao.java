@@ -12,6 +12,7 @@ public interface PlayerDao {
 	public Player getByPlayerId(int playerId);
 	public Player getByNames(String firstName, String lastName);	
 	public Long getIdByPlayerId(int playerId);
+	public Player getByTeamIdAndBlock(long teamId, BlockType block);
 		
 	public List<Player> getByTeamIdAndPlayerType(long teamId, BlockType blockType);
 	

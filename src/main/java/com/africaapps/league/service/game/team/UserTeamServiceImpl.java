@@ -180,7 +180,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 			long poolId = team.getUserLeague().getPool().getId();
 			List<Player> players = null;
 			if (type.equalsIgnoreCase(BlockType.SUBSTITUTE.name())) {
-				players = playerService.getTeamPlayersByType(teamId);
+				players = playerService.getTeamPlayers(teamId);
 			} else {
 				players = playerService.getTeamPlayersByType(teamId, type);
 			}
