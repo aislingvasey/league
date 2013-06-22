@@ -8,6 +8,8 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.UserTeamDao;
@@ -25,6 +27,10 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
    +" left join game_user_details u on t.user_details_id = u.id "
    +" where l.id = :leagueId and t.user_details_id = :userId "
    +" order by t.current_score desc";
+	
+	private static final String ADD_PLAYER_POINTS = "UPDATE game_user_team SET current_score = current_score + :playerPoints WHERE id in (:ids)";
+	
+	private static Logger logger = LoggerFactory.getLogger(UserTeamDaoImpl.class);
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -97,5 +103,25 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
     .add(Restrictions.idEq(teamId))
     .setFetchMode("players", FetchMode.JOIN); 
 		return (UserTeam) criteria.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserTeam> getTeamsWithPoolPlayer(long poolPlayerId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
+		criteria.createAlias("userPlayers", "uplayers")
+					  .createAlias("uplayers.poolPlayer", "p")
+		        .add(Restrictions.eq("p.id", poolPlayerId));
+		return criteria.list();
+	}
+
+	@Override
+	public void addPlayerPoints(List<Long> ids, int playerPoints) {
+		logger.info("Added playerPoints:"+playerPoints+" to teams:"+ids.toString());
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(ADD_PLAYER_POINTS);
+		query.setParameterList("ids", ids);
+		query.setInteger("playerPoints", playerPoints);
+		int rowsUpdated = query.executeUpdate();
+		logger.info("Actual teams updated: "+rowsUpdated);
 	}
 }

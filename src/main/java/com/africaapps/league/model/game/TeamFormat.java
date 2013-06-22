@@ -5,12 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.LeagueType;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -25,6 +28,7 @@ public class TeamFormat extends BaseDataModel {
 	private int defenderCount;
 	private int midfielderCount;	
 	private int strikerCount; //forwards
+	private LeagueType leagueType;
 
 	@Override
 	public String toString() {
@@ -37,6 +41,7 @@ public class TeamFormat extends BaseDataModel {
 		builder.append(" defenderCount:").append(defenderCount);
 		builder.append(" midfielderCount:").append(midfielderCount);
 		builder.append(" strikerCount:").append(strikerCount);
+		builder.append(" leagueType:").append(leagueType);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -130,5 +135,15 @@ public class TeamFormat extends BaseDataModel {
 
 	public void setStrikerCount(int strikerCount) {
 		this.strikerCount = strikerCount;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="league_type_id", nullable=false)
+	public LeagueType getLeagueType() {
+		return leagueType;
+	}
+
+	public void setLeagueType(LeagueType leagueType) {
+		this.leagueType = leagueType;
 	}
 }

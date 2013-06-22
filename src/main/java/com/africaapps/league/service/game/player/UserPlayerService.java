@@ -2,6 +2,8 @@ package com.africaapps.league.service.game.player;
 
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.UserPlayer;
+import com.africaapps.league.model.league.LeagueSeason;
+import com.africaapps.league.model.league.Match;
 
 public interface UserPlayerService {
 
@@ -10,4 +12,8 @@ public interface UserPlayerService {
 	public UserPlayer getPlayerOnUserTeam(long userTeamId, long playerId) throws LeagueException;
 	
 	public UserPlayer getCaptain(long userTeamId) throws LeagueException;
+	
+	public void deleteUserPlayer(UserPlayer userPlayer) throws LeagueException;
+	
+	public void assignUserPlayerPoints(LeagueSeason leagueSeason, Match match) throws LeagueException;
 }

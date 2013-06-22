@@ -1,5 +1,7 @@
 package com.africaapps.league.service.match;
 
+import java.util.List;
+
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.PlayerMatch;
@@ -13,4 +15,6 @@ public interface MatchService {
 	public void savePlayerMatch(PlayerMatch playerMatch) throws LeagueException;
 	
 	public void calculatePlayerScores(Match match) throws LeagueException;
+	
+	public List<PlayerMatch> getPlayerMatches(long matchId) throws LeagueException;
 }

@@ -43,6 +43,12 @@ public class PlayerServiceImpl implements PlayerService {
 	public Player getPlayer(int playerId) throws LeagueException {
 		return playerDao.getByPlayerId(playerId);
 	}
+	
+	@ReadTransaction
+	@Override
+	public Player getPlayer(String firstName, String lastName) throws LeagueException {
+		return playerDao.getByNames(firstName, lastName);
+	}
 
 	@WriteTransaction
 	@Override
@@ -132,10 +138,15 @@ public class PlayerServiceImpl implements PlayerService {
 		return null;
 	}
 
-	private void saveOppositePlayerMatchEvent(PlayerMatchEvent playerMatchEvent, Event event) throws LeagueException {
-	//TODO save any opposite events for the current event eg: goal conceeded for opposite goal keeper
+	@WriteTransaction
+	private void saveOppositePlayerMatchEvent(PlayerMatchEvent playerMatchEvent, Event event) throws LeagueException {		
+		//TODO save any opposite events for the current event eg: goal conceeded for opposite goal keeper, defender
+		if (GOAL_EVENT_ID.equals(playerMatchEvent.getEvent().getEventId())) {
+//			saveOppositeTeamGoalConceeded(playerMatchEvent, event);
+		}		
 	}
 	
+	@ReadTransaction
 	@Override
 	public List<Player> getTeamPlayersByType(long teamId, String type) {
 		BlockType blockType = getBlockType(type);
@@ -152,8 +163,15 @@ public class PlayerServiceImpl implements PlayerService {
 		return null;
 	}
 
+	@ReadTransaction
 	@Override
 	public List<Player> getTeamPlayersByType(long teamId) {
 		return playerDao.getByTeamId(teamId);
+	}
+	
+	@ReadTransaction
+	@Override
+	public List<Player> getTeamPlayers(int teamId) {
+		return playerDao.getTeamPlayers(teamId);
 	}
 }

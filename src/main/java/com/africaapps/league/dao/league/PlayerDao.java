@@ -10,10 +10,11 @@ public interface PlayerDao {
 	public void saveOrUpdate(Player player);
 	
 	public Player getByPlayerId(int playerId);
-	
+	public Player getByNames(String firstName, String lastName);	
 	public Long getIdByPlayerId(int playerId);
-	
+		
 	public List<Player> getByTeamIdAndPlayerType(long teamId, BlockType blockType);
 	
 	public List<Player> getByTeamId(long teamId);
+	public List<Player> getTeamPlayers(int teamId);
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.game.UserTeamDao;
+import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dto.UserPlayerSummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.InvalidPlayerException;
@@ -26,6 +27,7 @@ import com.africaapps.league.model.game.UserLeague;
 import com.africaapps.league.model.game.UserPlayer;
 import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
+import com.africaapps.league.model.game.UserTeamScoreHistory;
 import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.service.game.format.TeamFormatService;
@@ -41,6 +43,9 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@Autowired
 	private UserTeamDao userTeamDao;
+	@Autowired
+	private UserTeamScoreHistoryDao userTeamScoreHistoryDao;
+	
 	@Autowired
 	private TeamFormatService teamFormatService;
 	@Autowired
@@ -82,14 +87,13 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@ReadTransaction
 	@Override
-	public TeamFormat getDefaultTeamFormat() throws LeagueException {
-		return teamFormatService.getDefaultFormat();
+	public TeamFormat getDefaultTeamFormat(long leagueTypeId) throws LeagueException {
+		return teamFormatService.getDefaultFormat(leagueTypeId);
 	}
 
 	@Override
-	public List<TeamFormat> getTeamFormats(long leagueId) throws LeagueException {
-		// TODO should be specific for a league?
-		return teamFormatService.getTeamFormats(/* leagueId */);
+	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException {
+		return teamFormatService.getTeamFormats(leagueTypeId);
 	}
 
 	@WriteTransaction
@@ -97,8 +101,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public void setTeamFormat(Long userTeamId, Long teamFormatId) throws LeagueException {
 		UserTeam userTeam = getTeam(userTeamId);
 		if (userTeam != null) {
-			// TODO specific league?
-			userTeam.setCurrentFormat(teamFormatService.getTeamFormat(/* leagueId, */teamFormatId));
+			userTeam.setCurrentFormat(teamFormatService.getTeamFormat(teamFormatId));
 			saveTeam(userTeam);
 		}
 	}
@@ -251,10 +254,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 					if (existingCaptain != null && existingCaptain.getPoolPlayer().getId().longValue() != poolPlayerId) {
 						throw new InvalidPlayerException("Team already has a captain!");
 					}
+				} 
+				if (s == UserPlayerStatus.DROPPED) {
+					userPlayerService.deleteUserPlayer(userPlayer);
+				} else {
+					userPlayer.setStatus(s);
+					userPlayerService.saveUserPlayer(userPlayer);
+					logger.info("Updated player's status: " + userPlayer);
 				}
-				userPlayer.setStatus(s);
-				userPlayerService.saveUserPlayer(userPlayer);
-				logger.info("Updated player's status: " + userPlayer);				
 			}
 		} else {
 			logger.error("Unknown poolPlayerId:" + poolPlayerId + " userTeamId:" + userTeamId);
@@ -398,5 +405,31 @@ public class UserTeamServiceImpl implements UserTeamService {
 			}
 		}
 		return counts;
+	}
+
+	@Override
+	public void addPointsForPoolPlayer(PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
+		logger.info("Added playerPoints:"+playerPoints+" for poolPlayer:"+poolPlayer);
+		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
+		List<Long> ids = getUserTeamIds(userTeams);
+		logger.info("Added playerPoints:"+playerPoints+" to UserTeams:"+ids.toString());
+		userTeamDao.addPlayerPoints(ids, playerPoints);
+		//Save a team's history
+		UserTeamScoreHistory history = new UserTeamScoreHistory();
+		history.setPlayerPoints(playerPoints);
+		history.setPoolPlayer(poolPlayer);
+		for(UserTeam userTeam : userTeams) {
+			 history.setUserTeam(userTeam);
+			 userTeamScoreHistoryDao.save(history);	
+			 logger.info("Saved team's history: "+history);
+		}
+	}
+	
+	private List<Long> getUserTeamIds(List<UserTeam> userTeams) throws LeagueException {
+		List<Long> ids = new ArrayList<Long>();
+		for(UserTeam userTeam : userTeams) {
+			ids.add(userTeam.getId());
+		}
+		return ids;
 	}
 }

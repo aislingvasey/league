@@ -12,6 +12,7 @@ import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Player;
+import com.africaapps.league.service.player.PlayerService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -22,6 +23,8 @@ public class PoolServiceImpl implements PoolService {
 	private PoolDao poolDao;
 	@Autowired
 	private PoolPlayerDao poolPlayerDao;
+	@Autowired
+	private PlayerService playerService;
 	
 	private static Logger logger = LoggerFactory.getLogger(PoolServiceImpl.class);
 	
@@ -39,6 +42,9 @@ public class PoolServiceImpl implements PoolService {
 	@Override
 	public void savePlayer(Pool pool, Player player) throws LeagueException {
 		if (pool != null && player != null) {
+			//There can be multiple versions of the same player but we only want one poolplayer, so find the first player version
+			//and use it
+			player = playerService.getPlayer(player.getFirstName(), player.getLastName());
 			PoolPlayer pp = getPoolPlayer(pool.getId(), player.getId());
 			if (pp == null) {
 				pp = new PoolPlayer();

@@ -12,6 +12,7 @@ import com.africaapps.league.model.league.Position;
 public interface PlayerService {
 
 	public Player getPlayer(int playerId) throws LeagueException;
+	public Player getPlayer(String firstName, String lastName) throws LeagueException;
 	public void savePlayer(Player player) throws LeagueException;
 	
 	public Position getPosition(long leagueTypeId, int positionNumber) throws LeagueException;
@@ -23,6 +24,7 @@ public interface PlayerService {
 	
 	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent) throws LeagueException;
 	
-	public List<Player> getTeamPlayersByType(long teamId, String type);
-	public List<Player> getTeamPlayersByType(long teamId);
+	public List<Player> getTeamPlayersByType(long teamId, String type) throws LeagueException;
+	public List<Player> getTeamPlayersByType(long teamId) throws LeagueException;
+	public List<Player> getTeamPlayers(int teamId) throws LeagueException;
 }

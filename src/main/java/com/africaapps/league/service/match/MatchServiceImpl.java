@@ -1,5 +1,7 @@
 package com.africaapps.league.service.match;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +68,10 @@ public class MatchServiceImpl implements MatchService {
 			logger.info("Calculating players scores...");
 			matchDao.calculatePlayerScores(match.getId());
 		}
+	}
+
+	@Override
+	public List<PlayerMatch> getPlayerMatches(long matchId) throws LeagueException {
+		return playerMatchDao.getForMatch(matchId);
 	}
 }

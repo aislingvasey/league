@@ -15,9 +15,10 @@ public class TeamFormatDaoImpl extends BaseHibernateDao implements TeamFormatDao
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TeamFormat getDefault() {
+	public TeamFormat getDefault(long leagueTypeId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(TeamFormat.class);
 		criteria.add(Restrictions.eq("defaultFormat", true));
+		criteria.createAlias("leagueType", "type").add(Restrictions.eq("type.id", leagueTypeId));
 		List<TeamFormat> formats = criteria.list();
 		if (formats.size() > 0) {
 			return formats.get(0);
@@ -28,8 +29,10 @@ public class TeamFormatDaoImpl extends BaseHibernateDao implements TeamFormatDao
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TeamFormat> getAll() {
-		return sessionFactory.getCurrentSession().createCriteria(TeamFormat.class).list();
+	public List<TeamFormat> getAll(long leagueTypeId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(TeamFormat.class);
+		criteria.createAlias("leagueType", "type").add(Restrictions.eq("type.id", leagueTypeId));
+		return criteria.list();
 	}
 
 	@Override

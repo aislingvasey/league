@@ -22,6 +22,7 @@ public class TaskServiceImpl implements TaskService {
 	
 	private static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 	
+  //TODO add retrys for failures, save status, datetime, etc
 	@Override
 	public void processMatches() throws LeagueException {
 		logger.info("Task: starting to process matches...");

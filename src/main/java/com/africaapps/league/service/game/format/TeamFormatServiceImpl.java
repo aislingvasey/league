@@ -18,14 +18,14 @@ public class TeamFormatServiceImpl implements TeamFormatService {
 	
 	@ReadTransaction
 	@Override
-	public TeamFormat getDefaultFormat() throws LeagueException {
-		return teamFormatDao.getDefault();
+	public TeamFormat getDefaultFormat(long leagueTypeId) throws LeagueException {
+		return teamFormatDao.getDefault(leagueTypeId);
 	}
 
 	@ReadTransaction
 	@Override
-	public List<TeamFormat> getTeamFormats() throws LeagueException {
-		return teamFormatDao.getAll();
+	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException {
+		return teamFormatDao.getAll(leagueTypeId);
 	}
 
 	@Override

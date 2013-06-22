@@ -11,4 +11,6 @@ public interface UserPlayerDao {
 	
 	public UserPlayer getPlayerByStatus(long userTeamId, UserPlayerStatus status);
 	
+	public void delete(UserPlayer userPlayer);
+	
 }

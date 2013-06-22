@@ -47,4 +47,9 @@ public class UserPlayerDaoImpl extends BaseHibernateDao implements UserPlayerDao
 			return null;
 		}
 	}
+
+	@Override
+	public void delete(UserPlayer userPlayer) {
+		sessionFactory.getCurrentSession().delete(userPlayer);
+	}
 }

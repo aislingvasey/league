@@ -116,7 +116,7 @@ public class WebServiceClient {
 				checkMatchCompetition(league, matchLightStruct);
 				if (!feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
 					if (matchFilter != null && !matchFilter.isValidMatch(matchId, WebServiceXmlUtil.getDate(matchLightStruct.getDateAndTime()))) {
-						logger.warn("Skipping processing match:" + matchId + " due to match filter");
+						logger.warn("Skipping processing match:" + matchId + " due to match filter: "+matchFilter);
 					} else {
 						logger.info("Match: " + matchId + " is unprocessed Processing it now...");
 						MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);

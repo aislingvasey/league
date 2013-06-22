@@ -3,6 +3,7 @@ package com.africaapps.league.dao.league.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -48,6 +49,21 @@ public class PlayerDaoImpl extends BaseHibernateDao implements PlayerDao {
 			return null;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Player getByNames(String firstName, String lastName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Player.class);
+		criteria.add(Restrictions.eq("firstName", firstName));
+		criteria.add(Restrictions.eq("lastName", lastName));
+		criteria.addOrder(Order.asc("id"));
+		List<Player> players = criteria.list();
+		if (players.size() > 0) {
+			return players.get(0);
+		} else {
+			return null;
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -63,6 +79,14 @@ public class PlayerDaoImpl extends BaseHibernateDao implements PlayerDao {
 	public List<Player> getByTeamId(long teamId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Player.class);		
 		criteria.createAlias("team", "t").add(Restrictions.eq("t.id", teamId));
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Player> getTeamPlayers(int teamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Player.class);		
+		criteria.createAlias("team", "t").add(Restrictions.eq("t.teamId", teamId));
 		return criteria.list();
 	}
 }

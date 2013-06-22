@@ -21,4 +21,7 @@ public interface UserTeamDao {
 		
 	public UserTeam getTeamWithPlayers(long teamId);
 	
+	public List<UserTeam> getTeamsWithPoolPlayer(long poolPlayerId);
+	public void addPlayerPoints(List<Long> ids, int playerPoints);
+	
 }

@@ -7,9 +7,9 @@ import com.africaapps.league.model.game.TeamFormat;
 
 public interface TeamFormatService {
 
-	public TeamFormat getDefaultFormat() throws LeagueException;
+	public TeamFormat getDefaultFormat(long leagueTypeId) throws LeagueException;
 	
-	public List<TeamFormat> getTeamFormats() throws LeagueException;
+	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException;
 	
 	public TeamFormat getTeamFormat(Long teamFormatId) throws LeagueException;
 		
