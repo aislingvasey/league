@@ -15,7 +15,7 @@ import com.africaapps.league.model.league.Team;
 public interface PlayerService {
 
 	public Player getPlayer(int playerId) throws LeagueException;
-	public Player getPlayer(String firstName, String lastName) throws LeagueException;
+	public Player getPlayer(long id) throws LeagueException;
 	public void savePlayer(Player player) throws LeagueException;
 	
 	public Position getPosition(long leagueTypeId, int positionNumber) throws LeagueException;

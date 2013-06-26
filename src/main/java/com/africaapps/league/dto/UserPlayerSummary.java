@@ -7,6 +7,7 @@ public class UserPlayerSummary extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
+	private Integer playerId; //TODO external id for testing only
 	private Long poolPlayerId;
 	private String firstName;
 	private String lastName;
@@ -57,5 +58,11 @@ public class UserPlayerSummary extends BaseDto {
 	}
 	public void setStatus(UserPlayerStatus status) {
 		this.status = status;
+	}
+	public Integer getPlayerId() {
+		return playerId;
+	}
+	public void setPlayerId(Integer playerId) {
+		this.playerId = playerId;
 	}
 }

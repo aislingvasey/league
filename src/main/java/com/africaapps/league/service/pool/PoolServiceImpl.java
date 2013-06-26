@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.game.PoolDao;
 import com.africaapps.league.dao.game.PoolPlayerDao;
+import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
+import com.africaapps.league.model.game.PoolPlayerPointsHistory;
 import com.africaapps.league.model.league.LeagueSeason;
+import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
-import com.africaapps.league.service.player.PlayerService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -24,10 +26,10 @@ public class PoolServiceImpl implements PoolService {
 	@Autowired
 	private PoolPlayerDao poolPlayerDao;
 	@Autowired
-	private PlayerService playerService;
+	private PoolPlayerPointsHistoryDao poolPlayerPointsHistoryDao;
 	
 	private static Logger logger = LoggerFactory.getLogger(PoolServiceImpl.class);
-	
+
 	@ReadTransaction
 	@Override
 	public Pool getPool(LeagueSeason leagueSeason) throws LeagueException {
@@ -42,9 +44,6 @@ public class PoolServiceImpl implements PoolService {
 	@Override
 	public void savePlayer(Pool pool, Player player) throws LeagueException {
 		if (pool != null && player != null) {
-			//There can be multiple versions of the same player but we only want one poolplayer, so find the first player version
-			//and use it
-			player = playerService.getPlayer(player.getFirstName(), player.getLastName());
 			PoolPlayer pp = getPoolPlayer(pool.getId(), player.getId());
 			if (pp == null) {
 				pp = new PoolPlayer();
@@ -53,10 +52,12 @@ public class PoolServiceImpl implements PoolService {
 				pp.setPlayerPrice(0);
 				pp.setPlayerCurrentScore(0);
 				poolPlayerDao.saveOrUpdate(pp);
-				logger.warn("TODO *** Set price for new PoolPlayer: "+pp.getId()+" "+pp.getPlayer().getFirstName()+" "+pp.getPlayer().getLastName()+"!!!");
+				logger.warn("*** Set price for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " "
+						+ pp.getPlayer().getLastName() + " ***");
 			}
 		} else {
-			throw new LeagueException("Unable to save PoolPlayer for invalid input: "+pool+", "+player);
+			LeagueException le = new LeagueException("ERROR *** PoolPlayer has unknown player: " + player);
+			logger.error("Unable to save PoolPlayer:", le);
 		}
 	}
 
@@ -70,5 +71,18 @@ public class PoolServiceImpl implements PoolService {
 	@Override
 	public PoolPlayer getPoolPlayer(long poolPlayerId) throws LeagueException {
 		return poolPlayerDao.get(poolPlayerId);
+	}
+
+	@WriteTransaction
+	@Override
+	public void addPointsToPoolPlayer(PoolPlayer poolPlayer, Match match, Integer playerScore) throws LeagueException {
+		//per player in the match, add their playerScore to their PoolPlayer's currentScore
+		poolPlayerDao.addPlayerScore(poolPlayer.getId(), match.getId(), playerScore);		
+		//save a history record
+		PoolPlayerPointsHistory history = new PoolPlayerPointsHistory();
+		history.setMatch(match);
+		history.setPlayerPoints(playerScore);
+		history.setPoolPlayer(poolPlayer);
+		poolPlayerPointsHistoryDao.save(history);
 	}
 }

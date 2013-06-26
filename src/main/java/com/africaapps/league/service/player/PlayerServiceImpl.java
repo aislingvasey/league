@@ -52,8 +52,8 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@ReadTransaction
 	@Override
-	public Player getPlayer(String firstName, String lastName) throws LeagueException {
-		return playerDao.getByNames(firstName, lastName);
+	public Player getPlayer(long id) throws LeagueException {
+		return playerDao.getPlayer(id);
 	}
 
 	@WriteTransaction
@@ -184,12 +184,12 @@ public class PlayerServiceImpl implements PlayerService {
 				Event defenderConceedGoal = eventDao.getEvent(leagueTypeId, GOAL_CONCEEDED_EVENT, BlockType.DEFENDER);
 				if (defenderConceedGoal != null) {
 					for (Player defender : defenders) {
-						PlayerMatchEvent newEvent = new PlayerMatchEvent();
-						newEvent.setEvent(defenderConceedGoal);
-						newEvent.setMatchTime(playerMatchEvent.getMatchTime());
-						newEvent.setPlayerMatch(getPlayerMatch(playerMatchEvent.getPlayerMatch().getMatch(), defender));
-						matchService.savePlayerMatchEvent(newEvent);
-						logger.info("Saved defender conceeds goal: " + newEvent);
+						PlayerMatchEvent newEvent2 = new PlayerMatchEvent();
+						newEvent2.setEvent(defenderConceedGoal);
+						newEvent2.setMatchTime(playerMatchEvent.getMatchTime());
+						newEvent2.setPlayerMatch(getPlayerMatch(playerMatchEvent.getPlayerMatch().getMatch(), defender));
+						matchService.savePlayerMatchEvent(newEvent2);
+						logger.info("Saved defender conceeds goal: " + newEvent2);
 					}
 				} else {
 					logger.error("No event found for defender conceeds goal!");
@@ -251,6 +251,7 @@ public class PlayerServiceImpl implements PlayerService {
 		return playerDao.getTeamPlayers(teamId);
 	}
 
+	@WriteTransaction
 	@Override
 	public void saveCleanSheetForTeam(LeagueType leagueType, Match match, Team team, String matchTime) throws LeagueException {
 		logger.info("Saving clean sheet event for player from team: "+team);

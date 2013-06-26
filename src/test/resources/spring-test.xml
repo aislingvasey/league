@@ -60,11 +60,13 @@
             <value>com.africaapps.league.model.game.PlayingWeek</value>
             <value>com.africaapps.league.model.game.Pool</value>
             <value>com.africaapps.league.model.game.PoolPlayer</value>
+            <value>com.africaapps.league.model.game.PoolPlayerPointsHistory</value>
             <value>com.africaapps.league.model.game.TeamFormat</value>
             <value>com.africaapps.league.model.game.User</value>
             <value>com.africaapps.league.model.game.UserLeague</value>
             <value>com.africaapps.league.model.game.UserPlayer</value>
             <value>com.africaapps.league.model.game.UserTeam</value>
+            <value>com.africaapps.league.model.game.UserTeamScoreHistory</value>
         </list> 
      </property>  
    </bean>

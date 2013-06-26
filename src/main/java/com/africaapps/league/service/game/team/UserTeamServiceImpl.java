@@ -45,7 +45,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private UserTeamDao userTeamDao;
 	@Autowired
 	private UserTeamScoreHistoryDao userTeamScoreHistoryDao;
-	
+
 	@Autowired
 	private TeamFormatService teamFormatService;
 	@Autowired
@@ -137,6 +137,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 			userPlayer = userPlayers.next();
 			if (userPlayer.getStatus() != UserPlayerStatus.DROPPED) {
 				playerSummary = new UserPlayerSummary();
+				playerSummary.setPlayerId(userPlayer.getPoolPlayer().getPlayer().getPlayerId());
 				playerSummary.setCurrentScore(userPlayer.getPoolPlayer().getPlayerCurrentScore());
 				playerSummary.setFirstName(userPlayer.getPoolPlayer().getPlayer().getFirstName());
 				playerSummary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
@@ -193,6 +194,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 					pPlayer = poolService.getPoolPlayer(poolId, player.getId());
 					if (pPlayer != null) {
 						summary = new UserPlayerSummary();
+						summary.setPlayerId(pPlayer.getPlayer().getPlayerId());
 						summary.setPoolPlayerId(pPlayer.getId());
 						summary.setFirstName(player.getFirstName());
 						summary.setLastName(player.getLastName());
@@ -228,6 +230,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
 		if (userPlayer != null) {
 			UserPlayerSummary summary = new UserPlayerSummary();
+			summary.setPlayerId(userPlayer.getPoolPlayer().getPlayer().getPlayerId());
 			summary.setPoolPlayerId(userPlayer.getPoolPlayer().getId());
 			summary.setFirstName(userPlayer.getPoolPlayer().getPlayer().getFirstName());
 			summary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
@@ -254,7 +257,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 					if (existingCaptain != null && existingCaptain.getPoolPlayer().getId().longValue() != poolPlayerId) {
 						throw new InvalidPlayerException("Team already has a captain!");
 					}
-				} 
+				}
 				if (s == UserPlayerStatus.DROPPED) {
 					userPlayerService.deleteUserPlayer(userPlayer);
 				} else {
@@ -407,27 +410,32 @@ public class UserTeamServiceImpl implements UserTeamService {
 		return counts;
 	}
 
+	@WriteTransaction
 	@Override
 	public void addPointsForPoolPlayer(PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
-		logger.info("Added playerPoints:"+playerPoints+" for poolPlayer:"+poolPlayer);
+		logger.info("Added playerPoints:" + playerPoints + " for poolPlayer:" + poolPlayer);
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);
-		logger.info("Added playerPoints:"+playerPoints+" to UserTeams:"+ids.toString());
-		userTeamDao.addPlayerPoints(ids, playerPoints);
-		//Save a team's history
-		UserTeamScoreHistory history = new UserTeamScoreHistory();
-		history.setPlayerPoints(playerPoints);
-		history.setPoolPlayer(poolPlayer);
-		for(UserTeam userTeam : userTeams) {
-			 history.setUserTeam(userTeam);
-			 userTeamScoreHistoryDao.save(history);	
-			 logger.info("Saved team's history: "+history);
+		if (ids.size() > 0) {
+			logger.info("Added playerPoints:" + playerPoints + " to UserTeams:" + ids.toString());
+			userTeamDao.addPlayerPoints(ids, playerPoints);
+			// Save a team's history
+			UserTeamScoreHistory history = new UserTeamScoreHistory();
+			history.setPlayerPoints(playerPoints);
+			history.setPoolPlayer(poolPlayer);
+			for (UserTeam userTeam : userTeams) {
+				history.setUserTeam(userTeam);
+				userTeamScoreHistoryDao.save(history);
+				logger.info("Saved team's history: " + history);
+			}
+		} else {
+			logger.info("No current UserTeams for poolPlayer:"+poolPlayer.getId()+" "+poolPlayer.getPlayer().getFirstName()+" "+poolPlayer.getPlayer().getLastName());
 		}
 	}
-	
+
 	private List<Long> getUserTeamIds(List<UserTeam> userTeams) throws LeagueException {
 		List<Long> ids = new ArrayList<Long>();
-		for(UserTeam userTeam : userTeams) {
+		for (UserTeam userTeam : userTeams) {
 			ids.add(userTeam.getId());
 		}
 		return ids;

@@ -15,11 +15,9 @@ import com.africaapps.league.model.game.UserPlayer;
 import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
-import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.service.game.team.UserTeamService;
 import com.africaapps.league.service.match.MatchService;
-import com.africaapps.league.service.player.PlayerService;
 import com.africaapps.league.service.pool.PoolService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
@@ -32,18 +30,16 @@ public class UserPlayerServiceImpl implements UserPlayerService {
 	@Autowired
 	private PoolService poolService;
 	@Autowired
-	private PlayerService playerService;
-	@Autowired
 	private UserTeamService userTeamService;
 	@Autowired
 	private UserPlayerDao userPlayerDao;
-	
+
 	private static Logger logger = LoggerFactory.getLogger(UserPlayerServiceImpl.class);
-	
+
 	@WriteTransaction
 	@Override
 	public void saveUserPlayer(UserPlayer userPlayer) throws LeagueException {
-		userPlayerDao.saveOrUpdate(userPlayer);		
+		userPlayerDao.saveOrUpdate(userPlayer);
 	}
 
 	@ReadTransaction
@@ -69,15 +65,20 @@ public class UserPlayerServiceImpl implements UserPlayerService {
 	public void assignUserPlayerPoints(LeagueSeason leagueSeason, Match match) throws LeagueException {
 		if (match != null) {
 			Pool pool = poolService.getPool(leagueSeason);
-			logger.info("Current pool: "+pool);			
-			logger.info("Assigning UserPlayer points for match: "+match);
+			logger.info("Current pool: " + pool);
+			logger.info("Assigning UserPlayer points for match: " + match);
 			List<PlayerMatch> playerMatches = matchService.getPlayerMatches(match.getId());
-			for(PlayerMatch playerMatch : playerMatches) {
-				logger.info("Adding PlayerMatch: "+playerMatch);
-				Player actualPlayer = playerService.getPlayer(playerMatch.getPlayer().getFirstName(), playerMatch.getPlayer().getLastName());
-				logger.info("Using actualPlayer: "+actualPlayer);
-				PoolPlayer poolPlayer = poolService.getPoolPlayer(pool.getId(), actualPlayer.getId());
-				userTeamService.addPointsForPoolPlayer(poolPlayer, playerMatch.getPlayerScore());
+			for (PlayerMatch playerMatch : playerMatches) {
+					PoolPlayer poolPlayer = poolService.getPoolPlayer(pool.getId(), playerMatch.getPlayer().getId());
+					if (poolPlayer != null) {
+						//For the PoolPlayer, add the match's points to their current score
+						poolService.addPointsToPoolPlayer(poolPlayer, match, playerMatch.getPlayerScore());
+						//For the UserTeam, add the player's match points to the team's current score
+						userTeamService.addPointsForPoolPlayer(poolPlayer, playerMatch.getPlayerScore());						
+					} else {
+						LeagueException le = new LeagueException("Unable to identify poolPlayer from player: " + playerMatch.getPlayer());
+						logger.error("Missing poolPlayer:", le);
+					}
 			}
 		}
 	}

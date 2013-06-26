@@ -35,8 +35,7 @@ public class MatchServiceImpl implements MatchService {
 	public boolean isProcessedMatch(long leageaSeasonId, int matchId) throws LeagueException {
 		Match match = matchDao.getByLeagueSeasonAndMatchId(leageaSeasonId, matchId);
 		if (match != null) {
-			//TODO change this later
-			if (MatchProcessingStatus./*COMPLETE*/SAVED.equals(match.getStatus())) {
+			if (MatchProcessingStatus.COMPLETE.equals(match.getStatus())) {
 				return true;
 			}
 		}
@@ -70,7 +69,7 @@ public class MatchServiceImpl implements MatchService {
 	public void calculatePlayerScores(Match match) throws LeagueException {
 		if (match != null) {
 			logger.info("Calculating players scores...");
-			matchDao.calculatePlayerScores(match.getId());
+			matchDao.calculatePlayerScores(match.getId()); //sets playerScore in PlayerMatch = player's total for the match
 		}
 	}
 

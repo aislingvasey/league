@@ -28,7 +28,7 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
    +" where l.id = :leagueId and t.user_details_id = :userId "
    +" order by t.current_score desc";
 	
-	private static final String ADD_PLAYER_POINTS = "UPDATE game_user_team SET current_score = current_score + :playerPoints WHERE id in (:ids)";
+	private static final String ADD_PLAYER_POINTS = "UPDATE game_user_team SET current_score = current_score + :playerPoints WHERE id in ( :ids )";
 	
 	private static Logger logger = LoggerFactory.getLogger(UserTeamDaoImpl.class);
 	

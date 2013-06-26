@@ -14,32 +14,33 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.Match;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name = "game_user_team_score_history")
-public class UserTeamScoreHistory extends BaseDataModel {
+@Table(name = "pool_player_points_history")
+public class PoolPlayerPointsHistory extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private UserTeam userTeam;
 	private PoolPlayer poolPlayer;
+	private Match match;
 	private int playerPoints;
 	private Date addedDateTime;
 	
-	public UserTeamScoreHistory() {
+	public PoolPlayerPointsHistory() {
 		this.addedDateTime = new Date();
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[UserTeamScoreHistory: ");
+		builder.append("[PoolPlayerPointsHistory: ");
 		builder.append(" id:").append(id);
 		builder.append(" addedDateTime:").append(addedDateTime);
 		builder.append(" playerPoints:").append(playerPoints);
 		builder.append(" poolPlayer:").append(poolPlayer);
-		builder.append(" userTeam:").append(userTeam);
+		builder.append(" match:").append(match);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -48,10 +49,10 @@ public class UserTeamScoreHistory extends BaseDataModel {
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
-		} else if (!(o instanceof UserTeamScoreHistory)) {
+		} else if (!(o instanceof PoolPlayerPointsHistory)) {
 			return false;
 		} else {
-			UserTeamScoreHistory h = (UserTeamScoreHistory) o;
+			PoolPlayerPointsHistory h = (PoolPlayerPointsHistory) o;
 			if (h.getId().equals(id)) {
 				return true;
 			} else {
@@ -67,47 +68,47 @@ public class UserTeamScoreHistory extends BaseDataModel {
 
 	@NotNull(groups = { UpdateGroup.class })
 	@Id
-	@SequenceGenerator(name = "user_team_score_history_seq", sequenceName = "user_team_score_history_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_team_score_history_seq")
+	@SequenceGenerator(name = "pool_player_points_history_seq", sequenceName = "pool_player_points_history_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pool_player_points_history_seq")
 	@Column(name = "id", nullable = false)
 	public Long getId() {
 		return id;
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "user_team_id", nullable=false)
-	public UserTeam getUserTeam() {
-		return userTeam;
-	}
-
-	public void setUserTeam(UserTeam userTeam) {
-		this.userTeam = userTeam;
-	}
-
-	@ManyToOne
 	@JoinColumn(name = "pool_player_id", nullable=false)
 	public PoolPlayer getPoolPlayer() {
 		return poolPlayer;
 	}
-
+	
 	public void setPoolPlayer(PoolPlayer poolPlayer) {
 		this.poolPlayer = poolPlayer;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "match_id", nullable=false)
+	public Match getMatch() {
+		return match;
+	}
+	
+	public void setMatch(Match match) {
+		this.match = match;
+	}
+	
 	@Column(name="player_points", nullable=false)
 	public int getPlayerPoints() {
 		return playerPoints;
 	}
-
+	
 	public void setPlayerPoints(int playerPoints) {
 		this.playerPoints = playerPoints;
 	}
-
+	
 	@Column(name="added_date_time", nullable=false)
 	public Date getAddedDateTime() {
 		return addedDateTime;
 	}
-
+	
 	public void setAddedDateTime(Date addedDateTime) {
 		this.addedDateTime = addedDateTime;
 	}

@@ -3,7 +3,10 @@ package com.africaapps.league.dao.game.hibernate;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.PoolPlayerDao;
@@ -12,7 +15,14 @@ import com.africaapps.league.model.game.PoolPlayer;
 
 @Repository
 public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao {
+	
+	private static final String ADD_PLAYER_MATCH_SCORE 
+	= "UPDATE game_pool_player "
+  +" SET player_current_score = player_current_score + :points "  
+  +" WHERE game_pool_player.player_id = :poolPlayerId";
 
+	private static final Logger logger = LoggerFactory.getLogger(PoolPlayerDaoImpl.class);
+	
 	@Override
 	public void saveOrUpdate(PoolPlayer poolPlayer) {
 		if (poolPlayer != null) {
@@ -36,5 +46,15 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 	@Override
 	public PoolPlayer get(long poolPlayerId) {
 		return (PoolPlayer) sessionFactory.getCurrentSession().get(PoolPlayer.class, poolPlayerId);
+	}
+
+	@Override
+	public void addPlayerScore(long poolPlayerId, long matchId, Integer playerScore) {
+		logger.info("Added points from match:"+matchId+" to corresponding poolPlayer:"+poolPlayerId+" points:"+playerScore);
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(ADD_PLAYER_MATCH_SCORE);
+		query.setLong("poolPlayerId", poolPlayerId);
+		query.setInteger("points", playerScore);
+		int rowsUpdated = query.executeUpdate();
+		logger.info("Updated poolPlayer's points: "+rowsUpdated);
 	}
 }

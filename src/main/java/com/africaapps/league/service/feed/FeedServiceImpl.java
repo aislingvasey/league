@@ -216,6 +216,7 @@ public class FeedServiceImpl implements FeedService {
 		calculatePlayersScores(match);
 		assignUserPlayerPoints(leagueSeason, match);
 		updateMatchStatus(match);
+		logger.info("Completed processing match: "+matchStruct.getIdMatch());
 	}
 
 	private void checkTeams(MatchFilActionStruct matchStruct) throws LeagueException {
@@ -272,7 +273,7 @@ public class FeedServiceImpl implements FeedService {
 	public void updateMatchStatus(Match match) throws LeagueException {
 		match.setStatus(MatchProcessingStatus.COMPLETE);
 		matchService.saveMatch(match);
-		logger.info("Set SAVED status for match id:" + match.getId() + " matchId:" + match.getMatchId());
+		logger.info("Updated match status for id:" + match.getId() + " matchId:" + match.getMatchId());
 	}
 
   //TODO currently doesn't work as all players are assigned blocks/positions
@@ -363,10 +364,6 @@ public class FeedServiceImpl implements FeedService {
 		return "" + (eventStruct.getScoreA() != null ? eventStruct.getScoreA().getValue() : "") + "-"
 				+ (eventStruct.getScoreB() != null ? eventStruct.getScoreB().getValue() : "");
 	}
-	
-	private void calculatePlayersScores(Match match) throws LeagueException {
-		matchService.calculatePlayerScores(match);
-	}
 
 	@WriteTransaction
 	protected PlayerMatch getPlayerMatch(Match match, Integer playerId) throws LeagueException {
@@ -429,6 +426,10 @@ public class FeedServiceImpl implements FeedService {
 			}
 		}
 		return event;
+	}
+	
+	private void calculatePlayersScores(Match match) throws LeagueException {
+		matchService.calculatePlayerScores(match);
 	}
 	
 	private void assignUserPlayerPoints(LeagueSeason leagueSeason, Match match) throws LeagueException {

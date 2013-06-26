@@ -1,7 +1,5 @@
 package com.africaapps.league.service.task;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +25,21 @@ public class TaskServiceImpl implements TaskService {
 	public void processMatches() throws LeagueException {
 		logger.info("Task: starting to process matches...");
 		//TODO added filter for testing only - remove later
-		MatchFilter matchFilter = null;/*new MatchFilter() {			
+		MatchFilter matchFilter = null; /*new MatchFilter() {			
 			@Override
 			public boolean isValidMatch(Integer matchId, Date matchDateTime) {
-				if (matchId < 1900) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(Calendar.YEAR, 2012);
+				calendar.set(Calendar.MONTH, 8); //september
+				calendar.set(Calendar.DAY_OF_MONTH, 31);
+				calendar.set(Calendar.HOUR_OF_DAY, 23);
+				calendar.set(Calendar.SECOND, 59);
+				calendar.set(Calendar.MILLISECOND, 999);				
+				if (matchDateTime.getTime() < calendar.getTime().getTime()) {
+					logger.info("MatchDateTime: "+matchDateTime+" is valid for processing");
 					return true;
 				} else {
+					logger.info("MatchDateTime: "+matchDateTime+" is invalid for processing");
 					return false;
 				}
 			}

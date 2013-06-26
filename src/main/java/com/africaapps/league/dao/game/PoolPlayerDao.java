@@ -10,4 +10,6 @@ public interface PoolPlayerDao {
 	
 	public PoolPlayer get(long poolPlayerId);
 	
+	public void addPlayerScore(long poolPlayerId, long matchId, Integer playerScore);
+	
 }
