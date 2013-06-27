@@ -32,6 +32,7 @@ import com.africaapps.league.service.game.player.UserPlayerService;
 import com.africaapps.league.service.league.LeagueService;
 import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
+import com.africaapps.league.service.player.PlayerServiceImpl;
 import com.africaapps.league.service.pool.PoolService;
 import com.africaapps.league.service.team.TeamService;
 import com.africaapps.league.service.transaction.ReadTransaction;
@@ -41,6 +42,8 @@ import com.africaapps.league.util.WebServiceXmlUtil;
 
 @Service
 public class FeedServiceImpl implements FeedService {
+
+	private static final String MATCH_TIME_START = "0:00";
 
 	@Autowired
 	private LeagueService leagueService;
@@ -72,7 +75,7 @@ public class FeedServiceImpl implements FeedService {
 		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, pool, this, matchFilter);
 		logger.info("Processed " + processedMatchIds.size() + " matches");
 	}
-	
+
 	protected WebServiceClient setupWebServiceClient(String wsdlUrl, String username, String password) throws LeagueException {
 		WebServiceClient client = new WebServiceClient(wsdlUrl, username, password);
 		if (!client.isServiceReady()) {
@@ -157,7 +160,7 @@ public class FeedServiceImpl implements FeedService {
 			}
 		}
 	}
-	
+
 	private BlockType getBlockType(ActorStruct actorStruct) {
 		if (actorStruct.getIdBlock().getValue() != null) {
 			if (9 == actorStruct.getIdBlock().getValue().intValue()) {
@@ -211,12 +214,12 @@ public class FeedServiceImpl implements FeedService {
 		Team team1 = getTeam(leagueSeason.getId(), matchStruct, true);
 		Team team2 = getTeam(leagueSeason.getId(), matchStruct, false);
 		Match match = saveMatch(leagueSeason, matchStruct, team1, team2);
-		savedStartingLineUpPoints(league, match, team1, team2);
+		savedMatchAppearancePoints(league, match, team1, team2);
 		savePlayerEvents(league.getLeagueType(), matchStruct, match);
 		calculatePlayersScores(match);
 		assignUserPlayerPoints(leagueSeason, match);
 		updateMatchStatus(match);
-		logger.info("Completed processing match: "+matchStruct.getIdMatch());
+		logger.info("Completed processing match: " + matchStruct.getIdMatch());
 	}
 
 	private void checkTeams(MatchFilActionStruct matchStruct) throws LeagueException {
@@ -264,6 +267,8 @@ public class FeedServiceImpl implements FeedService {
 		match.setTeam2(team2);
 		match.setStatus(MatchProcessingStatus.INPROGRESS);
 		match.setLeagueSeason(leagueSeason);
+		match
+				.setPlayingWeek(leagueService.getPlayingWeek(leagueSeason, WebServiceXmlUtil.getDate(matchStruct.getDateAndTime())));
 		logger.debug("Saving match: " + match);
 		matchService.saveMatch(match);
 		logger.debug("Saved match: " + match);
@@ -276,40 +281,35 @@ public class FeedServiceImpl implements FeedService {
 		logger.info("Updated match status for id:" + match.getId() + " matchId:" + match.getMatchId());
 	}
 
-  //TODO currently doesn't work as all players are assigned blocks/positions
-	private void savedStartingLineUpPoints(League league, Match match, Team team1, Team team2) throws LeagueException {		
-//		Event startingLineupEvent = getEvent(league.getLeagueType(), -1);
-//		if (startingLineupEvent != null) {
-//			logger.info("Saving starting line up events...");
-//			List<Player> players = playerService.getTeamPlayers(team1.getTeamId());
-//			if (players.size() == 0) {
-//				throw new LeagueException("No players for team: "+team1.getTeamId());
-//			}
-//			saveStartPlayerEvent(startingLineupEvent, match, players);
-//			players = playerService.getTeamPlayers(team2.getTeamId());
-//			if (players.size() == 0) {
-//				throw new LeagueException("No players for team: "+team2.getTeamId());
-//			}
-//			saveStartPlayerEvent(startingLineupEvent, match, players);
-//		} else {
-//			logger.error("No starting line up event found!");
-//		}
+	private void savedMatchAppearancePoints(League league, Match match, Team team1, Team team2) throws LeagueException {
+		Event event = getEvent(league.getLeagueType(), PlayerServiceImpl.MATCH_APPEARANCE_EVENT);
+		if (event != null) {
+			logger.info("Saving match appearance events...");
+			saveTeamMatchAppearanceEvents(league, event, match, team1.getId(), playerService.getTeamPlayers(team1.getTeamId()));
+			saveTeamMatchAppearanceEvents(league, event, match, team2.getId(), playerService.getTeamPlayers(team2.getTeamId()));
+		} else {
+			logger.error("No match appearance event found!");
+		}
 	}
-	
-//	private void saveStartPlayerEvent(Event startingLineUpEvent, Match match, List<Player> players) throws LeagueException {
-//		for (Player player : players) {
-//			if (player.getBlock() != null && player.getBlock() != BlockType.SUBSTITUTE) {
-//				PlayerMatchEvent event = new PlayerMatchEvent();
-//				event.setMatchTime("0:00");
-//				event.setPlayerMatch(getPlayerMatch(match, player.getPlayerId()));
-//				event.setEvent(startingLineUpEvent);
-//				playerService.savePlayerMatchEvent(event);
-//				logger.info("Saved player's starting lineup event: " + player);
-//			} else {
-//				logger.info("Skipping player's starting line up event: "+player);
-//			}
-//		}
-//	}
+
+	private void saveTeamMatchAppearanceEvents(League league, Event startingLineupEvent, Match match, Long teamId,
+			List<Player> players) throws LeagueException {
+		if (players.size() == 0) {
+			throw new LeagueException("No players for team: " + teamId);
+		}
+		saveStartPlayerEvent(league, startingLineupEvent, match, players);
+	}
+
+	private void saveStartPlayerEvent(League league, Event startingLineUpEvent, Match match, List<Player> players)
+			throws LeagueException {
+		for (Player player : players) {
+			PlayerMatchEvent event = new PlayerMatchEvent();
+			event.setMatchTime(MATCH_TIME_START);
+			event.setPlayerMatch(getPlayerMatch(match, player.getPlayerId()));
+			event.setEvent(startingLineUpEvent);
+			playerService.savePlayerMatchEvent(league.getLeagueType().getId(), event);
+		}
+	}
 
 	private void savePlayerEvents(LeagueType leagueType, MatchFilActionStruct matchStruct, Match match) throws LeagueException {
 		if (matchStruct.getLstEventMatchFilActionStruct() != null
@@ -319,15 +319,14 @@ public class FeedServiceImpl implements FeedService {
 			int size = matchStruct.getLstEventMatchFilActionStruct().getValue().getEventMatchFilActionStruct().size();
 			for (int i = 0; i < size; i++) {
 				eventStruct = matchStruct.getLstEventMatchFilActionStruct().getValue().getEventMatchFilActionStruct().get(i);
-				logger.info("Checking current event: score:" + getCurrentScore(eventStruct) + " matchTime: "
-						+ eventStruct.getTimeMatchStr().getValue());
+				logger.info("Checking current event: " + " matchTime: " + eventStruct.getTimeMatchStr().getValue() + " eventId: "
+						+ eventStruct.getIdEvent() + " currentScore:" + getCurrentScore(eventStruct));
 				if (eventStruct.getActor1() != null && eventStruct.getActor1().getValue() != null) {
 					PlayerMatchEvent event = new PlayerMatchEvent();
 					event.setMatchTime(eventStruct.getTimeMatchStr().getValue());
 					event.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor1().getValue().getIdActor()));
 					event.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
 					playerService.savePlayerMatchEvent(leagueType.getId(), event);
-					logger.info("Saved player1's event: " + event);
 				}
 				if (eventStruct.getActor2() != null && eventStruct.getActor2().getValue() != null) {
 					PlayerMatchEvent event = new PlayerMatchEvent();
@@ -335,12 +334,12 @@ public class FeedServiceImpl implements FeedService {
 					event.setPlayerMatch(getPlayerMatch(match, eventStruct.getActor2().getValue().getIdActor()));
 					event.setEvent(getEvent(leagueType, eventStruct.getIdEvent()));
 					playerService.savePlayerMatchEvent(leagueType.getId(), event);
-					logger.info("Saved player2's event: " + event);
 				}
 				// Last event - save the match's final score
 				if (i == size - 1) {
 					match.setFinalScore(getCurrentScore(eventStruct));
 					matchService.saveMatch(match);
+					// Clean sheets ?
 					int team1Score = eventStruct.getScoreA() != null ? eventStruct.getScoreA().getValue() : 0;
 					if (team1Score == 0) {
 						saveCleanSheetForTeam(leagueType, match, match.getTeam1(), eventStruct.getTimeMatchStr().getValue());
@@ -359,10 +358,12 @@ public class FeedServiceImpl implements FeedService {
 	private void saveCleanSheetForTeam(LeagueType leagueType, Match match, Team team, String matchTime) throws LeagueException {
 		playerService.saveCleanSheetForTeam(leagueType, match, team, matchTime);
 	}
-	
+
 	private String getCurrentScore(EventMatchFilActionStruct eventStruct) throws LeagueException {
-		return "" + (eventStruct.getScoreA() != null ? eventStruct.getScoreA().getValue() : "") + "-"
+		String finalScore = "" + (eventStruct.getScoreA() != null ? eventStruct.getScoreA().getValue() : "") + "-"
 				+ (eventStruct.getScoreB() != null ? eventStruct.getScoreB().getValue() : "");
+		logger.debug("Current score: " + finalScore);
+		return finalScore;
 	}
 
 	@WriteTransaction
@@ -427,11 +428,11 @@ public class FeedServiceImpl implements FeedService {
 		}
 		return event;
 	}
-	
+
 	private void calculatePlayersScores(Match match) throws LeagueException {
 		matchService.calculatePlayerScores(match);
 	}
-	
+
 	private void assignUserPlayerPoints(LeagueSeason leagueSeason, Match match) throws LeagueException {
 		userPlayerService.assignUserPlayerPoints(leagueSeason, match);
 	}

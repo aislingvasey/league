@@ -8,13 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.validation.UpdateGroup;
 
@@ -24,7 +26,7 @@ public class PlayingWeek extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
+	private LeagueSeason leagueSeason;
 	private Date start;	
 	private Date end;
 	private Set<Match> matches;
@@ -34,7 +36,7 @@ public class PlayingWeek extends BaseDataModel {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[PlayingWeek: ");
 		builder.append(" id:").append(id);
-		builder.append(" name:").append(name);
+		builder.append(" leagueSeason").append(leagueSeason);
 		builder.append(" start:").append(start);
 		builder.append(" end:").append(end);
 		builder.append("]");
@@ -71,15 +73,14 @@ public class PlayingWeek extends BaseDataModel {
 		return id;
 	}
 
-	@NotNull
-	@Size(min=1, max=100, message="{validate.name.range}")
-  @Column(name="name", length=100, nullable=false)
-	public String getName() {
-		return name;
+	@ManyToOne
+	@JoinColumn(name="league_season_id", nullable=false)
+	public LeagueSeason getLeagueSeason() {
+		return leagueSeason;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLeagueSeason(LeagueSeason leagueSeason) {
+		this.leagueSeason = leagueSeason;
 	}
 
 	@NotNull

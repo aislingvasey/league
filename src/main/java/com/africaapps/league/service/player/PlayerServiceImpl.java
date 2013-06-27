@@ -29,7 +29,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	// TODO move to db or properties file
 	public static Integer GOAL_EVENT_ID = Integer.valueOf(5);
-	public static Integer PLAYER_APPEARANCE_EVENT = Integer.valueOf(-1);
+	public static Integer MATCH_APPEARANCE_EVENT = Integer.valueOf(-1);
 	public static Integer GOAL_CONCEEDED_EVENT = Integer.valueOf(-2);
 	public static Integer TEAM_CLEAN_SHEET_EVENT = Integer.valueOf(-3);
 
@@ -105,36 +105,34 @@ public class PlayerServiceImpl implements PlayerService {
 	@WriteTransaction
 	@Override
 	public void savePlayerMatchEvent(long leagueTypeId, PlayerMatchEvent playerMatchEvent) throws LeagueException {
-		Event event = playerMatchEvent.getEvent();
-		logger.info("Saving PlayerMatchEvent: " + playerMatchEvent);
-		Event adjustedEvent = getPlayerTypeEvent(playerMatchEvent);
-		if (adjustedEvent != null) {
-			playerMatchEvent.setEvent(adjustedEvent);
+		if (playerMatchEvent != null) {
+			Event event = playerMatchEvent.getEvent();			
+			Event adjustedEvent = getPlayerTypeEvent(playerMatchEvent);
+			if (adjustedEvent != null) {
+				playerMatchEvent.setEvent(adjustedEvent);
+			}
+			PlayerMatchEvent existing = matchService.getEvent(playerMatchEvent.getPlayerMatch().getId(), playerMatchEvent
+					.getEvent().getId(), playerMatchEvent.getMatchTime());
+			if (existing == null) {
+				matchService.savePlayerMatchEvent(playerMatchEvent);
+				logger.info("Saved player's event: "+playerMatchEvent.getPlayerMatch().getPlayer().getPlayerId()+" event:" + playerMatchEvent.getEvent().getDescription()+" "+playerMatchEvent.getEvent().getPoints());
+			} else {
+				logger.debug("Not saving existing PlayerMatchEvent: " + existing);
+			}
+			saveOppositePlayerMatchEvent(leagueTypeId, playerMatchEvent, event);
 		}
-		PlayerMatchEvent existing = matchService.getEvent(playerMatchEvent.getPlayerMatch().getId(), playerMatchEvent.getEvent()
-				.getId(), playerMatchEvent.getMatchTime());
-		if (existing == null) {
-			matchService.savePlayerMatchEvent(playerMatchEvent);
-			logger.info("Saved PlayerMatchEvent: " + playerMatchEvent);
-		} else {
-			logger.debug("Not saving existing PlayerMatchEvent: " + existing);
-		}
-		saveOppositePlayerMatchEvent(leagueTypeId, playerMatchEvent, event);
 	}
 
 	@ReadTransaction
 	private Event getPlayerTypeEvent(PlayerMatchEvent playerMatchEvent) throws LeagueException {
-		logger.info("Checking for alt Event...");
 		Player player = playerMatchEvent.getPlayerMatch().getPlayer();
 		if (GOAL_EVENT_ID.equals(playerMatchEvent.getEvent().getEventId())) {
-			logger.info("Getting alt goal event");
 			if (player.getBlock() != null) {
 				Long leagueTypeId = playerMatchEvent.getEvent().getLeagueType().getId();
 				Integer eventId = playerMatchEvent.getEvent().getEventId();
 				BlockType block = player.getBlock();
-				logger.info("Looking for event:" + leagueTypeId + ", " + eventId + ", " + block);
 				Event newEvent = getEvent(leagueTypeId, eventId, block);
-				logger.info("Replace Goal Event:" + playerMatchEvent.getEvent().getEventId() + " with new version:" + newEvent);
+				logger.info("Replace event:" + playerMatchEvent.getEvent().getEventId() + " with new version:" + newEvent);
 				return newEvent;
 			} else {
 				logger.warn("Unable to get alt event as player's block is null");
@@ -165,7 +163,6 @@ public class PlayerServiceImpl implements PlayerService {
 			logger.error("Unknown teamId:" + teamId + " for match: " + match);
 		}
 		if (oppTeamId != null) {
-			logger.info("Saving goal conceeded for team: " + oppTeamId);
 			// Goalkeeper
 			Player player = getPlayer(oppTeamId, BlockType.GOALKEEPER);
 			if (player != null) {
@@ -254,18 +251,18 @@ public class PlayerServiceImpl implements PlayerService {
 	@WriteTransaction
 	@Override
 	public void saveCleanSheetForTeam(LeagueType leagueType, Match match, Team team, String matchTime) throws LeagueException {
-		logger.info("Saving clean sheet event for player from team: "+team);
+		logger.info("Saving clean sheet event for player from team: " + team);
 		Event cleanTeamSheetEvent = getEvent(leagueType.getId(), TEAM_CLEAN_SHEET_EVENT);
 		if (cleanTeamSheetEvent != null) {
 			List<Player> players = getTeamPlayers(team.getTeamId());
 			PlayerMatchEvent playerMatchEvent = new PlayerMatchEvent();
 			playerMatchEvent.setEvent(cleanTeamSheetEvent);
-			playerMatchEvent.setMatchTime(matchTime);			
-			for(Player player : players) {
-				PlayerMatch playerMatch = getPlayerMatch(match, player);				
+			playerMatchEvent.setMatchTime(matchTime);
+			for (Player player : players) {
+				PlayerMatch playerMatch = getPlayerMatch(match, player);
 				playerMatchEvent.setPlayerMatch(playerMatch);
 				matchService.savePlayerMatchEvent(playerMatchEvent);
-				logger.info("Saved team clean sheet event: "+playerMatchEvent);
+				logger.info("Saved team clean sheet event: " + playerMatchEvent);
 			}
 		} else {
 			logger.error("Unknown clean sheet team event!");

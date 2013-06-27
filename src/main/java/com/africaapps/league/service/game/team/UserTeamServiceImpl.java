@@ -289,6 +289,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (userPlayer == null || UserPlayerStatus.DROPPED.equals(userPlayer.getStatus())) {
 			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 			BlockType block = getBlockType(playerType);
+			logger.info("New player's block:" + playerType);
 			checkValidPlayerType(userTeam, block);
 			Pool pool = userTeam.getUserLeague().getPool();
 			PoolPlayer poolPlayer = poolService.getPoolPlayer(userTeam.getUserLeague().getPool().getId(), poolPlayerId);
@@ -302,6 +303,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 					} else {
 						userPlayer.setStatus(UserPlayerStatus.PLAYER);
 					}
+					logger.info("Set status on new player: " + userPlayer.getStatus());
 					userPlayer.setUserTeam(userTeam);
 				} else {
 					if (block == BlockType.SUBSTITUTE) {
@@ -309,6 +311,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 					} else {
 						userPlayer.setStatus(UserPlayerStatus.PLAYER);
 					}
+					logger.info("Set status on existing player: " + userPlayer.getStatus());
 				}
 				userPlayerService.saveUserPlayer(userPlayer);
 				// update the user's team
@@ -351,6 +354,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		}
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
 		logger.info("Checking player's count: " + playerTypeCounts.toString());
+
 		switch (block) {
 		case DEFENDER:
 			if (playerTypeCounts.get(BlockType.DEFENDER) >= userTeam.getCurrentFormat().getDefenderCount()) {
@@ -389,21 +393,23 @@ public class UserTeamServiceImpl implements UserTeamService {
 		counts.put(BlockType.SUBSTITUTE, Integer.valueOf(0));
 		for (UserPlayer userPlayer : userTeam.getUserPlayers()) {
 			if (userPlayer.getStatus() != UserPlayerStatus.DROPPED) {
-				if (BlockType.DEFENDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-					int newCount = counts.get(BlockType.DEFENDER) + 1;
-					counts.put(BlockType.DEFENDER, newCount);
-				} else if (BlockType.GOALKEEPER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-					int newCount = counts.get(BlockType.GOALKEEPER) + 1;
-					counts.put(BlockType.GOALKEEPER, newCount);
-				} else if (BlockType.MIDFIELDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-					int newCount = counts.get(BlockType.MIDFIELDER) + 1;
-					counts.put(BlockType.MIDFIELDER, newCount);
-				} else if (BlockType.STRIKER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
-					int newCount = counts.get(BlockType.STRIKER) + 1;
-					counts.put(BlockType.STRIKER, newCount);
-				} else {
+				if (userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
 					int newCount = counts.get(BlockType.SUBSTITUTE) + 1;
 					counts.put(BlockType.SUBSTITUTE, newCount);
+				} else {
+					if (BlockType.DEFENDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+						int newCount = counts.get(BlockType.DEFENDER) + 1;
+						counts.put(BlockType.DEFENDER, newCount);
+					} else if (BlockType.GOALKEEPER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+						int newCount = counts.get(BlockType.GOALKEEPER) + 1;
+						counts.put(BlockType.GOALKEEPER, newCount);
+					} else if (BlockType.MIDFIELDER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+						int newCount = counts.get(BlockType.MIDFIELDER) + 1;
+						counts.put(BlockType.MIDFIELDER, newCount);
+					} else if (BlockType.STRIKER.equals(userPlayer.getPoolPlayer().getPlayer().getBlock())) {
+						int newCount = counts.get(BlockType.STRIKER) + 1;
+						counts.put(BlockType.STRIKER, newCount);
+					}
 				}
 			}
 		}
@@ -429,7 +435,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 				logger.info("Saved team's history: " + history);
 			}
 		} else {
-			logger.info("No current UserTeams for poolPlayer:"+poolPlayer.getId()+" "+poolPlayer.getPlayer().getFirstName()+" "+poolPlayer.getPlayer().getLastName());
+			logger.info("No current UserTeams for poolPlayer:" + poolPlayer.getId() + " " + poolPlayer.getPlayer().getFirstName()
+					+ " " + poolPlayer.getPlayer().getLastName());
 		}
 	}
 
