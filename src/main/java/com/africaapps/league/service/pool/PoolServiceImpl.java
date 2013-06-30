@@ -1,5 +1,7 @@
 package com.africaapps.league.service.pool;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.africaapps.league.dao.game.PoolDao;
 import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
+import com.africaapps.league.dto.PlayerMatchEventSummary;
+import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
@@ -84,5 +88,17 @@ public class PoolServiceImpl implements PoolService {
 		history.setPlayerPoints(playerScore);
 		history.setPoolPlayer(poolPlayer);
 		poolPlayerPointsHistoryDao.save(history);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<PlayerMatchSummary> getPlayerMatches(Long poolPlayerId) throws LeagueException {		
+		return poolPlayerPointsHistoryDao.getHistoryForPlayer(poolPlayerId);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<PlayerMatchEventSummary> getMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {
+		return poolPlayerPointsHistoryDao.getEventsForPlayer(poolPlayerId, matchId);
 	}
 }

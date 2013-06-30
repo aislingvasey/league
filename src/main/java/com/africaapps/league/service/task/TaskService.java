@@ -6,4 +6,6 @@ public interface TaskService {
 
 	public void processMatches() throws LeagueException;
 	
+	public void onPlayingWeekEnd() throws LeagueException;
+	
 }

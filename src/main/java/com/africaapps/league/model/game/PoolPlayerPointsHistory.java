@@ -18,7 +18,7 @@ import com.africaapps.league.model.league.Match;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name = "pool_player_points_history")
+@Table(name = "game_pool_player_points_history")
 public class PoolPlayerPointsHistory extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;

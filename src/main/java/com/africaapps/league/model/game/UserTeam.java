@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,7 +33,11 @@ public class UserTeam extends BaseDataModel {
 	private User user;
 	private UserLeague userLeague;
 	private Set<UserPlayer> userPlayers;
-	private boolean validTeam;
+	private UserTeamStatus status;
+	
+	public UserTeam() {
+		this.status = UserTeamStatus.INCOMPLETE;
+	}
 	
 	@Override
 	public String toString() {
@@ -45,7 +50,7 @@ public class UserTeam extends BaseDataModel {
 		builder.append(" currentFormat:").append(currentFormat);
 		builder.append(" user:").append(user);
 		builder.append(" userLeague:").append(userLeague);
-		builder.append(" validTeam:").append(validTeam);
+		builder.append(" status:").append(status);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -141,15 +146,6 @@ public class UserTeam extends BaseDataModel {
 		this.userLeague = userLeague;
 	}
 
-	@Transient
-	public boolean isValidTeam() {
-		return validTeam;
-	}
-
-	public void setValidTeam(boolean validTeam) {
-		this.validTeam = validTeam;
-	}
-
 	@OneToMany(mappedBy="userTeam")
 	public Set<UserPlayer> getUserPlayers() {
 		return userPlayers;
@@ -157,5 +153,15 @@ public class UserTeam extends BaseDataModel {
 
 	public void setUserPlayers(Set<UserPlayer> userPlayers) {
 		this.userPlayers = userPlayers;
+	}
+
+	@Column(name="status", nullable=false)
+	@Enumerated(EnumType.STRING)
+	public UserTeamStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserTeamStatus status) {
+		this.status = status;
 	}
 }

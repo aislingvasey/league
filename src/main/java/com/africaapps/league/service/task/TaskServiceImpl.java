@@ -47,4 +47,12 @@ public class TaskServiceImpl implements TaskService {
 		feedService.processFeed(feedSettings.getLeagueName(), feedSettings.getWsdlUrl(), feedSettings.getUsername(), feedSettings.getPassword(), matchFilter);
 		logger.info("Task: completed processing matches");
 	}
+
+	@Override
+	public void onPlayingWeekEnd() throws LeagueException {
+		logger.info("Task: processing playing week end...");
+		// TODO step 1: check all user teams and make sure they have 11 players contributing points
+		// TODO step 2: recalculate pool players price using this week's points
+		logger.info("Task: completed playing week end");
+	}
 }

@@ -48,7 +48,7 @@ public class LeagueServiceImpl implements LeagueService {
 	public PlayingWeek getPlayingWeek(LeagueSeason leagueSeason, Date matchDateTime) throws LeagueException {
 		if (leagueSeason != null && matchDateTime != null) {
 			PlayingWeek playingWeek = playingWeekDao.get(leagueSeason.getId(), matchDateTime);
-			logger.info("Got playing week for leagueSeason:"+leagueSeason+" matchDateTime:"+matchDateTime+" "+playingWeek);
+			logger.info("Got playing week for leagueSeason:"+leagueSeason.getId()+" matchDateTime:"+matchDateTime+" "+playingWeek);
 			//TODO insert if null? need to know start date/time of each week
 			return playingWeek;
 		}

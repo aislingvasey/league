@@ -11,6 +11,7 @@ public class UserTeamSummary extends BaseDto {
 
 	private Long userId;
 	private Long teamId;
+	private String teamStatus;
 	private String teamName;
 	private Long availableMoney;
 	private TeamFormat teamFormat;
@@ -133,5 +134,13 @@ public class UserTeamSummary extends BaseDto {
 
 	public void setCaptain(String captain) {
 		this.captain = captain;
+	}
+
+	public String getTeamStatus() {
+		return teamStatus;
+	}
+
+	public void setTeamStatus(String teamStatus) {
+		this.teamStatus = teamStatus;
 	}
 }

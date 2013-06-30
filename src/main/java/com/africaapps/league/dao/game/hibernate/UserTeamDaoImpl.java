@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
 import com.africaapps.league.dto.TeamSummary;
+import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
 
 @Repository
@@ -109,9 +110,10 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	@Override
 	public List<UserTeam> getTeamsWithPoolPlayer(long poolPlayerId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
-		criteria.createAlias("userPlayers", "uplayers")
-					  .createAlias("uplayers.poolPlayer", "p")
-		        .add(Restrictions.eq("p.id", poolPlayerId));
+		criteria.createAlias("userPlayers", "uplayers");
+		//don't include the player if they are currently a substitute
+		criteria.add(Restrictions.ne("uplayers.status", UserPlayerStatus.SUBSTITUTE.name()));
+		criteria.createAlias("uplayers.poolPlayer", "p").add(Restrictions.eq("p.id", poolPlayerId));
 		return criteria.list();
 	}
 
