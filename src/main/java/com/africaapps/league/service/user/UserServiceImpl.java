@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			if (user.getId() == null) {
 				if (!userDao.isExistingUsername(user.getUsername())) {
+					//set user name as lower case
+					user.setUsername(user.getUsername().toLowerCase());
 					userDao.saveOrUpdate(user);
 				} else {
 					throw new LeagueException("Duplicate username: "+user.getUsername());

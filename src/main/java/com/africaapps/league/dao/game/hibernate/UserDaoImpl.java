@@ -19,7 +19,7 @@ public class UserDaoImpl extends BaseHibernateDao implements UserDao {
 	@Override
 	public User getUser(String username, String password) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
-		criteria.add(Restrictions.eq("username", username));
+		criteria.add(Restrictions.eq("username", username).ignoreCase());
 		if (password != null && !password.trim().equals("")) {
 			criteria.add(Restrictions.eq("password", password));
 		}
@@ -40,7 +40,7 @@ public class UserDaoImpl extends BaseHibernateDao implements UserDao {
 	@Override
 	public Long getUserId(String username) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
-		criteria.add(Restrictions.eq("username", username));
+		criteria.add(Restrictions.eq("username", username).ignoreCase());
 		criteria.setProjection(Projections.property("id"));
 		List<Long> users = criteria.list();
 		if (users.size() == 1) {
@@ -52,10 +52,12 @@ public class UserDaoImpl extends BaseHibernateDao implements UserDao {
 	
 	@Override
 	public boolean isExistingUsername(String username) {
-		Query query = sessionFactory.getCurrentSession().getNamedQuery("isExistingUsername").setString("username", username);
-		Long count = (Long) query.uniqueResult();
-		if (count > 0) {
-			return true;
+		if (username != null) {
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("isExistingUsername").setString("username", username.toLowerCase());
+			Long count = (Long) query.uniqueResult();
+			if (count > 0) {
+				return true;
+			}
 		}
 		return false;
 	}

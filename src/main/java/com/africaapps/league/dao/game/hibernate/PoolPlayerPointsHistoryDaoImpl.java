@@ -26,7 +26,7 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
      +" order by h.added_date_time";
 	
 	private static final String MATCH_EVENTS_HISTORY 
-		= "select p.first_name, p.last_name, p.block as PlayerBlock, m.start_date_time, pme.match_time, e.description, e.points "
+		= "select p.first_name, p.last_name, p.block as PlayerBlock, m.start_date_time, pme.match_time, e.description, e.points, pm.player_score "
 +"from event e, player_match_event pme, player_match pm, player p, game_pool_player gpp, match m "
 +"where e.id = pme.event_id and pme.player_match_id = pm.id and pm.player_id = p.id and p.id = gpp.id and gpp.id = :poolPlayerId and pm.match_id = :matchId and pm.match_id = m.id "
 +" and e.points != 0 "
@@ -81,8 +81,9 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			match.setMatchDate(sdf.format((Date) history[3]));
 			match.setMatchTime((String) history[4]);			
 			match.setDescription((String) history[5]);
-			match.setPoints((Integer) history[6]);
+			match.setEventPoints((Integer) history[6]);			
 			match.setPoolPlayerId(poolPlayerId);
+			match.setMatchPoints((Integer) history[7]);
 			summaries.add(match);
 		}
 		return summaries;

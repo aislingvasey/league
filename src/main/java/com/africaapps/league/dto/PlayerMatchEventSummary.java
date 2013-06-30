@@ -10,9 +10,10 @@ public class PlayerMatchEventSummary extends BaseDto {
 	private String playerBlock;
 	private Long matchId;
 	private String matchDate;
+	private Integer matchPoints;
 	private String description;
 	private String matchTime;
-	private int points;
+	private Integer eventPoints;
 	
 	public String getMatchDate() {
 		return matchDate;
@@ -62,10 +63,16 @@ public class PlayerMatchEventSummary extends BaseDto {
 	public void setMatchTime(String matchTime) {
 		this.matchTime = matchTime;
 	}
-	public int getPoints() {
-		return points;
+	public Integer getMatchPoints() {
+		return matchPoints;
 	}
-	public void setPoints(int points) {
-		this.points = points;
+	public void setMatchPoints(Integer matchPoints) {
+		this.matchPoints = matchPoints;
+	}
+	public Integer getEventPoints() {
+		return eventPoints;
+	}
+	public void setEventPoints(Integer eventPoints) {
+		this.eventPoints = eventPoints;
 	}
 }

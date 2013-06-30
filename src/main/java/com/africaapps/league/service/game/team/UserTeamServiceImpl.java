@@ -18,6 +18,7 @@ import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
+import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.InvalidPlayerException;
 import com.africaapps.league.exception.LeagueException;
@@ -32,6 +33,7 @@ import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.model.game.UserTeamScoreHistory;
 import com.africaapps.league.model.game.UserTeamStatus;
 import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.service.game.format.TeamFormatService;
 import com.africaapps.league.service.game.league.UserLeagueService;
@@ -427,7 +429,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public void addPointsForPoolPlayer(PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
+	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
 		logger.info("Added playerPoints:" + playerPoints + " for poolPlayer:" + poolPlayer);
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);
@@ -438,6 +440,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 			UserTeamScoreHistory history = new UserTeamScoreHistory();
 			history.setPlayerPoints(playerPoints);
 			history.setPoolPlayer(poolPlayer);
+			history.setMatch(match);
 			for (UserTeam userTeam : userTeams) {
 				history.setUserTeam(userTeam);
 				userTeamScoreHistoryDao.save(history);
@@ -523,5 +526,30 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public List<PlayerMatchEventSummary> getPoolPlayerMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {		
 		return poolService.getMatchEvents(poolPlayerId, matchId);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<UserTeamScoreHistorySummary> getUserTeamScoreHistory(User user, Long userTeamId) throws LeagueException {
+		return userTeamDao.getScoreHistoryByMatch(userTeamId);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<UserTeamScoreHistorySummary> getUserTeamScorePlayersHistory(User user, Long userTeamId, Long matchId)
+		throws LeagueException {
+		List<UserTeamScoreHistorySummary> scores = userTeamDao.getPlayersScoreHistoryByMatch(userTeamId, matchId);
+		Integer matchPoints = 0;
+		for(UserTeamScoreHistorySummary score : scores) {
+			matchPoints += score.getPlayerPoints();
+		}
+		scores.get(0).setMatchPoints(matchPoints);
+		return scores;
+	}
+
+	@ReadTransaction
+	@Override
+	public Long getUserTeamPoolId(Long userTeamId) throws LeagueException {
+		return userTeamDao.getTeamPoolId(userTeamId);
 	}
 }

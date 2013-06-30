@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.Match;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -23,6 +24,7 @@ public class UserTeamScoreHistory extends BaseDataModel {
 	private static final long serialVersionUID = 1L;
 
 	private UserTeam userTeam;
+	private Match match;
 	private PoolPlayer poolPlayer;
 	private int playerPoints;
 	private Date addedDateTime;
@@ -40,6 +42,7 @@ public class UserTeamScoreHistory extends BaseDataModel {
 		builder.append(" playerPoints:").append(playerPoints);
 		builder.append(" poolPlayer:").append(poolPlayer);
 		builder.append(" userTeam:").append(userTeam);
+		builder.append(" match:").append(match);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -110,5 +113,15 @@ public class UserTeamScoreHistory extends BaseDataModel {
 
 	public void setAddedDateTime(Date addedDateTime) {
 		this.addedDateTime = addedDateTime;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="match_id", nullable=false)
+	public Match getMatch() {
+		return match;
+	}
+
+	public void setMatch(Match match) {
+		this.match = match;
 	}
 }

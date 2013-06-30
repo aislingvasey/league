@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
+import com.africaapps.league.dto.PoolPlayersResults;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
@@ -25,5 +26,7 @@ public interface PoolService {
 	
 	public List<PlayerMatchSummary> getPlayerMatches(Long poolPlayerId) throws LeagueException;
 	public List<PlayerMatchEventSummary> getMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException;
+	
+	public PoolPlayersResults getPoolPlayers(Long userTeamId, int page, int pageSize) throws LeagueException;
 	
 }

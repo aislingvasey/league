@@ -21,9 +21,6 @@ public class PoolPlayer extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
-	//Note: there can actually be multiple Player instances for the same physical player (first and last name) 
-	//Only want a single PoolPlayer per physical player so this just links to the first instance of the player
-	//Need to use the player's first and last names to correctly assign all player's points to the correct PoolPlayer
 	private Player player; 
 	private Pool pool;
 	private long playerPrice;	

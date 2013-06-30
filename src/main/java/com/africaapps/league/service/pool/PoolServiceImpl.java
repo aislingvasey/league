@@ -12,6 +12,7 @@ import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
+import com.africaapps.league.dto.PoolPlayersResults;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
@@ -19,6 +20,7 @@ import com.africaapps.league.model.game.PoolPlayerPointsHistory;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
+import com.africaapps.league.service.game.team.UserTeamService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -31,6 +33,9 @@ public class PoolServiceImpl implements PoolService {
 	private PoolPlayerDao poolPlayerDao;
 	@Autowired
 	private PoolPlayerPointsHistoryDao poolPlayerPointsHistoryDao;
+	
+	@Autowired
+	private UserTeamService userTeamService;
 	
 	private static Logger logger = LoggerFactory.getLogger(PoolServiceImpl.class);
 
@@ -100,5 +105,18 @@ public class PoolServiceImpl implements PoolService {
 	@Override
 	public List<PlayerMatchEventSummary> getMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {
 		return poolPlayerPointsHistoryDao.getEventsForPlayer(poolPlayerId, matchId);
+	}
+
+	@ReadTransaction
+	@Override
+	public PoolPlayersResults getPoolPlayers(Long userTeamId, int page, int pageSize) throws LeagueException {
+		logger.info("Getting pool players: page: "+page+" pageSize:"+pageSize);
+		Long poolId = userTeamService.getUserTeamPoolId(userTeamId);
+		List<PoolPlayer> poolPlayers = poolPlayerDao.getByPoolId(poolId, page, pageSize);
+		PoolPlayersResults results = new PoolPlayersResults();
+		results.setPage(page);
+		results.setPageSize(pageSize);
+		results.setPoolPlayers(poolPlayers);
+		return results;
 	}
 }

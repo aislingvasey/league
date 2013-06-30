@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,5 +57,20 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 		query.setInteger("points", playerScore);
 		int rowsUpdated = query.executeUpdate();
 		logger.info("Updated poolPlayer's points: "+rowsUpdated);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PoolPlayer> getByPoolId(long poolId, int page, int pageSize) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
+		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.addOrder(Order.desc("playerCurrentScore"));
+		if (page == 0) {
+			criteria.setFirstResult(0);
+		} else {
+			criteria.setFirstResult(page * pageSize);
+		}
+    criteria.setMaxResults(pageSize);
+    return criteria.list();
 	}
 }

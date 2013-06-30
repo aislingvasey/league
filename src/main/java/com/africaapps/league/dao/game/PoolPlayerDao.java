@@ -1,5 +1,7 @@
 package com.africaapps.league.dao.game;
 
+import java.util.List;
+
 import com.africaapps.league.model.game.PoolPlayer;
 
 public interface PoolPlayerDao {
@@ -11,5 +13,7 @@ public interface PoolPlayerDao {
 	public PoolPlayer get(long poolPlayerId);
 	
 	public void addPlayerScore(long poolPlayerId, long matchId, Integer playerScore);
+	
+	public List<PoolPlayer> getByPoolId(long poolId, int page, int pageSize);
 	
 }

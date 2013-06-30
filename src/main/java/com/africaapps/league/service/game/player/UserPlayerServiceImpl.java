@@ -74,7 +74,7 @@ public class UserPlayerServiceImpl implements UserPlayerService {
 						//For the PoolPlayer, add the match's points to their current score
 						poolService.addPointsToPoolPlayer(poolPlayer, match, playerMatch.getPlayerScore());
 						//For the UserTeam, add the player's match points to the team's current score
-						userTeamService.addPointsForPoolPlayer(poolPlayer, playerMatch.getPlayerScore());						
+						userTeamService.addPointsForPoolPlayer(match, poolPlayer, playerMatch.getPlayerScore());						
 					} else {
 						LeagueException le = new LeagueException("Unable to identify poolPlayer from player: " + playerMatch.getPlayer());
 						logger.error("Missing poolPlayer:", le);
