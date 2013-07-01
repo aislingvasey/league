@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.africaapps.league.dao.game.PlayerPriceDao;
 import com.africaapps.league.dao.game.PoolDao;
 import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
@@ -14,6 +15,7 @@ import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.PoolPlayersResults;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.PlayerPrice;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.game.PoolPlayerPointsHistory;
@@ -33,6 +35,8 @@ public class PoolServiceImpl implements PoolService {
 	private PoolPlayerDao poolPlayerDao;
 	@Autowired
 	private PoolPlayerPointsHistoryDao poolPlayerPointsHistoryDao;
+	@Autowired
+	private PlayerPriceDao playerPriceDao;
 	
 	@Autowired
 	private UserTeamService userTeamService;
@@ -58,15 +62,26 @@ public class PoolServiceImpl implements PoolService {
 				pp = new PoolPlayer();
 				pp.setPool(pool);
 				pp.setPlayer(player);
-				pp.setPlayerPrice(0);
+				pp.setPlayerPrice(getPlayerPrice(player));
 				pp.setPlayerCurrentScore(0);
 				poolPlayerDao.saveOrUpdate(pp);
-				logger.warn("*** Set price for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " "
-						+ pp.getPlayer().getLastName() + " ***");
+				if (pp.getPlayerPrice() == 0) {
+					logger.warn("*** Set price for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " "
+							+ pp.getPlayer().getLastName() + " ***");
+				}
 			}
 		} else {
 			LeagueException le = new LeagueException("ERROR *** PoolPlayer has unknown player: " + player);
 			logger.error("Unable to save PoolPlayer:", le);
+		}
+	}
+	
+	private Long getPlayerPrice(Player player) throws LeagueException {
+		PlayerPrice playerPrice = playerPriceDao.getPrice(player.getFirstName(), player.getLastName());
+		if (playerPrice != null) {
+			return playerPrice.getPrice().longValue();
+		} else {
+			return Long.valueOf(0);
 		}
 	}
 
