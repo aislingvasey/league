@@ -20,6 +20,7 @@ import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
+import com.africaapps.league.model.game.UserTeamStatus;
 
 @Repository
 public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
@@ -132,6 +133,8 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		criteria.createAlias("userPlayers", "uplayers");
 		//don't include the player if they are currently a substitute
 		criteria.add(Restrictions.ne("uplayers.status", UserPlayerStatus.SUBSTITUTE));
+		//don't include non complete user teams
+		criteria.add(Restrictions.eq("status", UserTeamStatus.COMPLETE));
 		criteria.createAlias("uplayers.poolPlayer", "p").add(Restrictions.eq("p.id", poolPlayerId));
 		return criteria.list();
 	}

@@ -277,7 +277,19 @@ public class UserTeamServiceImpl implements UserTeamService {
 				}
 				if (s == UserPlayerStatus.DROPPED) {
 					userPlayerService.deleteUserPlayer(userPlayer);
+					//Update team's status
+					UserTeam userTeam = userTeamDao.getTeam(userTeamId);
+					if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
+						userTeam.setStatus(UserTeamStatus.INCOMPLETE);
+						logger.info("UserTeam is no longer complete: "+userTeamId);
+					}
 				} else {
+					if (s == UserPlayerStatus.PLAYER && userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
+						//Check number of existing players of the specified block
+						UserTeam userTeam = userTeamDao.getTeam(userTeamId);
+						checkValidPlayerType(userTeam, userPlayer.getPoolPlayer().getPlayer().getBlock());
+					}
+					//Otherwise update the player's status
 					userPlayer.setStatus(s);
 					userPlayerService.saveUserPlayer(userPlayer);
 					logger.info("Updated player's status: " + userPlayer);
@@ -370,24 +382,27 @@ public class UserTeamServiceImpl implements UserTeamService {
 			throw new InvalidPlayerException("Too many players on the squad!");
 		}
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
-		logger.info("Checking player's count: " + playerTypeCounts.toString());
-
-		switch (block) {
-		case DEFENDER:
-			if (playerTypeCounts.get(BlockType.DEFENDER) >= userTeam.getCurrentFormat().getDefenderCount()) {
-				throw new InvalidPlayerException("Too many defenders on the team!");
+		logger.info("Checking player's count: " + playerTypeCounts.toString()+" for block: "+block);
+		if (block != null) {
+			switch (block) {
+			case DEFENDER:
+				if (playerTypeCounts.get(BlockType.DEFENDER) >= userTeam.getCurrentFormat().getDefenderCount()) {
+					throw new InvalidPlayerException("Too many defenders on the team!");
+				}
+				break;
+			case MIDFIELDER:
+				if (playerTypeCounts.get(BlockType.MIDFIELDER) >= userTeam.getCurrentFormat().getMidfielderCount()) {
+					throw new InvalidPlayerException("Too many midfielders on the team!");
+				}
+				break;
+			case STRIKER:
+				if (playerTypeCounts.get(BlockType.STRIKER) >= userTeam.getCurrentFormat().getStrikerCount()) {
+					throw new InvalidPlayerException("Too many strikers on the team!");
+				}
+				break;
 			}
-			break;
-		case MIDFIELDER:
-			if (playerTypeCounts.get(BlockType.MIDFIELDER) >= userTeam.getCurrentFormat().getMidfielderCount()) {
-				throw new InvalidPlayerException("Too many midfielders on the team!");
-			}
-			break;
-		case STRIKER:
-			if (playerTypeCounts.get(BlockType.STRIKER) >= userTeam.getCurrentFormat().getStrikerCount()) {
-				throw new InvalidPlayerException("Too many strikers on the team!");
-			}
-			break;
+		} else {
+			throw new InvalidPlayerException("Player does not have a position currently assigned to them");
 		}
 	}
 
