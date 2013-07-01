@@ -11,6 +11,7 @@ public interface TeamService {
 	public void saveTeam(Team team) throws LeagueException;
 	
 	public Team getTeam(long leagueSeasonId, int teamId) throws LeagueException;
+	public String getTeamName(long teamId) throws LeagueException;
 	
 	public List<TeamSummary> getTeams(long userTeamId) throws LeagueException;
 	

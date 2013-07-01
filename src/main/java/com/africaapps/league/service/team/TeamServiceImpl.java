@@ -66,4 +66,9 @@ public class TeamServiceImpl implements TeamService {
 		}
 		return summaries;
 	}
+
+	@Override
+	public String getTeamName(long teamId) throws LeagueException {
+		return teamDao.getName(teamId);
+	}
 }

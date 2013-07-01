@@ -13,4 +13,6 @@ public interface TeamDao {
 	public Long getIdBySeasonandTeamId(long leagueSeasonId, int teamId);
 	
 	public List<Team> getBySeasonId(long leagueSeasonId);
+	
+	public String getName(long teamId);
 }

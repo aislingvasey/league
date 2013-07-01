@@ -57,4 +57,12 @@ public class TeamDaoImpl extends BaseHibernateDao implements TeamDao {
 		criteria.createAlias("leagueSeason", "s").add(Restrictions.eq("s.id", leagueSeasonId));
 		return criteria.list();
 	}
+
+	@Override
+	public String getName(long teamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Team.class);
+		criteria.add(Restrictions.eq("id", teamId));
+		criteria.setProjection(Projections.property("clubName"));
+		return (String) criteria.uniqueResult();
+	}
 }

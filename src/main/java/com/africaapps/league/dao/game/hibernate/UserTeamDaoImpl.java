@@ -38,10 +38,10 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	private static final String SCORE_HISTORY_BY_MATCH 
 		= "select t.name, t.current_score, m.id as matchid, m.start_date_time, sum(h.player_points)" 
      +" from game_user_team_score_history h left join match m on h.match_id = m.id left join game_user_team t on h.user_team_id = t.id"
-     +" where h.user_team_id = :userTeamId group by m.id, t.id";
+     +" where h.user_team_id = :userTeamId group by m.id, t.id order by m.start_date_time";
 	
 	private static final String PLAYERS_SCORE_HISTORY_BY_MATCH 
-	= "select t.name, t.current_score, m.id as matchid, m.start_date_time, p.first_name, p.last_name, h.player_points" 
+	= "select t.name, t.current_score, m.id as matchid, m.start_date_time, p.first_name, p.last_name, p.team_id, h.player_points" 
    +" from game_user_team_score_history h, match m , game_pool_player gpp, player p, game_user_team t"
    +" where h.match_id = m.id and h.pool_player_id = gpp.id and gpp.player_id = p.id and h.user_team_id = t.id"
    +" and m.id = :matchId and t.id = :userTeamId"
@@ -138,7 +138,7 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 
 	@Override
 	public void addPlayerPoints(List<Long> ids, int playerPoints) {
-		logger.info("Added playerPoints:"+playerPoints+" to teams:"+ids.toString());
+		logger.info("Added playerPoints to teams - points:"+playerPoints+" teams:"+ids.toString());
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(ADD_PLAYER_POINTS);
 		query.setParameterList("ids", ids);
 		query.setInteger("playerPoints", playerPoints);
@@ -185,7 +185,8 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 			summary.setMatchDate(sdf.format((Date) matchScore[3]));
 			summary.setPlayerFirstName((String) matchScore[4]);
 			summary.setPlayerLastName((String) matchScore[5]);
-			summary.setPlayerPoints(((Integer) matchScore[6]));
+			summary.setPlayerTeamId(((BigInteger) matchScore[6]).longValue());
+			summary.setPlayerPoints(((Integer) matchScore[7]));
 			scores.add(summary);
 		}
 		return scores;

@@ -8,8 +8,11 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 	private String teamName;
 	private Integer teamCurrentScore;
 	private Long matchId;
+	private String teamOneName;
+	private String teamTwoName;
 	private String matchDate;
 	private Integer matchPoints;
+	private Long playerTeamId;
 	private String playerFirstName;
 	private String playerLastName;	
 	private Integer playerPoints;
@@ -84,5 +87,29 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 
 	public void setPlayerPoints(Integer playerPoints) {
 		this.playerPoints = playerPoints;
+	}
+
+	public String getTeamOneName() {
+		return teamOneName;
+	}
+
+	public void setTeamOneName(String teamOneName) {
+		this.teamOneName = teamOneName;
+	}
+
+	public String getTeamTwoName() {
+		return teamTwoName;
+	}
+
+	public void setTeamTwoName(String teamTwoName) {
+		this.teamTwoName = teamTwoName;
+	}
+
+	public Long getPlayerTeamId() {
+		return playerTeamId;
+	}
+
+	public void setPlayerTeamId(Long playerTeamId) {
+		this.playerTeamId = playerTeamId;
 	}
 }

@@ -40,9 +40,15 @@ public class UserTeamScoreHistory extends BaseDataModel {
 		builder.append(" id:").append(id);
 		builder.append(" addedDateTime:").append(addedDateTime);
 		builder.append(" playerPoints:").append(playerPoints);
-		builder.append(" poolPlayer:").append(poolPlayer);
-		builder.append(" userTeam:").append(userTeam);
-		builder.append(" match:").append(match);
+		if (poolPlayer != null) {
+			builder.append(" poolPlayer:").append(poolPlayer.getId());
+		}
+		if (userTeam != null) {
+			builder.append(" userTeam:").append(userTeam.getId());
+		}
+		if (match != null) {
+			builder.append(" match:").append(match.getId());
+		}
 		builder.append("]");
 		return builder.toString();
 	}

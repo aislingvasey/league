@@ -5,6 +5,7 @@ import com.africaapps.league.model.league.Match;
 public interface MatchDao {
 
 	public void saveOrUpdate(Match match);
+	public Match getMatch(long matchId);
 	
 	public Match getByLeagueSeasonAndMatchId(long leagueSeasonId, int matchId);
 	

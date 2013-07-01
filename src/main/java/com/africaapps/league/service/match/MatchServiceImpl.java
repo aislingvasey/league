@@ -94,4 +94,10 @@ public class MatchServiceImpl implements MatchService {
 	public PlayerMatch getPlayerMatch(long matchId, long playerId) throws LeagueException {
 		return playerMatchDao.getForMatch(matchId, playerId);
 	}
+
+	@ReadTransaction
+	@Override
+	public Match getMatch(long matchId) throws LeagueException {
+		return matchDao.getMatch(matchId);
+	}
 }

@@ -38,8 +38,10 @@ import com.africaapps.league.model.league.Player;
 import com.africaapps.league.service.game.format.TeamFormatService;
 import com.africaapps.league.service.game.league.UserLeagueService;
 import com.africaapps.league.service.game.player.UserPlayerService;
+import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
 import com.africaapps.league.service.pool.PoolService;
+import com.africaapps.league.service.team.TeamService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -66,6 +68,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private PoolService poolService;
 	@Autowired
 	private UserPlayerService userPlayerService;
+	@Autowired
+	private MatchService matchService;
+	@Autowired
+	private TeamService teamService;
 
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
 
@@ -434,17 +440,17 @@ public class UserTeamServiceImpl implements UserTeamService {
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);
 		if (ids.size() > 0) {
-			logger.info("Added playerPoints:" + playerPoints + " to UserTeams:" + ids.toString());
 			userTeamDao.addPlayerPoints(ids, playerPoints);
 			// Save a team's history
-			UserTeamScoreHistory history = new UserTeamScoreHistory();
-			history.setPlayerPoints(playerPoints);
-			history.setPoolPlayer(poolPlayer);
-			history.setMatch(match);
+			UserTeamScoreHistory history = null;
 			for (UserTeam userTeam : userTeams) {
+				history = new UserTeamScoreHistory();
+				history.setPlayerPoints(playerPoints);
+				history.setPoolPlayer(poolPlayer);
+				history.setMatch(match);
 				history.setUserTeam(userTeam);
 				userTeamScoreHistoryDao.save(history);
-				logger.info("Saved team's history: " + history);
+				logger.info("Saved UserTeam's score history: " + history);
 			}
 		} else {
 			logger.info("No current UserTeams for poolPlayer:" + poolPlayer.getId() + " " + poolPlayer.getPlayer().getFirstName()
@@ -531,7 +537,20 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@ReadTransaction
 	@Override
 	public List<UserTeamScoreHistorySummary> getUserTeamScoreHistory(User user, Long userTeamId) throws LeagueException {
-		return userTeamDao.getScoreHistoryByMatch(userTeamId);
+		List<UserTeamScoreHistorySummary> scores = userTeamDao.getScoreHistoryByMatch(userTeamId);
+		Match match = null;
+		Map<Long, Match> matches = new HashMap<Long, Match>();
+		for(UserTeamScoreHistorySummary score : scores) {
+			if (matches.containsKey(score.getMatchId())) {
+				match = matches.get(score.getMatchId());
+			} else {
+				match = matchService.getMatch(score.getMatchId());
+				matches.put(score.getMatchId(), match);
+			}
+			score.setTeamOneName(match.getTeam1().getClubName());
+			score.setTeamTwoName(match.getTeam2().getClubName());
+		}		
+		return scores;
 	}
 
 	@ReadTransaction
@@ -539,9 +558,21 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public List<UserTeamScoreHistorySummary> getUserTeamScorePlayersHistory(User user, Long userTeamId, Long matchId)
 		throws LeagueException {
 		List<UserTeamScoreHistorySummary> scores = userTeamDao.getPlayersScoreHistoryByMatch(userTeamId, matchId);
+		Map<Long, String> teams = new HashMap<Long, String>();
+		String team = null;
 		Integer matchPoints = 0;
 		for(UserTeamScoreHistorySummary score : scores) {
 			matchPoints += score.getPlayerPoints();
+			//set the player's team name
+			if (teams.containsKey(score.getPlayerTeamId())) {
+				team = teams.get(score.getPlayerTeamId());
+			} else {
+				logger.info("Getting team name for id: "+score.getPlayerTeamId());
+				team = teamService.getTeamName(score.getPlayerTeamId());
+				teams.put(score.getPlayerTeamId(), team);
+			}
+			score.setTeamOneName(team);
+			logger.info("Set player's team name: "+team);
 		}
 		scores.get(0).setMatchPoints(matchPoints);
 		return scores;
