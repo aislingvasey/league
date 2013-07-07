@@ -14,6 +14,11 @@ public class WebServiceClientTest {
 	private String password = "Mxit_For_AmiscoSA!!";
 	
 	@Test
+	public void placeHolderTest() {
+		
+	}
+	
+//	@Test
 	public void checkFeed() throws Exception {
 		WebServiceClient client = new WebServiceClient(url, username, password);
 		assertTrue(client.isServiceReady());
