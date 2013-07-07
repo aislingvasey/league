@@ -23,6 +23,14 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
 				<executions>
@@ -48,10 +56,8 @@
 		</plugins>
 	</build>
 
-	<!-- Test database To generate the test database, 
-		run: "mvn clean compile" 
-		and then "mvn -P test hibernate3:hbm2ddl" 
-		To run script into another db: psql -U league -d league -f ./target/hibernate3/sql/database_schema.sql -->
+	<!-- Test database To generate the test database, run: "mvn clean compile" and then "mvn -P test hibernate3:hbm2ddl" To run script 
+		into another db: psql -U league -d league -f ./target/hibernate3/sql/database_schema.sql -->
 	<profiles>
 		<profile>
 			<id>test</id>
@@ -98,9 +104,8 @@
 			</build>
 		</profile>
 
-		<!-- Code Coverage: Using a profile keeps everything separate from the 
-			main build. Run the following command and then view the coverage file in 
-			yr browser: mvn -P coverage clean emma:clean emma:emma -->
+		<!-- Code Coverage: Using a profile keeps everything separate from the main build. Run the following command and then view the 
+			coverage file in yr browser: mvn -P coverage clean emma:clean emma:emma -->
 		<profile>
 			<id>coverage</id>
 			<build>
@@ -173,26 +178,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>4.0.1.Final</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.jboss</groupId>
-		    <artifactId>jboss-logging</artifactId>
-		    <version>3.1.0.GA</version>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.1.0.GA</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.jboss</groupId>
-		    <artifactId>jboss-transaction-api_1.1_spec</artifactId>
-		    <version>1.0.0.Final</version>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
+			<version>1.0.0.Final</version>
 		</dependency>
-		
-		
+
+
 
 		<dependency>
 			<groupId>antlr</groupId>
@@ -277,7 +282,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -327,13 +332,12 @@
 			<version>${aspectj.version}</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-core</artifactId> 
-			<version>${spring.security.version}</version> <exclusions> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-expression</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-core</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-context</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-tx</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-aop</artifactId> </exclusion> </exclusions> </dependency> -->
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-core</artifactId> <version>${spring.security.version}</version> 
+			<exclusions> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-expression</artifactId> </exclusion> <exclusion> 
+			<groupId>org.springframework</groupId> <artifactId>spring-core</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
+			<artifactId>spring-context</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-tx</artifactId> 
+			</exclusion> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId> </exclusion> </exclusions> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>commons-lang</groupId>
