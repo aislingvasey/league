@@ -79,8 +79,10 @@ public class PoolServiceImpl implements PoolService {
 	private Long getPlayerPrice(Player player) throws LeagueException {
 		PlayerPrice playerPrice = playerPriceDao.getPrice(player.getFirstName(), player.getLastName());
 		if (playerPrice != null) {
+			logger.info("Setting price:"+playerPrice+" for player: "+player);
 			return playerPrice.getPrice().longValue();
 		} else {
+			logger.info("No price found for for player: "+player);
 			return Long.valueOf(0);
 		}
 	}

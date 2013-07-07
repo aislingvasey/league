@@ -9,6 +9,7 @@ public class TeamSummary extends BaseDto {
 	private String teamName;
 	private Integer currentScore;
 	private Integer positionInLeague;
+	private Integer leagueCount;
 	private Long ownerId;
 	private String username;
 	
@@ -75,5 +76,13 @@ public class TeamSummary extends BaseDto {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Integer getLeagueCount() {
+		return leagueCount;
+	}
+
+	public void setLeagueCount(Integer leagueCount) {
+		this.leagueCount = leagueCount;
 	}
 }

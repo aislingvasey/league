@@ -1,10 +1,15 @@
 package com.africaapps.league.service.game.league;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.game.UserLeagueDao;
 import com.africaapps.league.dao.game.UserTeamDao;
+import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.dto.UserLeagueSummary;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.UserLeague;
@@ -18,6 +23,7 @@ public class UserLeagueServiceImpl implements UserLeagueService {
 	@Autowired
 	private UserTeamDao userTeamDao;
 	
+	private static Logger logger = LoggerFactory.getLogger(UserLeagueServiceImpl.class);
 	
 	@ReadTransaction
 	@Override
@@ -34,14 +40,15 @@ public class UserLeagueServiceImpl implements UserLeagueService {
 		userLeagueSummary.setLeagueName(userLeagueDao.getLeagueName(userLeagueId));
 		userLeagueSummary.setTeamCount(userTeamDao.getTeamCount(userLeagueId));
 		
-		//get user's teams
-		//TODO user's team's position in league
-		userLeagueSummary.setUserTeamSummary(userTeamDao.getTeamSummary(userLeagueId, userId));
+		//Not displaying user's team on the league page
+//		get user's teams
+//		userLeagueSummary.setUserTeamSummary(userTeamDao.getTeamSummary(userLeagueId, userId));
 		
-		//get top 25 of league's teams
-		//TODO getting next page of teams....
-		userLeagueSummary.setLeagueTeamSummary(userLeagueDao.getLeagueTeamSummary(userLeagueId, 25, 0));
+		//get top 10 of league's teams
+		List<TeamSummary> leagueTeams = userLeagueDao.getLeagueTeamSummary(userLeagueId, 10, 0);		
+		userLeagueSummary.setLeagueTeamSummary(leagueTeams);
 		userLeagueSummary.setCurrentCount(userLeagueSummary.getLeagueTeamSummary().size());
+		logger.info("Got leagueTeams: "+leagueTeams.size());
 		
 		return userLeagueSummary;
 	}

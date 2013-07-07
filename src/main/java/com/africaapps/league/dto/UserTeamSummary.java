@@ -5,15 +5,10 @@ import java.util.List;
 
 import com.africaapps.league.model.game.TeamFormat;
 
-public class UserTeamSummary extends BaseDto {
+public class UserTeamSummary extends UserTeamListSummary {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long userId;
-	private Long teamId;
-	private String teamStatus;
-	private String teamName;
-	private Long availableMoney;
 	private TeamFormat teamFormat;
 	private String captain;
 	private List<UserPlayerSummary> goalKeepers;

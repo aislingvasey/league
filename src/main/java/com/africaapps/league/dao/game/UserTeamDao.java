@@ -3,6 +3,7 @@ package com.africaapps.league.dao.game;
 import java.util.List;
 
 import com.africaapps.league.dto.TeamSummary;
+import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.model.game.UserTeam;
 
@@ -19,10 +20,13 @@ public interface UserTeamDao {
 	public int getTeamCount(long userLeagueId);
 	
 	public List<TeamSummary> getTeamSummary(long userLeagueId, long userId);
+	
+	public List<UserTeamListSummary> getTeamListSummary(long userId);
 		
 	public UserTeam getTeamWithPlayers(long teamId);
 	
 	public List<UserTeam> getTeamsWithPoolPlayer(long poolPlayerId);
+	public List<UserTeam> getTeamsWithCaptain(long poolPlayerId);
 	public void addPlayerPoints(List<Long> ids, int playerPoints);
 	
 	public List<UserTeamScoreHistorySummary> getScoreHistoryByMatch(long userTeamId);

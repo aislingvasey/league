@@ -23,7 +23,7 @@ public class UserLeagueDaoImpl extends BaseHibernateDao implements UserLeagueDao
    +" FROM game_user_league l "
 	 +" left join game_user_team t on l.id = t.user_league_id "
    +" left join game_user_details u on t.user_details_id = u.id "
-   +" where l.id = :leagueId "
+   +" where l.id = :leagueId and t.status = 'COMPLETE' "
    +" order by t.current_score desc "
    +" limit :limit offset :offset";
 

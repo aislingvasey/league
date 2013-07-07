@@ -18,6 +18,7 @@ import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
+import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.InvalidPlayerException;
@@ -117,7 +118,27 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public void setTeamFormat(Long userTeamId, Long teamFormatId) throws LeagueException {
 		UserTeam userTeam = getTeam(userTeamId);
 		if (userTeam != null) {
-			userTeam.setCurrentFormat(teamFormatService.getTeamFormat(teamFormatId));
+			TeamFormat newFormat = teamFormatService.getTeamFormat(teamFormatId);
+			//Check if the player numbers are ok for the new format
+			Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
+			logger.info("Checking player's count: " + playerTypeCounts.toString());
+			if (playerTypeCounts.get(BlockType.DEFENDER) > newFormat.getDefenderCount()) {
+				throw new InvalidPlayerException("You can only have " + newFormat.getDefenderCount() + " defenders on the team to use the new format");
+			}
+			if (playerTypeCounts.get(BlockType.MIDFIELDER) > newFormat.getMidfielderCount()) {
+				throw new InvalidPlayerException("You can only have " + newFormat.getMidfielderCount() + " midfielders on the team to use the new format");
+			}
+			if (playerTypeCounts.get(BlockType.STRIKER) > newFormat.getStrikerCount()) {
+				throw new InvalidPlayerException("You can only have " + newFormat.getStrikerCount() + " strikers on the team to use the new format");
+			}
+			if (playerTypeCounts.get(BlockType.GOALKEEPER) > GOALKEEPER_COUNT) {
+				throw new InvalidPlayerException("You can only have "+GOALKEEPER_COUNT+" goalkeeper on the team to use the new format");
+			}
+			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > SUBSTITUTE_COUNT) {
+				throw new InvalidPlayerException("You can only have "+SUBSTITUTE_COUNT+" substitutes on the team to use the new format");
+			}
+			//Set the new format
+			userTeam.setCurrentFormat(newFormat);			
 			saveTeam(userTeam);
 		}
 	}
@@ -277,12 +298,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 				}
 				if (s == UserPlayerStatus.DROPPED) {
 					userPlayerService.deleteUserPlayer(userPlayer);
-					//Update team's status
+					//Increase team;s available money
 					UserTeam userTeam = userTeamDao.getTeam(userTeamId);
+					userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
+				  //Update team's status
 					if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
 						userTeam.setStatus(UserTeamStatus.INCOMPLETE);
 						logger.info("UserTeam is no longer complete: "+userTeamId);
 					}
+					userTeamDao.saveOrUpdate(userTeam);
 				} else {
 					if (s == UserPlayerStatus.PLAYER && userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
 						//Check number of existing players of the specified block
@@ -348,7 +372,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				userTeamDao.saveOrUpdate(userTeam);
 				return null;
 			} else {
-				DecimalFormat df = new DecimalFormat("R##.00");
+				DecimalFormat df = new DecimalFormat("R#,###");
 				return "Too little money. You only have " + df.format(userTeam.getAvailableMoney()) + " to spend.";
 			}
 		} else {
@@ -472,6 +496,31 @@ public class UserTeamServiceImpl implements UserTeamService {
 					+ " " + poolPlayer.getPlayer().getLastName());
 		}
 	}
+	
+	@WriteTransaction
+	@Override
+	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
+		logger.info("Added Captain's playerPoints:" + playerPoints + " for poolPlayer:" + poolPlayer);
+		List<UserTeam> userTeams = userTeamDao.getTeamsWithCaptain(poolPlayer.getId());
+		List<Long> ids = getUserTeamIds(userTeams);
+		if (ids.size() > 0) {
+			userTeamDao.addPlayerPoints(ids, playerPoints);
+			// Save a team's history
+			UserTeamScoreHistory history = null;
+			for (UserTeam userTeam : userTeams) {
+				history = new UserTeamScoreHistory();
+				history.setPlayerPoints(playerPoints);
+				history.setPoolPlayer(poolPlayer);
+				history.setMatch(match);
+				history.setUserTeam(userTeam);
+				userTeamScoreHistoryDao.save(history);
+				logger.info("Saved capatin UserTeam's score history: " + history);
+			}
+		} else {
+			logger.info("No current UserTeams for Captain's poolPlayer:" + poolPlayer.getId() + " " + poolPlayer.getPlayer().getFirstName()
+					+ " " + poolPlayer.getPlayer().getLastName());
+		}
+	}
 
 	private List<Long> getUserTeamIds(List<UserTeam> userTeams) throws LeagueException {
 		List<Long> ids = new ArrayList<Long>();
@@ -483,7 +532,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public String setTeam(User user, Long userTeamId) throws LeagueException {
+	public String setTeam(User user, Long userTeamId) throws InvalidPlayerException, LeagueException {
 		logger.info("Setting team for user:" + user.getUsername() + " userTeamId:" + userTeamId);
 		UserTeam userTeam = userTeamDao.getTeamWithPlayers(userTeamId);
 		if (userTeam != null) {
@@ -494,7 +543,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				}
 				UserPlayer captain = getUserTeamCaptain(userTeam);
 				if (captain == null) {
-					return "You need to assign a captain!";
+					throw new InvalidPlayerException("You need to assign a captain");
 				}
 				//Update the team's status
 				userTeam.setStatus(UserTeamStatus.COMPLETE);
@@ -502,10 +551,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 				logger.info("Updated the status of the userTeam: "+userTeam);
 				return "Your team is complete and ready to play!";
 			} else {
-				return "You need " + SQUAD_SIZE + " players in your squad";
+				throw new InvalidPlayerException("You need " + SQUAD_SIZE + " players in your squad");
 			}
 		} else {
-			return "Unknown team";
+			throw new LeagueException("Unknown team");
 		}
 	}
 	
@@ -513,19 +562,19 @@ public class UserTeamServiceImpl implements UserTeamService {
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
 		logger.info("Checking player's count: " + playerTypeCounts.toString());
 		if (playerTypeCounts.get(BlockType.DEFENDER) != userTeam.getCurrentFormat().getDefenderCount()) {
-			return "You need " + userTeam.getCurrentFormat().getDefenderCount() + " defenders on the team!";
+			return "You need " + userTeam.getCurrentFormat().getDefenderCount() + " defenders on the team";
 		}
 		if (playerTypeCounts.get(BlockType.MIDFIELDER) != userTeam.getCurrentFormat().getMidfielderCount()) {
-			return "You need " + userTeam.getCurrentFormat().getMidfielderCount() + " midfielders on the team!";
+			return "You need " + userTeam.getCurrentFormat().getMidfielderCount() + " midfielders on the team";
 		}
 		if (playerTypeCounts.get(BlockType.STRIKER) != userTeam.getCurrentFormat().getStrikerCount()) {
-			return "You need " + userTeam.getCurrentFormat().getStrikerCount() + " strikers on the team!";
+			return "You need " + userTeam.getCurrentFormat().getStrikerCount() + " strikers on the team";
 		}
 		if (playerTypeCounts.get(BlockType.GOALKEEPER) != GOALKEEPER_COUNT) {
-			return "You need at least "+GOALKEEPER_COUNT+" goalkeeper on the team!";
+			return "You need at least "+GOALKEEPER_COUNT+" goalkeeper on the team";
 		}
 		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != SUBSTITUTE_COUNT) {
-			return "You need at least "+SUBSTITUTE_COUNT+" substitutes on the team!";
+			return "You need at least "+SUBSTITUTE_COUNT+" substitutes on the team";
 		}
 		return null;
 	}
@@ -597,5 +646,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public Long getUserTeamPoolId(Long userTeamId) throws LeagueException {
 		return userTeamDao.getTeamPoolId(userTeamId);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException {		
+		return userTeamDao.getTeamListSummary(userId);
 	}
 }

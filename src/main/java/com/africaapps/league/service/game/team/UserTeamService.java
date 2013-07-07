@@ -5,6 +5,7 @@ import java.util.List;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
+import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.LeagueException;
@@ -30,6 +31,8 @@ public interface UserTeamService {
 	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException;
 	public void setTeamFormat(Long userTeamId, Long formatId) throws LeagueException;
 	
+	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException;
+	
 	public UserTeamSummary getTeamWithPlayers(long teamId) throws LeagueException;
 	
 	public List<UserPlayerSummary> getTeamPlayers(long teamId, long userTeamId, String type) throws LeagueException;
@@ -39,6 +42,7 @@ public interface UserTeamService {
 	public void setPlayerStatus(long teamId, long poolPlayerId, String status) throws LeagueException;
 	
 	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
+	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
 	
 	public String setTeam(User user, Long userTeamId) throws LeagueException;
 	

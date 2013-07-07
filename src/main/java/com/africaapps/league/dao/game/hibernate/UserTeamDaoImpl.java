@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
 import com.africaapps.league.dto.TeamSummary;
+import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
@@ -26,12 +27,21 @@ import com.africaapps.league.model.game.UserTeamStatus;
 public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 
 	private static final String USER_TEAMS 
-	= "SELECT l.id as leagueId, t.id as teamId, t.current_score, t.name, t.user_details_id, u.username "
+	= "SELECT l.id as leagueId, t.id as teamId, t.current_score, t.name, t.user_details_id, u.username, "
+	 +" (select count(*) + 1 from game_user_team t2 where t2.current_score > t.current_score and t2.status = 'COMPLETE') AS rank, "
+	 +" (select count(1) from game_user_team t3 where t3.status = 'COMPLETE' and t3.user_league_id = t.user_league_id) as leagueCount "		
    +" FROM game_user_league l "
 	 +" left join game_user_team t on l.id = t.user_league_id "
    +" left join game_user_details u on t.user_details_id = u.id "
    +" where l.id = :leagueId and t.user_details_id = :userId "
    +" order by t.current_score desc";
+	
+	private static final String USER_TEAMS_LIST 
+	= "select t.id as teamId, t.name as teamName, t.status, t.available_money, t.current_score, l.id, l.name, "
+	 +" (select count(1) + 1 from game_user_team t2 where t2.current_score > t.current_score and t2.status = 'COMPLETE' and t2.user_league_id = t.user_league_id) AS rank, "
+	 +" (select count(1) from game_user_team t3 where t3.status = 'COMPLETE' and t3.user_league_id = t.user_league_id) as leagueCount "		
+   +" from game_user_team t left join game_user_league l on t.user_league_id = l.id "
+   +" where t.user_details_id = :userId";
 	
 	private static final String ADD_PLAYER_POINTS = "UPDATE game_user_team "
 			+"SET current_score = current_score + :playerPoints WHERE id in ( :ids )";
@@ -51,6 +61,8 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	private static final String POOL_ID = "select l.pool_id"
 			+" from game_user_team t left join game_user_league l on t.user_league_id = l.id"
 			+" where t.id = :userTeamId";
+	
+	private static final String TEAMS_IN_LEAGUE_COUNT = "select count(1) from game_user_team t where t.status = 'COMPLETE' and t.user_league_id = :leagueId";
 	
 	private static Logger logger = LoggerFactory.getLogger(UserTeamDaoImpl.class);
 	
@@ -91,7 +103,7 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 
 	@Override
 	public int getTeamCount(long userLeagueId) {
-		Query query = sessionFactory.getCurrentSession().createSQLQuery("select count(1) from game_user_team t where t.user_league_id = :leagueId");
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(TEAMS_IN_LEAGUE_COUNT);
 		query.setLong("leagueId", userLeagueId);
 		return ((BigInteger) query.uniqueResult()).intValue();
 	}
@@ -113,6 +125,33 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 			summary.setTeamId(((BigInteger) team[1]).longValue());
 			summary.setTeamName((String) team[3]);
 			summary.setCurrentScore((Integer) team[2]);
+			summary.setPositionInLeague(((BigInteger) team[6]).intValue());
+			summary.setLeagueCount(((BigInteger) team[7]).intValue());
+			summaries.add(summary);
+		}
+		return summaries;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserTeamListSummary> getTeamListSummary(long userId) {
+		List<UserTeamListSummary> summaries = new ArrayList<UserTeamListSummary>();
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(USER_TEAMS_LIST);
+		query.setLong("userId", userId);
+		UserTeamListSummary summary = null;
+		List<Object[]> teams = query.list();
+		for(Object[] team : teams) {
+			summary = new UserTeamListSummary();
+			summary.setAvailableMoney(((BigInteger) team[3]).longValue());
+			summary.setCurrentScore((Integer) team[4]);
+			summary.setLeagueId(((BigInteger) team[5]).longValue());
+			summary.setLeagueName((String) team[6]);
+			summary.setPositionInLeague(((BigInteger) team[7]).intValue());
+			summary.setLeagueCount(((BigInteger) team[8]).intValue());
+			summary.setTeamId(((BigInteger) team[0]).longValue());
+			summary.setTeamName((String) team[1]);
+			summary.setTeamStatus((String) team[2]);
+			summary.setUserId(userId);
 			summaries.add(summary);
 		}
 		return summaries;
@@ -133,6 +172,18 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		criteria.createAlias("userPlayers", "uplayers");
 		//don't include the player if they are currently a substitute
 		criteria.add(Restrictions.ne("uplayers.status", UserPlayerStatus.SUBSTITUTE));
+		//don't include non complete user teams
+		criteria.add(Restrictions.eq("status", UserTeamStatus.COMPLETE));
+		criteria.createAlias("uplayers.poolPlayer", "p").add(Restrictions.eq("p.id", poolPlayerId));
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserTeam> getTeamsWithCaptain(long poolPlayerId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
+		criteria.createAlias("userPlayers", "uplayers");
+		criteria.add(Restrictions.eq("uplayers.status", UserPlayerStatus.CAPTAIN));
 		//don't include non complete user teams
 		criteria.add(Restrictions.eq("status", UserTeamStatus.COMPLETE));
 		criteria.createAlias("uplayers.poolPlayer", "p").add(Restrictions.eq("p.id", poolPlayerId));
