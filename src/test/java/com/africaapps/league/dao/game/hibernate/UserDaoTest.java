@@ -13,22 +13,22 @@ public class UserDaoTest extends BaseSpringDbUnitTest {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	@WriteTransaction
 	@Test
 	public void saveAndGetUsers() throws Exception {
 		String username = "bob";
 		String pwd = "secret";
 		String username2 = "mxitBob";
-		
+
 		assertFalse(userDao.isExistingUsername(username));
 		assertFalse(userDao.isExistingUsername(username2));
 		User user = userDao.getUser(username, pwd);
 		assertNull(user);
 		user = userDao.getUser(username2, null);
 		assertNull(user);
-		
-		//Save
+
+		// Save
 		user = new User();
 		user.setUsername(username);
 		user.setPassword(pwd);
@@ -37,7 +37,7 @@ public class UserDaoTest extends BaseSpringDbUnitTest {
 		user.setFirstName("Bob");
 		user.setLastName("Surname");
 		userDao.saveOrUpdate(user);
-		//Check saved
+		// Check saved
 		assertTrue(userDao.isExistingUsername(username));
 		User bob = userDao.getUser(username, pwd);
 		assertNotNull(bob);
@@ -48,16 +48,28 @@ public class UserDaoTest extends BaseSpringDbUnitTest {
 		assertEquals(user.getLastName(), bob.getLastName());
 		assertEquals(user.getPassword(), bob.getPassword());
 		assertEquals(user.getUsername(), bob.getUsername());
-		
-		//Save another
+
+		// Save another
 		User mxitBob = new User();
 		mxitBob.setCellNumber(null);
 		mxitBob.setEmailAddress(null);
 		mxitBob.setFirstName("Bob");
 		mxitBob.setLastName("Surname");
-		mxitBob.setUsername(username2);
+		mxitBob.setUsername("mxitBob");
 		userDao.saveOrUpdate(mxitBob);
-		assertTrue(userDao.isExistingUsername(username2));
+
+		// Save 3rd
+		User mxit = new User();
+		mxit.setCellNumber(null);
+		mxit.setEmailAddress(null);
+		mxit.setFirstName("Bob Again");
+		mxit.setLastName("Surname");
+		mxit.setUsername("billybob");
+		userDao.saveOrUpdate(mxit);
+
+		assertTrue(userDao.isExistingUsername(username));
+		assertTrue(userDao.isExistingUsername("billybob"));
+
 		bob = userDao.getUser(username2, null);
 		assertNotNull(bob);
 		assertNotNull(bob.getId());
@@ -67,16 +79,17 @@ public class UserDaoTest extends BaseSpringDbUnitTest {
 		assertEquals(mxitBob.getLastName(), bob.getLastName());
 		assertEquals(mxitBob.getPassword(), bob.getPassword());
 		assertEquals(mxitBob.getUsername(), bob.getUsername());
-		
-		//User with duplicate username
+
+		// User with duplicate username
 		User bob2 = new User();
 		bob2.setUsername(username);
 		try {
 			userDao.saveOrUpdate(bob2);
-			assertTrue(userDao.isExistingUsername(username)); //force the previous stmt to be flushed before the exception is thrown
+			assertTrue(userDao.isExistingUsername(username)); // force the previous stmt to be flushed before the exception is
+																												// thrown
 			fail();
 		} catch (ConstraintViolationException e) {
-			//expected
+			// expected
 		}
 	}
 }
