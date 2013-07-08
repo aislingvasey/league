@@ -2,6 +2,7 @@ package com.africaapps.league.service.game.team;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
+import com.africaapps.league.dao.game.UserTeamTradeDao;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
@@ -23,6 +25,7 @@ import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.InvalidPlayerException;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.PlayingWeek;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.game.TeamFormat;
@@ -33,12 +36,16 @@ import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.model.game.UserTeamScoreHistory;
 import com.africaapps.league.model.game.UserTeamStatus;
+import com.africaapps.league.model.game.UserTeamTrade;
 import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.League;
+import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.service.game.format.TeamFormatService;
 import com.africaapps.league.service.game.league.UserLeagueService;
 import com.africaapps.league.service.game.player.UserPlayerService;
+import com.africaapps.league.service.league.LeagueService;
 import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
 import com.africaapps.league.service.pool.PoolService;
@@ -58,6 +65,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private UserTeamDao userTeamDao;
 	@Autowired
 	private UserTeamScoreHistoryDao userTeamScoreHistoryDao;
+	@Autowired
+	private UserTeamTradeDao userTeamTradeDao;
 
 	@Autowired
 	private TeamFormatService teamFormatService;
@@ -73,6 +82,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private MatchService matchService;
 	@Autowired
 	private TeamService teamService;
+	@Autowired
+	private LeagueService leagueService;
 
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
 
@@ -297,31 +308,77 @@ public class UserTeamServiceImpl implements UserTeamService {
 					}
 				}
 				if (s == UserPlayerStatus.DROPPED) {
-					userPlayerService.deleteUserPlayer(userPlayer);
-					//Increase team;s available money
-					UserTeam userTeam = userTeamDao.getTeam(userTeamId);
-					userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
-				  //Update team's status
-					if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
-						userTeam.setStatus(UserTeamStatus.INCOMPLETE);
-						logger.info("UserTeam is no longer complete: "+userTeamId);
-					}
-					userTeamDao.saveOrUpdate(userTeam);
+					dropUser(userTeamId, userPlayer);
 				} else {
-					if (s == UserPlayerStatus.PLAYER && userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
-						//Check number of existing players of the specified block
-						UserTeam userTeam = userTeamDao.getTeam(userTeamId);
-						checkValidPlayerType(userTeam, userPlayer.getPoolPlayer().getPlayer().getBlock());
-					}
-					//Otherwise update the player's status
-					userPlayer.setStatus(s);
-					userPlayerService.saveUserPlayer(userPlayer);
-					logger.info("Updated player's status: " + userPlayer);
+					updatePlayerStatus(userTeamId, userPlayer, s);
 				}
 			}
 		} else {
 			logger.error("Unknown poolPlayerId:" + poolPlayerId + " userTeamId:" + userTeamId);
 		}
+	}
+	
+	private void dropUser(long userTeamId, UserPlayer userPlayer) throws LeagueException {
+		UserTeamStatus status = userTeamDao.getUserTeamStatus(userTeamId);
+		if (UserTeamStatus.COMPLETE.equals(status) && !isUserTeamTradeAvailable(userTeamId)) {
+			throw new InvalidPlayerException("You can not drop a player as you can not trade in a new pool player");
+		}
+		userPlayerService.deleteUserPlayer(userPlayer);
+		//Increase team's available money
+		UserTeam userTeam = userTeamDao.getTeam(userTeamId);
+		userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
+	  //Update team's status
+		if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
+			userTeam.setStatus(UserTeamStatus.INCOMPLETE);
+			logger.info("UserTeam is no longer complete: "+userTeamId);
+		}
+		userTeamDao.saveOrUpdate(userTeam);
+	}
+	
+	private boolean isUserTeamTradeAvailable(long userTeamId) throws LeagueException {
+		PlayingWeek currentPlayingWeek = getCurrentPlayingWeek();
+	  if (currentPlayingWeek != null) {
+			int playingWeek2 = 0;
+			if (currentPlayingWeek.getOrder() % 2 == 0) {
+				//Even week
+				playingWeek2 = currentPlayingWeek.getOrder() - 1;
+			} else {
+				//Odd week
+				playingWeek2 = currentPlayingWeek.getOrder() + 1;
+			}
+			logger.info("Checking if UserTeam has traded in weeks: "+currentPlayingWeek.getOrder()+", "+playingWeek2);
+			int trades = userTeamTradeDao.getUserTeamTradeInWeeks(currentPlayingWeek.getLeagueSeason().getId(), userTeamId, new Integer[]{ currentPlayingWeek.getOrder(), playingWeek2 });
+			logger.info("Got trades: "+trades);
+			if (trades > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			//You can trade until the season starts...
+			return true;
+		}
+	}
+	
+	private PlayingWeek getCurrentPlayingWeek() throws LeagueException {
+		UserLeague userLeague = getDefaultUserLeague();
+		League league = userLeague.getLeague();
+		LeagueSeason leagueSeason = leagueService.getCurrentSeason(league);
+		PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
+		logger.info("Current playing week: "+currentPlayingWeek);
+		return currentPlayingWeek;
+	}
+	
+	private void updatePlayerStatus(long userTeamId, UserPlayer userPlayer, UserPlayerStatus s) throws LeagueException {
+		if (s == UserPlayerStatus.PLAYER && userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
+			//Check number of existing players of the specified block
+			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
+			checkValidPlayerType(userTeam, userPlayer.getPoolPlayer().getPlayer().getBlock());
+		}		
+		//Otherwise update the player's status
+		userPlayer.setStatus(s);
+		userPlayerService.saveUserPlayer(userPlayer);
+		logger.info("Updated player's status: " + userPlayer);
 	}
 
 	private UserPlayerStatus getStatus(String status) {
@@ -348,6 +405,9 @@ public class UserTeamServiceImpl implements UserTeamService {
 			PoolPlayer poolPlayer = poolService.getPoolPlayer(userTeam.getUserLeague().getPool().getId(), poolPlayerId);
 			if (poolPlayer.getPlayerPrice() < userTeam.getAvailableMoney()) {
 				if (userPlayer == null) {
+					if (UserTeamStatus.COMPLETE.equals(userTeam.getStatus()) && !isUserTeamTradeAvailable(userTeamId)) {
+						return "You can not trade in a new pool player now";
+					}
 					userPlayer = new UserPlayer();
 					userPlayer.setPool(pool);
 					userPlayer.setPoolPlayer(poolPlayer);
@@ -373,7 +433,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				return null;
 			} else {
 				DecimalFormat df = new DecimalFormat("R#,###");
-				return "Too little money. You only have " + df.format(userTeam.getAvailableMoney()) + " to spend.";
+				return "Player is too expensive. You only have " + df.format(userTeam.getAvailableMoney()) + " to spend.";
 			}
 		} else {
 			return "Player is already on your team";

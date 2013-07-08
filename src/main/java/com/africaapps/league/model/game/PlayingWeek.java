@@ -27,6 +27,7 @@ public class PlayingWeek extends BaseDataModel {
 	private static final long serialVersionUID = 1L;
 	
 	private LeagueSeason leagueSeason;
+	private Integer order;
 	private Date start;	
 	private Date end;
 	private Set<Match> matches;
@@ -36,6 +37,7 @@ public class PlayingWeek extends BaseDataModel {
 		StringBuilder builder = new StringBuilder();
 		builder.append("[PlayingWeek: ");
 		builder.append(" id:").append(id);
+		builder.append(" order:").append(order);		
 		builder.append(" leagueSeason").append(leagueSeason);
 		builder.append(" start:").append(start);
 		builder.append(" end:").append(end);
@@ -71,6 +73,15 @@ public class PlayingWeek extends BaseDataModel {
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
+	}
+
+	@Column(name="playing_week_order", nullable=false)
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 	@ManyToOne

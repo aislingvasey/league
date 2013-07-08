@@ -6,6 +6,7 @@ import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.model.game.UserTeam;
+import com.africaapps.league.model.game.UserTeamStatus;
 
 public interface UserTeamDao {
 
@@ -33,4 +34,6 @@ public interface UserTeamDao {
 	public List<UserTeamScoreHistorySummary> getPlayersScoreHistoryByMatch(Long userTeamId, Long matchId);
 	
 	public Long getTeamPoolId(Long userTeamId);
+	public UserTeamStatus getUserTeamStatus(long userTeamId);
+	
 }

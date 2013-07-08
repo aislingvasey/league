@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -257,5 +258,13 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public UserTeamStatus getUserTeamStatus(long userTeamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
+		criteria.add(Restrictions.eq("id", userTeamId));
+		criteria.setProjection(Projections.property("status"));
+		return (UserTeamStatus) criteria.uniqueResult();
 	}
 }
