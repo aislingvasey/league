@@ -36,4 +36,6 @@ public interface UserTeamDao {
 	public Long getTeamPoolId(Long userTeamId);
 	public UserTeamStatus getUserTeamStatus(long userTeamId);
 	
+	public Long getAvailableMoney(long userTeamId);
+	
 }

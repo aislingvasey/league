@@ -2,7 +2,9 @@ package com.africaapps.league.service.game.team;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.africaapps.league.dao.game.PlayingWeekDao;
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dao.game.UserTeamTradeDao;
@@ -36,7 +39,6 @@ import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.model.game.UserTeamScoreHistory;
 import com.africaapps.league.model.game.UserTeamStatus;
-import com.africaapps.league.model.game.UserTeamTrade;
 import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
@@ -85,6 +87,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Autowired
 	private LeagueService leagueService;
 
+	//TODO for testing only remove later
+	@Autowired
+	private PlayingWeekDao playingWeekDao;
+	
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
 
 	@ReadTransaction
@@ -172,6 +178,12 @@ public class UserTeamServiceImpl implements UserTeamService {
 			summary.setTeamId(teamId);
 			summary.setTeamName(team.getName());
 			setUserPlayers(team, summary);
+			Collections.sort(summary.getDefenders(), new Comparator<UserPlayerSummary>() {
+				@Override
+				public int compare(UserPlayerSummary o1, UserPlayerSummary o2) {
+					return o1.getPlayerId().compareTo(o2.getPlayerId());
+				}
+			});
 			return summary;
 		} else {
 			return null;
@@ -215,7 +227,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				}
 				// Check if captain
 				if (playerSummary.getStatus() == UserPlayerStatus.CAPTAIN) {
-					summary.setCaptain("Selected");
+					summary.setCaptain(playerSummary.getFirstName()+" "+playerSummary.getLastName());
 				}
 			}
 		}
@@ -338,6 +350,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private boolean isUserTeamTradeAvailable(long userTeamId) throws LeagueException {
 		PlayingWeek currentPlayingWeek = getCurrentPlayingWeek();
 	  if (currentPlayingWeek != null) {
+	  	logger.debug("Current playing week: "+currentPlayingWeek);
 			int playingWeek2 = 0;
 			if (currentPlayingWeek.getOrder() % 2 == 0) {
 				//Even week
@@ -355,6 +368,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				return true;
 			}
 		} else {
+			logger.debug("No current playing week so players can be traded");
 			//You can trade until the season starts...
 			return true;
 		}
@@ -364,7 +378,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserLeague userLeague = getDefaultUserLeague();
 		League league = userLeague.getLeague();
 		LeagueSeason leagueSeason = leagueService.getCurrentSeason(league);
-		PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
+		//TODO for testing only
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, 2012);
+		calendar.set(Calendar.MONTH, 7);
+		calendar.set(Calendar.DAY_OF_MONTH, 20);
+		PlayingWeek currentPlayingWeek =  playingWeekDao.get(leagueSeason.getId(), calendar.getTime());		
+		//END TODO
+//		PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
 		logger.info("Current playing week: "+currentPlayingWeek);
 		return currentPlayingWeek;
 	}
@@ -712,5 +733,21 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException {		
 		return userTeamDao.getTeamListSummary(userId);
+	}
+
+	@ReadTransaction
+	@Override
+	public String isUserTeamAbleToTrade(long userTeamId) throws LeagueException {
+		if (!isUserTeamTradeAvailable(userTeamId)) {
+			return "You can not trade a player as you only get 1 free trade every 2 weeks";
+		} else {
+			return null;
+		}
+	}
+
+	@ReadTransaction
+	@Override
+	public Long getAvailableMoney(long userTeamId) throws LeagueException {
+		return userTeamDao.getAvailableMoney(userTeamId);
 	}
 }

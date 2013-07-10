@@ -267,4 +267,13 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		criteria.setProjection(Projections.property("status"));
 		return (UserTeamStatus) criteria.uniqueResult();
 	}
+
+	@Override
+	public Long getAvailableMoney(long userTeamId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
+		criteria.add(Restrictions.eq("id", userTeamId));
+		criteria.setProjection(Projections.property("availableMoney"));
+		return (Long) criteria.uniqueResult();
+		
+	}
 }

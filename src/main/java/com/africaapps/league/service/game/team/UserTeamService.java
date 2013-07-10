@@ -56,4 +56,8 @@ public interface UserTeamService {
 	
 	public Long getUserTeamPoolId(Long userTeamId) throws LeagueException;
 	
+	public String isUserTeamAbleToTrade(long teamId) throws LeagueException;
+	
+	public Long getAvailableMoney(long userTeamId) throws LeagueException;
+	
 }

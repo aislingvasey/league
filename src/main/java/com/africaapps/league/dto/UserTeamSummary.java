@@ -18,12 +18,37 @@ public class UserTeamSummary extends UserTeamListSummary {
 	private List<UserPlayerSummary> substitutes;
 	
 	public UserTeamSummary() {
-		this.captain = "Not Selected";
+		this.captain = "";
 		this.goalKeepers = new ArrayList<UserPlayerSummary>();
 		this.defenders = new ArrayList<UserPlayerSummary>();
 		this.midfielders = new ArrayList<UserPlayerSummary>();
 		this.strikers = new ArrayList<UserPlayerSummary>();
 		this.substitutes = new ArrayList<UserPlayerSummary>();
+	}
+	
+	public boolean getComplete() {
+		if (!captain.equals("")
+				&& getPlayersCount() == 15) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int getDefendersCount() {
+		return defenders.size();
+	}
+	
+	public int getSubstitutesCount() {
+		return substitutes.size();
+	}
+	
+	public int getStrikersCount() {
+		return strikers.size();
+	}
+	
+	public int getMidfieldersCount() {
+		return midfielders.size();
 	}
 	
 	public boolean getRequiresGoalKeepers() {

@@ -1,5 +1,8 @@
 package com.africaapps.league.service.task;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,25 +28,61 @@ public class TaskServiceImpl implements TaskService {
 	public void processMatches() throws LeagueException {
 		logger.info("Task: starting to process matches...");
 		//TODO added filter for testing only - remove later
-		MatchFilter matchFilter = null; /*new MatchFilter() {			
+		MatchFilter matchFilter = new MatchFilter() {			
 			@Override
 			public boolean isValidMatch(Integer matchId, Date matchDateTime) {
+				logger.info("Match date: "+matchDateTime);
+				//Tuesday - July 2012, Wednesday - August 2012, Thursday - September 2012				
 				Calendar calendar = Calendar.getInstance();
-				calendar.set(Calendar.YEAR, 2012);
-				calendar.set(Calendar.MONTH, 8); //september
-				calendar.set(Calendar.DAY_OF_MONTH, 31);
-				calendar.set(Calendar.HOUR_OF_DAY, 23);
-				calendar.set(Calendar.SECOND, 59);
-				calendar.set(Calendar.MILLISECOND, 999);				
-				if (matchDateTime.getTime() < calendar.getTime().getTime()) {
-					logger.info("MatchDateTime: "+matchDateTime+" is valid for processing");
-					return true;
+				int today = calendar.get(Calendar.DAY_OF_WEEK);
+				calendar.setTime(matchDateTime);
+				if (today == Calendar.TUESDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.AUGUST && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.WEDNESDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.THURSDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.FRIDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.SATURDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.SUNDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY && calendar.get(Calendar.YEAR) == 2013) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.MONDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.MARCH && calendar.get(Calendar.YEAR) == 2013) {
+						return true;
+					} else {
+						return false;
+					}
 				} else {
-					logger.info("MatchDateTime: "+matchDateTime+" is invalid for processing");
 					return false;
 				}
 			}
-		};*/
+		};
 		feedService.processFeed(feedSettings.getLeagueName(), feedSettings.getWsdlUrl(), feedSettings.getUsername(), feedSettings.getPassword(), matchFilter);
 		logger.info("Task: completed processing matches");
 	}
