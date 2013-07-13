@@ -27,6 +27,7 @@ public class PoolPlayerPointsHistory extends BaseDataModel {
 	private Match match;
 	private int playerPoints;
 	private Date addedDateTime;
+	private PlayingWeek playingWeek;
 	
 	public PoolPlayerPointsHistory() {
 		this.addedDateTime = new Date();
@@ -41,6 +42,7 @@ public class PoolPlayerPointsHistory extends BaseDataModel {
 		builder.append(" playerPoints:").append(playerPoints);
 		builder.append(" poolPlayer:").append(poolPlayer);
 		builder.append(" match:").append(match);
+		builder.append(" playingWeek:").append(playingWeek);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -111,5 +113,15 @@ public class PoolPlayerPointsHistory extends BaseDataModel {
 	
 	public void setAddedDateTime(Date addedDateTime) {
 		this.addedDateTime = addedDateTime;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="playing_week_id", nullable=false)
+	public PlayingWeek getPlayingWeek() {
+		return playingWeek;
+	}
+
+	public void setPlayingWeek(PlayingWeek playingWeek) {
+		this.playingWeek = playingWeek;
 	}
 }

@@ -84,4 +84,9 @@ public class UserPlayerServiceImpl implements UserPlayerService {
 			}
 		}
 	}
+
+	@Override
+	public List<UserPlayer> getUserTeamSubstitutes(long userTeamId, int subsCount) throws LeagueException {
+		return userPlayerDao.getSubstitutes(userTeamId, subsCount);
+	}
 }

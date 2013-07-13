@@ -42,7 +42,6 @@ public class PlayerDaoTest extends BaseSpringDbUnitTest {
 		player.setPlayerId(playerId);
 		player.setFirstName("Gold");
 		player.setLastName("Smith");
-		player.setNickName("Goldie");
 		player.setShirtNumber(5);
 		player.setPosition(positionDao.getPosition(leagueTypeId, positionNumber));
 		player.setTeam(teamDao.getBySeasonandTeamId(-1, teamId));
@@ -55,7 +54,6 @@ public class PlayerDaoTest extends BaseSpringDbUnitTest {
 		assertEquals(playerId, player.getPlayerId().intValue());
 		assertEquals("Gold", player.getFirstName());
 		assertEquals("Smith", player.getLastName());
-		assertEquals("Goldie", player.getNickName());
 		assertEquals(5, player.getShirtNumber().intValue());
 		assertEquals(-1, player.getPosition().getId().longValue());
 		assertEquals(teamId, player.getTeam().getTeamId());
@@ -64,7 +62,6 @@ public class PlayerDaoTest extends BaseSpringDbUnitTest {
 		player.setPlayerId(playerId2);
 		player.setFirstName("Robert");
 		player.setLastName("Smith");
-		player.setNickName("Bob");
 		player.setShirtNumber(6);
 		player.setPosition(positionDao.getPosition(leagueTypeId, positionNumber));
 		player.setTeam(teamDao.getBySeasonandTeamId(-1, teamId));
@@ -77,7 +74,6 @@ public class PlayerDaoTest extends BaseSpringDbUnitTest {
 		assertEquals(playerId2, player.getPlayerId().intValue());
 		assertEquals("Robert", player.getFirstName());
 		assertEquals("Smith", player.getLastName());
-		assertEquals("Bob", player.getNickName());
 		assertEquals(6, player.getShirtNumber().intValue());
 		assertEquals(-1, player.getPosition().getId().longValue());
 		assertEquals(teamId, player.getTeam().getTeamId());

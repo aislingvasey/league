@@ -29,6 +29,7 @@ import com.africaapps.league.model.league.PositionType;
 import com.africaapps.league.model.league.Team;
 import com.africaapps.league.service.cache.CacheService;
 import com.africaapps.league.service.game.player.UserPlayerService;
+import com.africaapps.league.service.game.playingweek.PlayingWeekService;
 import com.africaapps.league.service.league.LeagueService;
 import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
@@ -48,6 +49,8 @@ public class FeedServiceImpl implements FeedService {
 	@Autowired
 	private LeagueService leagueService;
 	@Autowired
+	private PlayingWeekService playingWeekService;
+	@Autowired
 	private MatchService matchService;
 	@Autowired
 	private TeamService teamService;
@@ -63,11 +66,10 @@ public class FeedServiceImpl implements FeedService {
 	private static Logger logger = LoggerFactory.getLogger(FeedServiceImpl.class);
 
 	@Override
-	public void processFeed(String leagueName, String wsdlUrl, String username, String password, MatchFilter matchFilter)
+	public void processFeed(League league, String wsdlUrl, String username, String password, MatchFilter matchFilter)
 			throws LeagueException {
 		cacheService.clear();
 
-		League league = getLeague(leagueName);
 		LeagueSeason leagueSeason = getLeagueSeason(league);
 		Pool pool = getPool(leagueSeason);
 		WebServiceClient webServiceClient = setupWebServiceClient(wsdlUrl, username, password);
@@ -82,16 +84,6 @@ public class FeedServiceImpl implements FeedService {
 			throw new LeagueException("Web service is not ready!");
 		} else {
 			return client;
-		}
-	}
-
-	protected League getLeague(String leagueName) throws LeagueException {
-		League league = leagueService.getLeague(leagueName);
-		if (league == null) {
-			throw new LeagueException("Unknown league for name: " + leagueName);
-		} else {
-			logger.info("Starting feed for league: " + league.getName());
-			return league;
 		}
 	}
 
@@ -147,7 +139,6 @@ public class FeedServiceImpl implements FeedService {
 				player.setPlayerId(actorStruct.getIdActor());
 				player.setFirstName(actorStruct.getFirstName() != null ? actorStruct.getFirstName().getValue() : "");
 				player.setLastName(actorStruct.getSecondName() != null ? actorStruct.getSecondName().getValue() : "");
-				player.setNickName(actorStruct.getNickName() != null ? actorStruct.getNickName().getValue() : "");
 				player.setPosition(getPosition(league, actorStruct.getIdPosition().getValue()));
 				BlockType block = getBlockType(actorStruct);
 				player.setBlock(block);
@@ -267,8 +258,7 @@ public class FeedServiceImpl implements FeedService {
 		match.setTeam2(team2);
 		match.setStatus(MatchProcessingStatus.INPROGRESS);
 		match.setLeagueSeason(leagueSeason);
-		match
-				.setPlayingWeek(leagueService.getPlayingWeek(leagueSeason, WebServiceXmlUtil.getDate(matchStruct.getDateAndTime())));
+		match.setPlayingWeek(playingWeekService.getPlayingWeek(leagueSeason, WebServiceXmlUtil.getDate(matchStruct.getDateAndTime())));
 		logger.debug("Saving match: " + match);
 		matchService.saveMatch(match);
 		logger.debug("Saved match: " + match);

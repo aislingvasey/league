@@ -1,5 +1,7 @@
 package com.africaapps.league.service.game.player;
 
+import java.util.List;
+
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.UserPlayer;
 import com.africaapps.league.model.league.LeagueSeason;
@@ -16,4 +18,6 @@ public interface UserPlayerService {
 	public void deleteUserPlayer(UserPlayer userPlayer) throws LeagueException;
 	
 	public void assignUserPlayerPoints(LeagueSeason leagueSeason, Match match) throws LeagueException;
+	
+	public List<UserPlayer> getUserTeamSubstitutes(long userTeamId, int subsCount) throws LeagueException;
 }

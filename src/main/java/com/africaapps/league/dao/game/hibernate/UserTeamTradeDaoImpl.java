@@ -15,7 +15,7 @@ public class UserTeamTradeDaoImpl extends BaseHibernateDao implements UserTeamTr
 	@Override
 	public void save(UserTeamTrade userTeamTrade) {
 		if (userTeamTrade != null) {
-			save(userTeamTrade);
+			sessionFactory.getCurrentSession().save(userTeamTrade);
 		}
 	}
 

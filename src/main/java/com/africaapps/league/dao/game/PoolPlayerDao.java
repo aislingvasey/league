@@ -16,4 +16,5 @@ public interface PoolPlayerDao {
 	
 	public List<PoolPlayer> getByPoolId(long poolId, int page, int pageSize);
 	
+	
 }

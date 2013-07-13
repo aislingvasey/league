@@ -20,6 +20,7 @@ import com.africaapps.league.dao.game.PlayingWeekDao;
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dao.game.UserTeamTradeDao;
+import com.africaapps.league.dto.NeededPlayer;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
@@ -39,6 +40,7 @@ import com.africaapps.league.model.game.UserPlayerStatus;
 import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.model.game.UserTeamScoreHistory;
 import com.africaapps.league.model.game.UserTeamStatus;
+import com.africaapps.league.model.game.UserTeamTrade;
 import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
@@ -58,7 +60,7 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 @Service
 public class UserTeamServiceImpl implements UserTeamService {
 
-	//TODO move to properties file?
+	// TODO move to properties file?
 	private static final int SQUAD_SIZE = 15;
 	private static final int GOALKEEPER_COUNT = 1;
 	private static final int SUBSTITUTE_COUNT = 4;
@@ -87,10 +89,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Autowired
 	private LeagueService leagueService;
 
-	//TODO for testing only remove later
+	// TODO for testing only remove later
 	@Autowired
 	private PlayingWeekDao playingWeekDao;
-	
+
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
 
 	@ReadTransaction
@@ -136,26 +138,31 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserTeam userTeam = getTeam(userTeamId);
 		if (userTeam != null) {
 			TeamFormat newFormat = teamFormatService.getTeamFormat(teamFormatId);
-			//Check if the player numbers are ok for the new format
+			// Check if the player numbers are ok for the new format
 			Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
 			logger.info("Checking player's count: " + playerTypeCounts.toString());
 			if (playerTypeCounts.get(BlockType.DEFENDER) > newFormat.getDefenderCount()) {
-				throw new InvalidPlayerException("You can only have " + newFormat.getDefenderCount() + " defenders on the team to use the new format");
+				throw new InvalidPlayerException("You can only have " + newFormat.getDefenderCount()
+						+ " defenders on the team to use the new format");
 			}
 			if (playerTypeCounts.get(BlockType.MIDFIELDER) > newFormat.getMidfielderCount()) {
-				throw new InvalidPlayerException("You can only have " + newFormat.getMidfielderCount() + " midfielders on the team to use the new format");
+				throw new InvalidPlayerException("You can only have " + newFormat.getMidfielderCount()
+						+ " midfielders on the team to use the new format");
 			}
 			if (playerTypeCounts.get(BlockType.STRIKER) > newFormat.getStrikerCount()) {
-				throw new InvalidPlayerException("You can only have " + newFormat.getStrikerCount() + " strikers on the team to use the new format");
+				throw new InvalidPlayerException("You can only have " + newFormat.getStrikerCount()
+						+ " strikers on the team to use the new format");
 			}
 			if (playerTypeCounts.get(BlockType.GOALKEEPER) > GOALKEEPER_COUNT) {
-				throw new InvalidPlayerException("You can only have "+GOALKEEPER_COUNT+" goalkeeper on the team to use the new format");
+				throw new InvalidPlayerException("You can only have " + GOALKEEPER_COUNT
+						+ " goalkeeper on the team to use the new format");
 			}
 			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > SUBSTITUTE_COUNT) {
-				throw new InvalidPlayerException("You can only have "+SUBSTITUTE_COUNT+" substitutes on the team to use the new format");
+				throw new InvalidPlayerException("You can only have " + SUBSTITUTE_COUNT
+						+ " substitutes on the team to use the new format");
 			}
-			//Set the new format
-			userTeam.setCurrentFormat(newFormat);			
+			// Set the new format
+			userTeam.setCurrentFormat(newFormat);
 			saveTeam(userTeam);
 		}
 	}
@@ -205,8 +212,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 				playerSummary.setPoolPlayerId(userPlayer.getPoolPlayer().getId());
 				playerSummary.setPrice(userPlayer.getPoolPlayer().getPlayerPrice());
 				// Check that the player is possibly a sub for the user's team
+				logger.debug("Checking player's status: "+userPlayer.getStatus());
 				if (userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
 					playerSummary.setBlock(BlockType.SUBSTITUTE);
+					logger.info("Player is a substitute: "+playerSummary);
 				} else {
 					playerSummary.setBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
 				}
@@ -227,7 +236,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				}
 				// Check if captain
 				if (playerSummary.getStatus() == UserPlayerStatus.CAPTAIN) {
-					summary.setCaptain(playerSummary.getFirstName()+" "+playerSummary.getLastName());
+					summary.setCaptain(playerSummary.getFirstName() + " " + playerSummary.getLastName());
 				}
 			}
 		}
@@ -329,39 +338,41 @@ public class UserTeamServiceImpl implements UserTeamService {
 			logger.error("Unknown poolPlayerId:" + poolPlayerId + " userTeamId:" + userTeamId);
 		}
 	}
-	
+
 	private void dropUser(long userTeamId, UserPlayer userPlayer) throws LeagueException {
 		UserTeamStatus status = userTeamDao.getUserTeamStatus(userTeamId);
 		if (UserTeamStatus.COMPLETE.equals(status) && !isUserTeamTradeAvailable(userTeamId)) {
 			throw new InvalidPlayerException("You can not drop a player as you can not trade in a new pool player");
 		}
 		userPlayerService.deleteUserPlayer(userPlayer);
-		//Increase team's available money
+		// Increase team's available money
 		UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 		userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
-	  //Update team's status
+		// Update team's status
 		if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
 			userTeam.setStatus(UserTeamStatus.INCOMPLETE);
-			logger.info("UserTeam is no longer complete: "+userTeamId);
+			logger.info("UserTeam is no longer complete: " + userTeamId);
 		}
 		userTeamDao.saveOrUpdate(userTeam);
+		logger.info("Dropped user: "+userPlayer.getId());
 	}
-	
+
 	private boolean isUserTeamTradeAvailable(long userTeamId) throws LeagueException {
 		PlayingWeek currentPlayingWeek = getCurrentPlayingWeek();
-	  if (currentPlayingWeek != null) {
-	  	logger.debug("Current playing week: "+currentPlayingWeek);
+		if (currentPlayingWeek != null) {
+			logger.debug("Current playing week: " + currentPlayingWeek);
 			int playingWeek2 = 0;
 			if (currentPlayingWeek.getOrder() % 2 == 0) {
-				//Even week
+				// Even week
 				playingWeek2 = currentPlayingWeek.getOrder() - 1;
 			} else {
-				//Odd week
+				// Odd week
 				playingWeek2 = currentPlayingWeek.getOrder() + 1;
 			}
-			logger.info("Checking if UserTeam has traded in weeks: "+currentPlayingWeek.getOrder()+", "+playingWeek2);
-			int trades = userTeamTradeDao.getUserTeamTradeInWeeks(currentPlayingWeek.getLeagueSeason().getId(), userTeamId, new Integer[]{ currentPlayingWeek.getOrder(), playingWeek2 });
-			logger.info("Got trades: "+trades);
+			logger.info("Checking if UserTeam has traded in weeks: " + currentPlayingWeek.getOrder() + ", " + playingWeek2);
+			int trades = userTeamTradeDao.getUserTeamTradeInWeeks(currentPlayingWeek.getLeagueSeason().getId(), userTeamId,
+					new Integer[] { currentPlayingWeek.getOrder(), playingWeek2 });
+			logger.info("Got trades: " + trades);
 			if (trades > 0) {
 				return false;
 			} else {
@@ -369,34 +380,34 @@ public class UserTeamServiceImpl implements UserTeamService {
 			}
 		} else {
 			logger.debug("No current playing week so players can be traded");
-			//You can trade until the season starts...
+			// You can trade until the season starts...
 			return true;
 		}
 	}
-	
+
 	private PlayingWeek getCurrentPlayingWeek() throws LeagueException {
 		UserLeague userLeague = getDefaultUserLeague();
 		League league = userLeague.getLeague();
 		LeagueSeason leagueSeason = leagueService.getCurrentSeason(league);
-		//TODO for testing only
+		// TODO for testing only
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, 2012);
 		calendar.set(Calendar.MONTH, 7);
 		calendar.set(Calendar.DAY_OF_MONTH, 20);
-		PlayingWeek currentPlayingWeek =  playingWeekDao.get(leagueSeason.getId(), calendar.getTime());		
-		//END TODO
-//		PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
-		logger.info("Current playing week: "+currentPlayingWeek);
+		PlayingWeek currentPlayingWeek = playingWeekDao.get(leagueSeason.getId(), calendar.getTime());
+		// END TODO
+		// PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
+		logger.info("Current playing week: " + currentPlayingWeek);
 		return currentPlayingWeek;
 	}
-	
+
 	private void updatePlayerStatus(long userTeamId, UserPlayer userPlayer, UserPlayerStatus s) throws LeagueException {
 		if (s == UserPlayerStatus.PLAYER && userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
-			//Check number of existing players of the specified block
+			// Check number of existing players of the specified block
 			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 			checkValidPlayerType(userTeam, userPlayer.getPoolPlayer().getPlayer().getBlock());
-		}		
-		//Otherwise update the player's status
+		}
+		// Otherwise update the player's status
 		userPlayer.setStatus(s);
 		userPlayerService.saveUserPlayer(userPlayer);
 		logger.info("Updated player's status: " + userPlayer);
@@ -414,8 +425,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public String addPlayerToUserTeam(User user, long userTeamId, long teamId, long poolPlayerId, String playerType)
-			throws LeagueException {
+	public String addPlayerToUserTeam(User user, long userTeamId, long poolPlayerId, String playerType) throws LeagueException {
 		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
 		if (userPlayer == null || UserPlayerStatus.DROPPED.equals(userPlayer.getStatus())) {
 			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
@@ -487,7 +497,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 			throw new InvalidPlayerException("Too many players on the squad!");
 		}
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
-		logger.info("Checking player's count: " + playerTypeCounts.toString()+" for block: "+block);
+		logger.info("Checking player's count: " + playerTypeCounts.toString() + " for block: " + block);
 		if (block != null) {
 			switch (block) {
 			case DEFENDER:
@@ -515,9 +525,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 		int count = 0;
 		for (UserPlayer player : userTeam.getUserPlayers()) {
 			if (player.getStatus() != UserPlayerStatus.DROPPED) {
+				logger.info("userPlayer: "+player.getId());
 				count++;
 			}
 		}
+		logger.info("Players count: "+count+" for userTeam:"+userTeam);
 		return count;
 	}
 
@@ -569,6 +581,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				history.setPoolPlayer(poolPlayer);
 				history.setMatch(match);
 				history.setUserTeam(userTeam);
+				history.setPlayingWeek(match.getPlayingWeek());
 				userTeamScoreHistoryDao.save(history);
 				logger.info("Saved UserTeam's score history: " + history);
 			}
@@ -577,7 +590,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 					+ " " + poolPlayer.getPlayer().getLastName());
 		}
 	}
-	
+
+	@WriteTransaction
+	@Override
+	public void addPlayersPoints(long userTeamId, int points) throws LeagueException {
+		List<Long> ids = new ArrayList<Long>();
+		ids.add(userTeamId);
+		userTeamDao.addPlayerPoints(ids, points);
+	}
+
 	@WriteTransaction
 	@Override
 	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
@@ -594,12 +615,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 				history.setPoolPlayer(poolPlayer);
 				history.setMatch(match);
 				history.setUserTeam(userTeam);
+				history.setPlayingWeek(match.getPlayingWeek());
+				history.setCaptainExtraScore(true);
 				userTeamScoreHistoryDao.save(history);
 				logger.info("Saved capatin UserTeam's score history: " + history);
 			}
 		} else {
-			logger.info("No current UserTeams for Captain's poolPlayer:" + poolPlayer.getId() + " " + poolPlayer.getPlayer().getFirstName()
-					+ " " + poolPlayer.getPlayer().getLastName());
+			logger.info("No current UserTeams for Captain's poolPlayer:" + poolPlayer.getId() + " "
+					+ poolPlayer.getPlayer().getFirstName() + " " + poolPlayer.getPlayer().getLastName());
 		}
 	}
 
@@ -626,10 +649,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 				if (captain == null) {
 					throw new InvalidPlayerException("You need to assign a captain");
 				}
-				//Update the team's status
+				// Update the team's status
 				userTeam.setStatus(UserTeamStatus.COMPLETE);
 				userTeamDao.saveOrUpdate(userTeam);
-				logger.info("Updated the status of the userTeam: "+userTeam);
+				logger.info("Updated the status of the userTeam: " + userTeam);
 				return "Your team is complete and ready to play!";
 			} else {
 				throw new InvalidPlayerException("You need " + SQUAD_SIZE + " players in your squad");
@@ -638,7 +661,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 			throw new LeagueException("Unknown team");
 		}
 	}
-	
+
 	private String checkPlayersCount(UserTeam userTeam) throws LeagueException {
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
 		logger.info("Checking player's count: " + playerTypeCounts.toString());
@@ -652,16 +675,16 @@ public class UserTeamServiceImpl implements UserTeamService {
 			return "You need " + userTeam.getCurrentFormat().getStrikerCount() + " strikers on the team";
 		}
 		if (playerTypeCounts.get(BlockType.GOALKEEPER) != GOALKEEPER_COUNT) {
-			return "You need at least "+GOALKEEPER_COUNT+" goalkeeper on the team";
+			return "You need at least " + GOALKEEPER_COUNT + " goalkeeper on the team";
 		}
 		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != SUBSTITUTE_COUNT) {
-			return "You need at least "+SUBSTITUTE_COUNT+" substitutes on the team";
+			return "You need at least " + SUBSTITUTE_COUNT + " substitutes on the team";
 		}
 		return null;
 	}
-	
+
 	private UserPlayer getUserTeamCaptain(UserTeam userTeam) {
-		for(UserPlayer userPlayer : userTeam.getUserPlayers()) {
+		for (UserPlayer userPlayer : userTeam.getUserPlayers()) {
 			if (UserPlayerStatus.CAPTAIN.equals(userPlayer.getStatus())) {
 				return userPlayer;
 			}
@@ -671,21 +694,21 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@Override
 	public List<PlayerMatchSummary> getPoolPlayerMatches(Long poolPlayerId) throws LeagueException {
-		return poolService.getPlayerMatches(poolPlayerId);		
+		return poolService.getPlayerMatches(poolPlayerId);
 	}
 
 	@Override
-	public List<PlayerMatchEventSummary> getPoolPlayerMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {		
+	public List<PlayerMatchEventSummary> getPoolPlayerMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {
 		return poolService.getMatchEvents(poolPlayerId, matchId);
 	}
 
 	@ReadTransaction
 	@Override
 	public List<UserTeamScoreHistorySummary> getUserTeamScoreHistory(User user, Long userTeamId) throws LeagueException {
-		List<UserTeamScoreHistorySummary> scores = userTeamDao.getScoreHistoryByMatch(userTeamId);
+		List<UserTeamScoreHistorySummary> scores = userTeamDao.getScoreHistory(userTeamId);
 		Match match = null;
 		Map<Long, Match> matches = new HashMap<Long, Match>();
-		for(UserTeamScoreHistorySummary score : scores) {
+		for (UserTeamScoreHistorySummary score : scores) {
 			if (matches.containsKey(score.getMatchId())) {
 				match = matches.get(score.getMatchId());
 			} else {
@@ -694,30 +717,30 @@ public class UserTeamServiceImpl implements UserTeamService {
 			}
 			score.setTeamOneName(match.getTeam1().getClubName());
 			score.setTeamTwoName(match.getTeam2().getClubName());
-		}		
+		}
 		return scores;
 	}
 
 	@ReadTransaction
 	@Override
 	public List<UserTeamScoreHistorySummary> getUserTeamScorePlayersHistory(User user, Long userTeamId, Long matchId)
-		throws LeagueException {
+			throws LeagueException {
 		List<UserTeamScoreHistorySummary> scores = userTeamDao.getPlayersScoreHistoryByMatch(userTeamId, matchId);
 		Map<Long, String> teams = new HashMap<Long, String>();
 		String team = null;
 		Integer matchPoints = 0;
-		for(UserTeamScoreHistorySummary score : scores) {
+		for (UserTeamScoreHistorySummary score : scores) {
 			matchPoints += score.getPlayerPoints();
-			//set the player's team name
+			// set the player's team name
 			if (teams.containsKey(score.getPlayerTeamId())) {
 				team = teams.get(score.getPlayerTeamId());
 			} else {
-				logger.info("Getting team name for id: "+score.getPlayerTeamId());
+				logger.info("Getting team name for id: " + score.getPlayerTeamId());
 				team = teamService.getTeamName(score.getPlayerTeamId());
 				teams.put(score.getPlayerTeamId(), team);
 			}
 			score.setTeamOneName(team);
-			logger.info("Set player's team name: "+team);
+			logger.info("Set player's team name: " + team);
 		}
 		scores.get(0).setMatchPoints(matchPoints);
 		return scores;
@@ -731,7 +754,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@ReadTransaction
 	@Override
-	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException {		
+	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException {
 		return userTeamDao.getTeamListSummary(userId);
 	}
 
@@ -749,5 +772,103 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public Long getAvailableMoney(long userTeamId) throws LeagueException {
 		return userTeamDao.getAvailableMoney(userTeamId);
+	}
+
+	@Override
+	public List<NeededPlayer> getIncompleteUserTeams(PlayingWeek playingWeek) throws LeagueException {
+		return userTeamScoreHistoryDao.getIncompleteTeams(playingWeek.getId());
+	}
+
+	@Override
+	public void saveUserTeamScoreHistory(UserTeamScoreHistory userTeamScoreHistory) throws LeagueException {
+		if (userTeamScoreHistory != null) {
+			userTeamScoreHistoryDao.save(userTeamScoreHistory);
+		}
+	}
+
+	@ReadTransaction
+	@Override
+	public List<UserTeamScoreHistory> getScoreHistory(long userTeamId, long playingWeekId) throws LeagueException {
+		return userTeamScoreHistoryDao.getScoreHistory(userTeamId, playingWeekId);
+	}
+
+	@WriteTransaction
+	@Override
+	public String tradePlayers(User user, long userTeamId, long poolPlayerId, long selectedPoolPlayerId)
+			throws InvalidPlayerException, LeagueException {
+		UserTeam userTeam = userTeamDao.getTeamWithPlayers(userTeamId);
+		if (userTeam != null) {
+			UserPlayer existingPlayer = getExistingUserPlayer(userTeam, poolPlayerId);
+			if (existingPlayer != null) {
+				if (!isAlreadyTeamPlayer(userTeam, selectedPoolPlayerId)) {
+					PoolPlayer poolPlayer = poolService.getPoolPlayer(selectedPoolPlayerId);
+					if (poolPlayer != null) {
+						long total = userTeam.getAvailableMoney() + existingPlayer.getPoolPlayer().getPlayerPrice();
+						logger.info("Checking team's money: "+total+" poolPlayer's price: "+poolPlayer.getPlayerPrice());
+						if (total > poolPlayer.getPlayerPrice()) {
+							//remove the player from the user team as well
+							userTeam.getUserPlayers().remove(existingPlayer);
+							userTeamDao.saveOrUpdate(userTeam);
+							//Drop old player
+							logger.info("Dropping player: "+existingPlayer.getId());
+							setPlayerStatus(userTeamId, poolPlayerId, UserPlayerStatus.DROPPED.name());							
+							//Add new pool player
+							logger.info("Adding trade player: "+selectedPoolPlayerId);
+							String message = addPlayerToUserTeam(user, userTeamId, selectedPoolPlayerId, existingPlayer.getPoolPlayer().getPlayer().getBlock().name());
+							if (message == null) {
+								//Save the trade
+								saveTrade(userTeam, poolPlayer);							
+								return null;
+							} else {
+								throw new InvalidPlayerException(message);
+							}
+						} else {
+							logger.error("Too expensive selectedPoolPlayerId: " + selectedPoolPlayerId);
+							throw new InvalidPlayerException("You don't have enough money to trade this player");
+						}
+					} else {
+						logger.error("Invalid selectedPoolPlayerId: " + selectedPoolPlayerId);
+						throw new InvalidPlayerException("Invalid pool player");
+					}
+				} else {
+					logger.error("SelectedPoolPlayerId: "+selectedPoolPlayerId+" is already on the user's team");
+					return "The selected pool player is already on your team";
+				}
+			} else {
+				logger.error("Invalid existingPlayer: " + poolPlayerId);
+				throw new InvalidPlayerException("Invalid existing player");
+			}
+		} else {
+			return "Unknown user team";
+		}
+	}
+
+	private boolean isAlreadyTeamPlayer(UserTeam userTeam, long selectedPoolPlayerId) {
+		for (UserPlayer userPlayer : userTeam.getUserPlayers()) {
+			if (userPlayer.getPoolPlayer().getId().longValue() == selectedPoolPlayerId) {
+				logger.error("PoolPlayer:" + selectedPoolPlayerId + " is already on the user's team: " + " " + userTeam.getId());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private UserPlayer getExistingUserPlayer(UserTeam userTeam, long poolPlayerId) {
+		for (UserPlayer userPlayer : userTeam.getUserPlayers()) {
+			if (userPlayer.getPoolPlayer().getId().longValue() == poolPlayerId) {
+				return userPlayer;
+			}
+		}
+		return null;
+	}
+	
+	@WriteTransaction	
+	private void saveTrade(UserTeam userTeam, PoolPlayer poolPlayer) throws LeagueException {
+		UserTeamTrade trade = new UserTeamTrade();
+		trade.setPlayingWeek(getCurrentPlayingWeek());
+		trade.setPoolPlayer(poolPlayer);
+		trade.setUserTeam(userTeam);
+		userTeamTradeDao.save(trade);
+		logger.info("Save trade: "+trade);
 	}
 }

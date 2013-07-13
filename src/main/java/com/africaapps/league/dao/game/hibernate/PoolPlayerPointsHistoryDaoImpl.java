@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
@@ -87,5 +89,14 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			summaries.add(match);
 		}
 		return summaries;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PoolPlayerPointsHistory> getForPlayingWeek(long poolPlayerId, long currentPlayingWeekId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayerPointsHistory.class);
+		criteria.createAlias("poolPlayer", "pp").add(Restrictions.eq("pp.id", poolPlayerId));
+		criteria.createAlias("playingWeek", "pw").add(Restrictions.eq("pw.id", currentPlayingWeekId));
+		return criteria.list();
 	}
 }

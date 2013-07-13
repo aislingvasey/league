@@ -1,0 +1,61 @@
+<dataset>
+	<league_type id="-1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
+	<league id="-1" name="ABSA Soccer League" description="Some description" league_type_id="-1" />
+	<league_season id="-1" league_id="-1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+
+	<team id="-1" team_id="10" club_name="Team 1" team_name="Team 1" city="Here" league_season_id="-1" />
+	<team id="-2" team_id="11" club_name="Team 2" team_name="Team 2" city="There" league_season_id="-1" />
+
+	<position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
+	<position id="-2" position_number="2" league_type_id="-1" position_type="ATTACK" />
+
+	<game_playing_week id="-1" playing_week_order="1" start_date_time="[1weekago]" end_date_time="[today]"
+		league_season_id="-1" />
+
+	<match id="-1" final_score="1-1" match_id="123" start_date_time="[today]" match_processing_status="COMPLETE"
+		league_season_id="-1" playing_week_id="-1" team1_id="-1" team2_id="-2" />
+
+	<player id="-1" block="DEFENDER" first_name="Bob" last_name="Smith" nick_name="Bob" player_id="1234" shirt_number="10"
+		position_id="-1" team_id="-1" />
+	<player id="-2" block="DEFENDER" first_name="John" last_name="Brown" nick_name="John" player_id="12345" shirt_number="11"
+		position_id="-1" team_id="-1" />
+	<player id="-3" block="STRIKER" first_name="Jo" last_name="Jackson" nick_name="Jo" player_id="2345" shirt_number="1"
+		position_id="-2" team_id="-1" />
+
+
+	<game_user_details id="-1" cell_number="" email_address="" first_name="" last_name="" password=""
+		username="user1" />
+
+	<game_pool id="-1" league_season_id="-1" />
+
+	<game_user_league id="-1" default_league="true" description="Hello" name="General League" status="INPROGRESS"
+		type="PUBLIC" league_id="-1" owner_id="-1" pool_id="-1" />
+
+	<game_team_format id="-1" default_format="true" defender_count="4" description="4-5-1" midfielder_count="5"
+		name="4-5-1" striker_count="1" league_type_id="-1" />
+
+	<game_user_team id="-1" available_money="5000" current_score="100" name="Team 1" status="COMPLETE"
+		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
+	<game_user_team id="-2" available_money="1000" current_score="50" name="Team 2" status="COMPLETE"
+		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
+
+	<game_pool_player id="-1" player_current_score="125" player_price="100000" player_id="-1" pool_id="-1" />
+	<game_pool_player id="-2" player_current_score="260" player_price="2430000" player_id="-2" pool_id="-1" />
+	<game_pool_player id="-3" player_current_score="20" player_price="120000" player_id="-3" pool_id="-1" />
+
+	<game_pool_player_points_history id="-1" added_date_time="[today]" player_points="15"
+		match_id="-1" playing_week_id="-1" pool_player_id="-2" />
+	<game_pool_player_points_history id="-2" added_date_time="[today]" player_points="5"
+		match_id="-1" playing_week_id="-1" pool_player_id="-3" />
+
+	<game_user_player id="-1" status="PLAYER" pool_id="-1" pool_player_id="-1" user_team_id="-1" />
+	<game_user_player id="-2" status="SUBSTITUTE" pool_id="-1" pool_player_id="-2" user_team_id="-1" />
+	<game_user_player id="-3" status="SUBSTITUTE" pool_id="-1" pool_player_id="-3" user_team_id="-1" />
+
+	<game_user_team_score_history id="-1" added_date_time="[today]" captain_extra_score="false"
+		player_points="10" match_id="-1" playing_week_id="-1" pool_player_id="-1" user_team_id="-1" />
+
+	<game_user_team_score_history id="-2" added_date_time="[today]" captain_extra_score="false"
+		player_points="20" match_id="-1" playing_week_id="-1" pool_player_id="-1" user_team_id="-2" />
+
+</dataset>

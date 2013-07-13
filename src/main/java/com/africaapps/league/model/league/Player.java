@@ -28,11 +28,15 @@ public class Player extends BaseDataModel {
 	private Integer playerId; //external id
 	private String firstName;
 	private String lastName;
-	private String nickName;
 	private Integer shirtNumber;
 	private Position position;
 	private BlockType block;
 	private Team team;
+	
+	public Player() {
+		this.firstName = "";
+		this.lastName = "";
+	}
 	
 	@Override
 	public String toString() {
@@ -42,7 +46,6 @@ public class Player extends BaseDataModel {
 		builder.append(" playerId:").append(playerId);
 		builder.append(" firstName:").append(firstName);
 		builder.append(" lastName:").append(lastName);
-		builder.append(" nickName:").append(nickName);
 		builder.append(" position:").append(position);
 		builder.append(" block:").append(block);
 		builder.append(" team:").append(team == null ? "" : team.getClubName());
@@ -109,16 +112,6 @@ public class Player extends BaseDataModel {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	@Size(max=200, message="{validate.nickname.range}")
-  @Column(name="nick_name", length=200, nullable=true)
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
 	}
 
 	@NotNull

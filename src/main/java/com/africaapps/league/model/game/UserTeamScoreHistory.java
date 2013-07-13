@@ -28,9 +28,12 @@ public class UserTeamScoreHistory extends BaseDataModel {
 	private PoolPlayer poolPlayer;
 	private int playerPoints;
 	private Date addedDateTime;
+	private PlayingWeek playingWeek;
+	private boolean captainExtraScore;
 	
 	public UserTeamScoreHistory() {
 		this.addedDateTime = new Date();
+		this.captainExtraScore = false;
 	}
 
 	@Override
@@ -49,6 +52,10 @@ public class UserTeamScoreHistory extends BaseDataModel {
 		if (match != null) {
 			builder.append(" match:").append(match.getId());
 		}
+		if (playingWeek != null) {
+			builder.append(" playingWeek:").append(playingWeek.getId());
+		}
+		builder.append(" captainExtraScore:").append(captainExtraScore);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -129,5 +136,24 @@ public class UserTeamScoreHistory extends BaseDataModel {
 
 	public void setMatch(Match match) {
 		this.match = match;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="playing_week_id", nullable=false)
+	public PlayingWeek getPlayingWeek() {
+		return playingWeek;
+	}
+
+	public void setPlayingWeek(PlayingWeek playingWeek) {
+		this.playingWeek = playingWeek;
+	}
+
+	@Column(name="captain_extra_score", nullable=false)
+	public boolean isCaptainExtraScore() {
+		return captainExtraScore;
+	}
+
+	public void setCaptainExtraScore(boolean captainExtraScore) {
+		this.captainExtraScore = captainExtraScore;
 	}
 }

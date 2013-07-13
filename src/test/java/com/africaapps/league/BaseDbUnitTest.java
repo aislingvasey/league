@@ -178,6 +178,10 @@ public abstract class BaseDbUnitTest extends DatabaseTestCase {
     // twoDaysAgo
     Date twoDaysAgo = DateCalcUtil.addDays(today, -2);
     replacementDataSet.addReplacementObject("[twoDaysAgo]", twoDaysAgo);
+    
+    //1weekago
+    Date oneWeekAgo = DateCalcUtil.addDays(today, -7);
+    replacementDataSet.addReplacementObject("[1weekago]", oneWeekAgo);
 
     // Null instances/values
     replacementDataSet.addReplacementObject("[NULL]", null);

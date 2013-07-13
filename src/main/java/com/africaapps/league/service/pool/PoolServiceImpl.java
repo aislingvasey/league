@@ -77,7 +77,7 @@ public class PoolServiceImpl implements PoolService {
 	}
 	
 	private Long getPlayerPrice(Player player) throws LeagueException {
-		PlayerPrice playerPrice = playerPriceDao.getPrice(player.getFirstName(), player.getLastName());
+		PlayerPrice playerPrice = playerPriceDao.getPrice(player.getFirstName().trim(), player.getLastName().trim());
 		if (playerPrice != null) {
 			logger.info("Setting price:"+playerPrice+" for player: "+player);
 			return playerPrice.getPrice().longValue();
@@ -109,6 +109,7 @@ public class PoolServiceImpl implements PoolService {
 		history.setMatch(match);
 		history.setPlayerPoints(playerScore);
 		history.setPoolPlayer(poolPlayer);
+		history.setPlayingWeek(match.getPlayingWeek());
 		poolPlayerPointsHistoryDao.save(history);
 	}
 
@@ -135,5 +136,11 @@ public class PoolServiceImpl implements PoolService {
 		results.setPageSize(pageSize);
 		results.setPoolPlayers(poolPlayers);
 		return results;
+	}
+
+	@Override
+	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId)
+			throws LeagueException {
+		return poolPlayerPointsHistoryDao.getForPlayingWeek(poolPlayerId, currentPlayingWeekId);
 	}
 }

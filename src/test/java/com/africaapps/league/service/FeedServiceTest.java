@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
+import com.africaapps.league.model.league.League;
 import com.africaapps.league.service.feed.FeedService;
+import com.africaapps.league.service.league.LeagueService;
 
 public class FeedServiceTest extends BaseSpringDbUnitTest {
 	
@@ -14,6 +16,8 @@ public class FeedServiceTest extends BaseSpringDbUnitTest {
 
 	@Autowired
 	private FeedService feedService;
+	@Autowired
+	private LeagueService leagueService;
 	
 	@Test
 	public void placeHolderMethod() {
@@ -23,6 +27,7 @@ public class FeedServiceTest extends BaseSpringDbUnitTest {
 //	@Test
 	public void processFeed() throws Exception {
 		String leagueName = "ABSA Premier Soccer League";		
-		feedService.processFeed(leagueName, x, y, z, null);
+		League league = leagueService.getLeague(leagueName);
+		feedService.processFeed(league, x, y, z, null);
 	}
 }

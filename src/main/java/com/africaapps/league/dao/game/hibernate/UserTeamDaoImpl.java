@@ -203,7 +203,7 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserTeamScoreHistorySummary> getScoreHistoryByMatch(long userTeamId) {
+	public List<UserTeamScoreHistorySummary> getScoreHistory(long userTeamId) {
 		List<UserTeamScoreHistorySummary> scores = new ArrayList<UserTeamScoreHistorySummary>();
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(SCORE_HISTORY_BY_MATCH);
 		query.setLong("userTeamId", userTeamId);

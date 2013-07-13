@@ -30,7 +30,7 @@ public interface UserTeamDao {
 	public List<UserTeam> getTeamsWithCaptain(long poolPlayerId);
 	public void addPlayerPoints(List<Long> ids, int playerPoints);
 	
-	public List<UserTeamScoreHistorySummary> getScoreHistoryByMatch(long userTeamId);
+	public List<UserTeamScoreHistorySummary> getScoreHistory(long userTeamId);
 	public List<UserTeamScoreHistorySummary> getPlayersScoreHistoryByMatch(Long userTeamId, Long matchId);
 	
 	public Long getTeamPoolId(Long userTeamId);

@@ -13,4 +13,5 @@ public interface PoolPlayerPointsHistoryDao {
 	public List<PlayerMatchSummary> getHistoryForPlayer(long poolPlayerId);
 	public List<PlayerMatchEventSummary> getEventsForPlayer(long poolPlayerId, long matchId);
 	
+	public List<PoolPlayerPointsHistory> getForPlayingWeek(long poolPlayerId, long currentPlayingWeekId);
 }
