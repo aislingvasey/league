@@ -173,14 +173,19 @@ public abstract class BaseDbUnitTest extends DatabaseTestCase {
 
     // today
     Date today = DateCalcUtil.today();
-    replacementDataSet.addReplacementObject("[today]", today);
+    Calendar now2 = Calendar.getInstance();
+    now2.setTime(today);
+    now2.set(Calendar.HOUR, 23);
+    now2.set(Calendar.MINUTE, 59);
+    now2.set(Calendar.SECOND, 59);
+    replacementDataSet.addReplacementObject("[today]", now2.getTime());
 
     // twoDaysAgo
     Date twoDaysAgo = DateCalcUtil.addDays(today, -2);
     replacementDataSet.addReplacementObject("[twoDaysAgo]", twoDaysAgo);
     
     //1weekago
-    Date oneWeekAgo = DateCalcUtil.addDays(today, -7);
+    Date oneWeekAgo = DateCalcUtil.addDays(today, -7);    
     replacementDataSet.addReplacementObject("[1weekago]", oneWeekAgo);
 
     // Null instances/values

@@ -845,7 +845,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@Override
 	public List<NeededPlayer> getIncompleteUserTeams(PlayingWeek playingWeek) throws LeagueException {
-		return userTeamScoreHistoryDao.getIncompleteTeams(playingWeek.getId());
+		if (playingWeek != null) {
+			return userTeamScoreHistoryDao.getIncompleteTeams(playingWeek.getId());
+		} else {
+			throw new LeagueException("Invalid playing week");
+		}
 	}
 
 	@Override

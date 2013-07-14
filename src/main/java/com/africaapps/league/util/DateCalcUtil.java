@@ -78,10 +78,10 @@ public class DateCalcUtil {
   public static Date clearHHMMSS(Date date) {
     GregorianCalendar cal = (GregorianCalendar)GregorianCalendar.getInstance();
     cal.setTime(date);
-    cal.set(GregorianCalendar.HOUR_OF_DAY, 0);
-    cal.set(GregorianCalendar.MINUTE, 0);
-    cal.set(GregorianCalendar.SECOND, 0);
-    cal.set(GregorianCalendar.MILLISECOND, 0);
+    cal.set(GregorianCalendar.HOUR_OF_DAY, 23);
+    cal.set(GregorianCalendar.MINUTE, 59);
+    cal.set(GregorianCalendar.SECOND, 59);
+    cal.set(GregorianCalendar.MILLISECOND, 999);
     return cal.getTime();	  
   }
 }

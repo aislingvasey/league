@@ -8,7 +8,7 @@
     <event id="-1" event_id="100" description="Yellow Card" league_type_id="-1" points="-5" />
     <event id="-2" event_id="101" description="Red Card" league_type_id="-1" points="-10" />          
     <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
-    <player id="-1" player_id="5" first_name="Bob" last_name="Smith" nick_name="Bob" shirt_number="5" team_id= "-1" position_id="-1" />
+    <player id="-1" player_id="5" first_name="Bob" last_name="Smith" shirt_number="5" team_id= "-1" position_id="-1" />
     <game_pool_player />
     <match />
     <player_match />
