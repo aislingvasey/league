@@ -3,6 +3,7 @@ package com.africaapps.league.dao.game;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -51,5 +52,16 @@ public class UserPlayerDaoImpl extends BaseHibernateDao implements UserPlayerDao
 	@Override
 	public void delete(UserPlayer userPlayer) {
 		sessionFactory.getCurrentSession().delete(userPlayer);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserPlayer> getSubstitutes(long userTeamId, int subsCount) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserPlayer.class);
+		criteria.createAlias("userTeam", "t").add(Restrictions.eq("t.id", userTeamId));
+		criteria.add(Restrictions.eq("status", UserPlayerStatus.SUBSTITUTE));
+		criteria.addOrder(Order.asc("id"));
+		criteria.setMaxResults(subsCount);
+		return criteria.list();
 	}
 }
