@@ -11,6 +11,7 @@ public class UserTeamSummary extends UserTeamListSummary {
 
 	private TeamFormat teamFormat;
 	private String captain;
+	private Long captainId;
 	private List<UserPlayerSummary> goalKeepers;
 	private List<UserPlayerSummary> defenders;
 	private List<UserPlayerSummary> midfielders;
@@ -162,5 +163,13 @@ public class UserTeamSummary extends UserTeamListSummary {
 
 	public void setTeamStatus(String teamStatus) {
 		this.teamStatus = teamStatus;
+	}
+
+	public Long getCaptainId() {
+		return captainId;
+	}
+
+	public void setCaptainId(Long captainId) {
+		this.captainId = captainId;
 	}
 }

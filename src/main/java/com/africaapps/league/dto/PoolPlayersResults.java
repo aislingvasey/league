@@ -12,6 +12,14 @@ public class PoolPlayersResults extends BaseDto {
 	private int page;	
 	private int pageSize;
 
+	public boolean getLessThanAFullPage() {
+		if (poolPlayers.size() < pageSize) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public List<PoolPlayer> getPoolPlayers() {
 		return poolPlayers;
 	}

@@ -14,6 +14,7 @@ public class UserTeamListSummary extends BaseDto {
 	protected String leagueName;
 	protected Integer positionInLeague;	
 	protected Integer leagueCount;
+	protected boolean canTrade;
 	
 	public Long getUserId() {
 		return userId;
@@ -74,5 +75,11 @@ public class UserTeamListSummary extends BaseDto {
 	}
 	public void setLeagueCount(Integer leagueCount) {
 		this.leagueCount = leagueCount;
+	}
+	public boolean getCanTrade() {
+		return canTrade;
+	}
+	public void setCanTrade(boolean canTrade) {
+		this.canTrade = canTrade;
 	}
 }

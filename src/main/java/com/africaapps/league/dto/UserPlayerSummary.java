@@ -12,6 +12,7 @@ public class UserPlayerSummary extends BaseDto {
 	private String firstName;
 	private String lastName;
 	private BlockType block;
+	private BlockType originalBlock; //for substitutes that have SUBSTITUTE in their block attribute
 	private long price;	
 	private int currentScore;
 	private UserPlayerStatus status;
@@ -64,5 +65,11 @@ public class UserPlayerSummary extends BaseDto {
 	}
 	public void setPlayerId(Integer playerId) {
 		this.playerId = playerId;
+	}
+	public BlockType getOriginalBlock() {
+		return originalBlock;
+	}
+	public void setOriginalBlock(BlockType originalBlock) {
+		this.originalBlock = originalBlock;
 	}
 }

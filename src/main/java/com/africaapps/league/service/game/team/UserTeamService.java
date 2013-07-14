@@ -37,17 +37,19 @@ public interface UserTeamService {
 	public List<UserTeamListSummary> getTeamSummaries(long userId) throws LeagueException;
 	
 	public UserTeamSummary getTeamWithPlayers(long teamId) throws LeagueException;
+	public UserTeamSummary getTeamWithSamePlayers(long teamId, long poolPlayerId) throws LeagueException;
 	
 	public List<UserPlayerSummary> getTeamPlayers(long teamId, long userTeamId, String type) throws LeagueException;
 	public UserPlayerSummary getTeamPlayer(long teamId, long poolPlayerId) throws LeagueException;
 	
-	public String addPlayerToUserTeam(User user, long userTeamId, long poolPlayerId, String playerType) throws LeagueException;
+	public void addPlayerToUserTeam(User user, long userTeamId, long poolPlayerId, String playerType) throws LeagueException;
 	public void setPlayerStatus(long teamId, long poolPlayerId, String status) throws LeagueException;
+	public void swapPlayers(long teamId, long substitutePlayerId, Long playerId) throws LeagueException;
 	
 	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
 	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
 	
-	public String setTeam(User user, Long userTeamId) throws LeagueException;
+	public void setTeam(User user, Long userTeamId) throws LeagueException;
 	
 	//Player's summaries
 	public List<PlayerMatchSummary> getPoolPlayerMatches(Long poolPlayerId) throws LeagueException;
@@ -61,13 +63,13 @@ public interface UserTeamService {
 	
 	public Long getUserTeamPoolId(Long userTeamId) throws LeagueException;
 	
-	public String isUserTeamAbleToTrade(long teamId) throws LeagueException;
+	public boolean isUserTeamAbleToTrade(long teamId) throws LeagueException;
 	
 	public Long getAvailableMoney(long userTeamId) throws LeagueException;
 	
 	public List<NeededPlayer> getIncompleteUserTeams(PlayingWeek playingWeek) throws LeagueException;
 	public void addPlayersPoints(long userTeamId, int points) throws LeagueException;
 	
-	public String tradePlayers(User user, long teamId, long poolPlayerId, long selectedPoolPlayerId) throws LeagueException;
+	public void tradePlayers(User user, long teamId, long poolPlayerId, long selectedPoolPlayerId) throws LeagueException;
 	
 }
