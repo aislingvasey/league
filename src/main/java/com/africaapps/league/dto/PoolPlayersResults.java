@@ -2,13 +2,11 @@ package com.africaapps.league.dto;
 
 import java.util.List;
 
-import com.africaapps.league.model.game.PoolPlayer;
-
 public class PoolPlayersResults extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<PoolPlayer> poolPlayers;
+	private List<PoolPlayerSummary> poolPlayers;
 	private int page;	
 	private int pageSize;
 
@@ -20,11 +18,11 @@ public class PoolPlayersResults extends BaseDto {
 		}
 	}
 	
-	public List<PoolPlayer> getPoolPlayers() {
+	public List<PoolPlayerSummary> getPoolPlayers() {
 		return poolPlayers;
 	}
 
-	public void setPoolPlayers(List<PoolPlayer> poolPlayers) {
+	public void setPoolPlayers(List<PoolPlayerSummary> poolPlayers) {
 		this.poolPlayers = poolPlayers;
 	}
 

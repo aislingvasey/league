@@ -1,7 +1,5 @@
 package com.africaapps.league.dto;
 
-import com.africaapps.league.model.game.UserPlayerStatus;
-import com.africaapps.league.model.league.BlockType;
 
 public class UserPlayerSummary extends BaseDto {
 
@@ -11,65 +9,81 @@ public class UserPlayerSummary extends BaseDto {
 	private Long poolPlayerId;
 	private String firstName;
 	private String lastName;
-	private BlockType block;
-	private BlockType originalBlock; //for substitutes that have SUBSTITUTE in their block attribute
+	private String block;
+	private String originalBlock; //for substitutes that have SUBSTITUTE in their block attribute
 	private long price;	
 	private int currentScore;
-	private UserPlayerStatus status;
+	private String status;
 	
 	public Long getPoolPlayerId() {
 		return poolPlayerId;
 	}
+	
 	public void setPoolPlayerId(Long poolPlayerId) {
 		this.poolPlayerId = poolPlayerId;
 	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	
 	public String getLastName() {
 		return lastName;
 	}
+	
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-	public BlockType getBlock() {
-		return block;
-	}
-	public void setBlock(BlockType type) {
-		this.block = type;
 	}
 
 	public long getPrice() {
 		return price;
 	}
+	
 	public void setPrice(long price) {
 		this.price = price;
 	}
+	
 	public int getCurrentScore() {
 		return currentScore;
 	}
+	
 	public void setCurrentScore(int currentScore) {
 		this.currentScore = currentScore;
 	}
-	public UserPlayerStatus getStatus() {
+	
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(UserPlayerStatus status) {
+	
+	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	public Integer getPlayerId() {
 		return playerId;
 	}
+	
 	public void setPlayerId(Integer playerId) {
 		this.playerId = playerId;
 	}
-	public BlockType getOriginalBlock() {
+
+	public String getBlock() {
+		return block;
+	}
+
+	public void setBlock(String block) {
+		this.block = block;
+	}
+
+	public String getOriginalBlock() {
 		return originalBlock;
 	}
-	public void setOriginalBlock(BlockType originalBlock) {
+
+	public void setOriginalBlock(String originalBlock) {
 		this.originalBlock = originalBlock;
 	}
 }

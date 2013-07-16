@@ -29,6 +29,7 @@ public interface UserTeamService {
 	public UserTeam getTeam(long userTeamId) throws LeagueException;
 	
 	public UserLeague getDefaultUserLeague() throws LeagueException;
+	public Long getDefaultAvailableMoney() throws LeagueException;
 	
 	public TeamFormat getDefaultTeamFormat(long leagueTypeId) throws LeagueException;
 	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException;

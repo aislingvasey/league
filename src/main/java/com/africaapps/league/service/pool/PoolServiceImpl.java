@@ -1,5 +1,6 @@
 package com.africaapps.league.service.pool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,12 +14,14 @@ import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
 import com.africaapps.league.dto.PlayerMatchEventSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
+import com.africaapps.league.dto.PoolPlayerSummary;
 import com.africaapps.league.dto.PoolPlayersResults;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.PlayerPrice;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.game.PoolPlayerPointsHistory;
+import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
@@ -131,13 +134,36 @@ public class PoolServiceImpl implements PoolService {
 		logger.info("Getting pool players: page: "+page+" pageSize:"+pageSize);
 		Long poolId = userTeamService.getUserTeamPoolId(userTeamId);
 		List<PoolPlayer> poolPlayers = poolPlayerDao.getByPoolId(poolId, page, pageSize);
+		List<PoolPlayerSummary> summaries = new ArrayList<PoolPlayerSummary>();
+		PoolPlayerSummary summary;
+		for(PoolPlayer poolPlayer : poolPlayers) {
+			summary = new PoolPlayerSummary();
+			summary.setBlock(formatBlock(poolPlayer.getPlayer().getBlock()));
+			summary.setCurrentScore(poolPlayer.getPlayerCurrentScore());
+			summary.setFirstName(poolPlayer.getPlayer().getFirstName());
+			summary.setLastName(poolPlayer.getPlayer().getLastName());
+			summary.setPoolPlayerId(poolPlayer.getId());
+			summary.setPrice(poolPlayer.getPlayerPrice());
+			summaries.add(summary);
+		}
 		PoolPlayersResults results = new PoolPlayersResults();
 		results.setPage(page);
 		results.setPageSize(pageSize);
-		results.setPoolPlayers(poolPlayers);
+		results.setPoolPlayers(summaries);
 		return results;
 	}
 
+	private String formatBlock(BlockType block) {
+		if (block != null) {
+			StringBuilder b = new StringBuilder();
+			b.append(block.name().substring(0, 1));
+			b.append(block.name().substring(1).toLowerCase());
+			return b.toString();
+		} else {
+			return "";
+		}
+	}
+	
 	@Override
 	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId)
 			throws LeagueException {

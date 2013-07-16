@@ -172,6 +172,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public UserLeague getDefaultUserLeague() throws LeagueException {
 		return userLeagueService.getDefaultUserLeague();
 	}
+	
+	@Override
+	public Long getDefaultAvailableMoney() {
+		return Long.valueOf("4000000"); //TODO
+	}
 
 	@ReadTransaction
 	@Override
@@ -247,35 +252,53 @@ public class UserTeamServiceImpl implements UserTeamService {
 				// Check that the player is possibly a sub for the user's team
 				logger.debug("Checking player's status: " + userPlayer.getStatus());
 				if (userPlayer.getStatus() == UserPlayerStatus.SUBSTITUTE) {
-					playerSummary.setBlock(BlockType.SUBSTITUTE);
-					playerSummary.setOriginalBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
+					playerSummary.setBlock(formatEnum(BlockType.SUBSTITUTE));
+					playerSummary.setOriginalBlock(formatEnum(userPlayer.getPoolPlayer().getPlayer().getBlock()));
 					logger.info("Player is a substitute: " + playerSummary.getPoolPlayerId());
 				} else {
-					playerSummary.setBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
+					playerSummary.setBlock(formatEnum(userPlayer.getPoolPlayer().getPlayer().getBlock()));
 				}
-				playerSummary.setStatus(userPlayer.getStatus());				
-				if (requiredType == null || requiredType.equals(playerSummary.getBlock())) {
+				playerSummary.setStatus(formatStatus(userPlayer.getStatus()));				
+				if (requiredType == null || requiredType.name().equalsIgnoreCase(playerSummary.getBlock())) {
 					// Add to correct player grouping
-					if (BlockType.DEFENDER.equals(playerSummary.getBlock())) {
+					if (BlockType.DEFENDER.name().equalsIgnoreCase(playerSummary.getBlock())) {
 						summary.getDefenders().add(playerSummary);
-					} else if (BlockType.GOALKEEPER.equals(playerSummary.getBlock())) {
+					} else if (BlockType.GOALKEEPER.name().equalsIgnoreCase(playerSummary.getBlock())) {
 						summary.getGoalKeepers().add(playerSummary);
-					} else if (BlockType.MIDFIELDER.equals(playerSummary.getBlock())) {
+					} else if (BlockType.MIDFIELDER.name().equalsIgnoreCase(playerSummary.getBlock())) {
 						summary.getMidfielders().add(playerSummary);
-					} else if (BlockType.STRIKER.equals(playerSummary.getBlock())) {
+					} else if (BlockType.STRIKER.name().equalsIgnoreCase(playerSummary.getBlock())) {
 						summary.getStrikers().add(playerSummary);
-					} else if (BlockType.SUBSTITUTE.equals(playerSummary.getBlock())) {
+					} else if (BlockType.SUBSTITUTE.name().equalsIgnoreCase(playerSummary.getBlock())) {
 						summary.getSubstitutes().add(playerSummary);
 					} else {
 						logger.error("Unknown player BlockType: " + playerSummary.getBlock());
 					}
 				}
 				// Check if captain
-				if (playerSummary.getStatus() == UserPlayerStatus.CAPTAIN) {
+				if (playerSummary.getStatus().equalsIgnoreCase(UserPlayerStatus.CAPTAIN.name())) {
 					summary.setCaptain(playerSummary.getFirstName() + " " + playerSummary.getLastName());
 					summary.setCaptainId(playerSummary.getPoolPlayerId());
 				}
 			}
+		}
+	}
+	
+	private String formatStatus(UserPlayerStatus status) {
+		if (status != null) {
+			String firstLetter = status.name().substring(0,1).toUpperCase();
+			return firstLetter + status.name().substring(1).toLowerCase();
+		} else {
+			return "";
+		}
+	}
+	
+	private String formatEnum(BlockType block) {
+		if (block != null) {
+			String firstLetter = block.name().substring(0,1).toUpperCase();
+			return firstLetter + block.name().substring(1).toLowerCase();
+		} else {
+			return "";
 		}
 	}
 
@@ -307,7 +330,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 						summary.setLastName(player.getLastName());
 						summary.setPrice(pPlayer.getPlayerPrice());
 						summary.setCurrentScore(pPlayer.getPlayerCurrentScore());
-						summary.setBlock(player.getBlock());
+						summary.setBlock(formatEnum(player.getBlock()));
 						summaries.add(summary);
 					} else {
 						logger.error("Unable to find corresponding pool player for playerId: " + player.getId());
@@ -343,8 +366,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 			summary.setLastName(userPlayer.getPoolPlayer().getPlayer().getLastName());
 			summary.setPrice(userPlayer.getPoolPlayer().getPlayerPrice());
 			summary.setCurrentScore(userPlayer.getPoolPlayer().getPlayerCurrentScore());
-			summary.setBlock(userPlayer.getPoolPlayer().getPlayer().getBlock());
-			summary.setStatus(userPlayer.getStatus());
+			summary.setBlock(formatEnum(userPlayer.getPoolPlayer().getPlayer().getBlock()));
+			summary.setStatus(formatStatus(userPlayer.getStatus()));
 			return summary;
 		} else {
 			logger.error("No UserPlayer found for userTeamId: " + userTeamId + " poolPlayerId:" + poolPlayerId);
@@ -903,7 +926,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 							saveTrade(userTeam, poolPlayer);
 						} else {
 							logger.error("Too expensive selectedPoolPlayerId: " + selectedPoolPlayerId);
-							throw new InvalidPlayerException("You don't have enough money to buy this player");
+							throw new InvalidPlayerException("You don't have enough money to trade this player!");
 						}
 					} else {
 						logger.error("Invalid selectedPoolPlayerId: " + selectedPoolPlayerId);
