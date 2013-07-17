@@ -14,6 +14,8 @@ public class PlayerMatchEventSummary extends BaseDto {
 	private String description;
 	private String matchTime;
 	private Integer eventPoints;
+	private String teamOne;
+	private String teamTwo;
 	
 	public String getMatchDate() {
 		return matchDate;
@@ -74,5 +76,17 @@ public class PlayerMatchEventSummary extends BaseDto {
 	}
 	public void setEventPoints(Integer eventPoints) {
 		this.eventPoints = eventPoints;
+	}
+	public String getTeamOne() {
+		return teamOne;
+	}
+	public void setTeamOne(String teamOne) {
+		this.teamOne = teamOne;
+	}
+	public String getTeamTwo() {
+		return teamTwo;
+	}
+	public void setTeamTwo(String teamTwo) {
+		this.teamTwo = teamTwo;
 	}
 }

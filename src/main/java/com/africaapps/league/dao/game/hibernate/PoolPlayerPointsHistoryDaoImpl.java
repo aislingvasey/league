@@ -28,9 +28,9 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
      +" order by h.added_date_time";
 	
 	private static final String MATCH_EVENTS_HISTORY 
-		= "select p.first_name, p.last_name, p.block as PlayerBlock, m.start_date_time, pme.match_time, e.description, e.points, pm.player_score "
-+"from event e, player_match_event pme, player_match pm, player p, game_pool_player gpp, match m "
-+"where e.id = pme.event_id and pme.player_match_id = pm.id and pm.player_id = p.id and p.id = gpp.id and gpp.id = :poolPlayerId and pm.match_id = :matchId and pm.match_id = m.id "
+		= "select p.first_name, p.last_name, p.block as PlayerBlock, m.start_date_time, pme.match_time, e.description, e.points, pm.player_score, t1.club_name as t1, t2.club_name as t2 "
++"from event e, player_match_event pme, player_match pm, player p, game_pool_player gpp, match m, team t1, team t2 "
++"where e.id = pme.event_id and pme.player_match_id = pm.id and pm.player_id = p.id and p.id = gpp.id and gpp.id = :poolPlayerId and pm.match_id = :matchId and pm.match_id = m.id and m.team1_id = t1.id and m.team2_id = t2.id "
 +" and e.points != 0 "
 +"order by pme.match_time";
 
@@ -54,7 +54,7 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			match = new PlayerMatchSummary();
 			match.setFirstName((String) history[0]);
 			match.setLastName((String) history[1]);
-			match.setPlayerBlock((String) history[2]);
+			match.setPlayerBlock(formatBlock((String) history[2]));
 			match.setMatchId(((BigInteger) history[3]).longValue());
 			match.setMatchDate(sdf.format((Date) history[4]));
 			match.setPlayerPoints((Integer) history[5]);
@@ -62,6 +62,14 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			summaries.add(match);
 		}
 		return summaries;
+	}
+	
+	private String formatBlock(String b) {
+		if (b != null && !b.trim().equals("") && b.length() > 1) {
+			return b.substring(0, 1) + b.substring(1).toLowerCase();
+		} else {
+			return b;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -78,7 +86,7 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			match = new PlayerMatchEventSummary();
 			match.setFirstName((String) history[0]);
 			match.setLastName((String) history[1]);
-			match.setPlayerBlock((String) history[2]);
+			match.setPlayerBlock(formatBlock((String) history[2]));
 			match.setMatchId(matchId);
 			match.setMatchDate(sdf.format((Date) history[3]));
 			match.setMatchTime((String) history[4]);			
@@ -86,6 +94,8 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			match.setEventPoints((Integer) history[6]);			
 			match.setPoolPlayerId(poolPlayerId);
 			match.setMatchPoints((Integer) history[7]);
+			match.setTeamOne((String) history[8]);
+			match.setTeamTwo((String) history[9]);
 			summaries.add(match);
 		}
 		return summaries;
