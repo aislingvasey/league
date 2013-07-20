@@ -60,7 +60,12 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void savePlayer(Player player) throws LeagueException {
 		if (player != null) {
-			player.setId(playerDao.getIdByPlayerId(player.getPlayerId()));
+			Long existingId = playerDao.getIdByPlayerId(player.getPlayerId());
+			player.setId(existingId);
+			if (player.getBlock() == null && existingId != null) {
+				logger.error("Not re-saving existing player with null block: "+player);
+				return;
+			}
 			playerDao.saveOrUpdate(player);
 		}
 	}

@@ -69,8 +69,7 @@ public class PoolServiceImpl implements PoolService {
 				pp.setPlayerCurrentScore(0);
 				poolPlayerDao.saveOrUpdate(pp);
 				if (pp.getPlayerPrice() == 0) {
-					logger.warn("*** Set price for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " "
-							+ pp.getPlayer().getLastName() + " ***");
+					logger.error("NO PRICE for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " " + pp.getPlayer().getLastName());
 				}
 			}
 		} else {
