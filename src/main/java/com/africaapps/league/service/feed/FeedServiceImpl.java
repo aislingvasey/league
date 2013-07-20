@@ -139,9 +139,9 @@ public class FeedServiceImpl implements FeedService {
 				player.setPlayerId(actorStruct.getIdActor());
 				player.setFirstName(actorStruct.getFirstName() != null ? actorStruct.getFirstName().getValue() : "");
 				player.setLastName(actorStruct.getSecondName() != null ? actorStruct.getSecondName().getValue() : "");
-				player.setPosition(getPosition(league, actorStruct.getIdPosition().getValue()));
+				player.setPosition(getPosition(league, actorStruct.getIdPosition().getValue()));			
 				BlockType block = getBlockType(actorStruct);
-				player.setBlock(block);
+  			player.setBlock(block);
 				player.setShirtNumber(actorStruct.getShirtNumber() != null ? actorStruct.getShirtNumber().getValue() : 0);
 				player.setTeam(team);
 				playerService.savePlayer(player);
@@ -165,8 +165,18 @@ public class FeedServiceImpl implements FeedService {
 			} else {
 				return BlockType.SUBSTITUTE;
 			}
+		} else {
+			String firstName = "";
+			String lastName = "";
+			if (actorStruct.getFirstName() != null) {
+				firstName = actorStruct.getFirstName().getValue();
+			}
+			if (actorStruct.getSecondName() != null) {
+				lastName = actorStruct.getSecondName().getValue();
+			}			
+			logger.error("No block set for player: "+actorStruct.getIdActor()+" , " +firstName+" "+lastName);
+			return null;
 		}
-		return null;
 	}
 
 	private Position getPosition(League league, Integer positionNumber) throws LeagueException {
