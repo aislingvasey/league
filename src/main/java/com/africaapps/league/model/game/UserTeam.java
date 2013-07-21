@@ -26,8 +26,10 @@ public class UserTeam extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
+	private String name;	
 	private int currentScore;
+	private Integer numberOfPlayingWeeks;
+	private Integer currentLeagueRank; //(currentScore / numberOfPlayingWeeks) + (x points * numberOfPlayingWeeks)
 	private long availableMoney;
 	private TeamFormat currentFormat;
 	private User user;
@@ -35,7 +37,11 @@ public class UserTeam extends BaseDataModel {
 	private Set<UserPlayer> userPlayers;
 	private UserTeamStatus status;
 	
+	
 	public UserTeam() {
+		this.currentScore = 0;
+		this.numberOfPlayingWeeks = 0;
+		this.currentLeagueRank = 0;
 		this.status = UserTeamStatus.INCOMPLETE;
 	}
 	
@@ -46,6 +52,8 @@ public class UserTeam extends BaseDataModel {
 		builder.append(" id:").append(id);
 		builder.append(" name:").append(name);
 		builder.append(" currentScore:").append(currentScore);
+		builder.append(" numberOfPlayingWeeks:").append(numberOfPlayingWeeks);
+		builder.append(" currentLeagueRank:").append(currentLeagueRank);
 		builder.append(" availableMoney:").append(availableMoney);
 		builder.append(" currentFormat:").append(currentFormat);
 		builder.append(" user:").append(user);
@@ -163,5 +171,23 @@ public class UserTeam extends BaseDataModel {
 
 	public void setStatus(UserTeamStatus status) {
 		this.status = status;
+	}
+
+	@Column(name="number_of_weeks", nullable=false)
+	public Integer getNumberOfPlayingWeeks() {
+		return numberOfPlayingWeeks;
+	}
+
+	public void setNumberOfPlayingWeeks(Integer numberOfPlayingWeeks) {
+		this.numberOfPlayingWeeks = numberOfPlayingWeeks;
+	}
+
+	@Column(name="current_rank", nullable=false)
+	public Integer getCurrentLeagueRank() {
+		return currentLeagueRank;
+	}
+
+	public void setCurrentLeagueRank(Integer currentLeagueRank) {
+		this.currentLeagueRank = currentLeagueRank;
 	}
 }

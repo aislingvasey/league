@@ -64,7 +64,9 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private static final int SQUAD_SIZE = 15;
 	private static final int GOALKEEPER_COUNT = 1;
 	private static final int SUBSTITUTE_COUNT = 4;
-
+	private static final int POINTS_PER_PLAYING_WEEK = 10;
+	private static final String INITIAL_AVAILABLE_MONEY = "5000000";
+	
 	@Autowired
 	private UserTeamDao userTeamDao;
 	@Autowired
@@ -175,7 +177,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	
 	@Override
 	public Long getDefaultAvailableMoney() {
-		return Long.valueOf("4000000"); //TODO
+		return Long.valueOf(INITIAL_AVAILABLE_MONEY); 
 	}
 
 	@ReadTransaction
@@ -191,17 +193,28 @@ public class UserTeamServiceImpl implements UserTeamService {
 			summary.setTeamName(team.getName());
 			setUserPlayers(team, summary, null);
 			summary.setCanTrade(isUserTeamAbleToTrade(teamId));
-			Collections.sort(summary.getDefenders(), new Comparator<UserPlayerSummary>() {
-				@Override
-				public int compare(UserPlayerSummary o1, UserPlayerSummary o2) {
-					return o1.getPlayerId().compareTo(o2.getPlayerId());
-				}
-			});
+			sortPlayers(summary);
 			return summary;
 		} else {
 			return null;
 		}
 	}
+	
+	private void sortPlayers(UserTeamSummary summary) {
+		Comparator<UserPlayerSummary> comparator = new Comparator<UserPlayerSummary>() {
+			@Override
+			public int compare(UserPlayerSummary o1, UserPlayerSummary o2) {
+				String n1 = o1.getFirstName() + " " + o1.getLastName();
+				String n2 = o2.getFirstName() + " " + o2.getFirstName();
+				return n1.compareTo(n2);
+			}
+		};
+		Collections.sort(summary.getDefenders(), comparator);
+		Collections.sort(summary.getMidfielders(), comparator);
+		Collections.sort(summary.getStrikers(), comparator);
+		Collections.sort(summary.getGoalKeepers(), comparator);
+		Collections.sort(summary.getSubstitutes(), comparator);
+	}	
 
 	@ReadTransaction
 	@Override
@@ -972,5 +985,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 		trade.setUserTeam(userTeam);
 		userTeamTradeDao.save(trade);
 		logger.info("Save trade: " + trade);
+	}
+
+	@WriteTransaction
+	@Override
+	public void calculateNewRanking(long leagueId, long currentPlayingWeekId) throws LeagueException {
+		List<Long> ids = userTeamDao.getActiveUserTeams(leagueId);
+		if (ids != null) {
+			userTeamDao.calculateNewRanking(ids, POINTS_PER_PLAYING_WEEK);
+		}
 	}
 }

@@ -5,7 +5,5 @@ import com.africaapps.league.exception.LeagueException;
 public interface TaskService {
 
 	public void processMatches() throws LeagueException;
-	
-	public void onPlayingWeekEnd() throws LeagueException;
-	
+		
 }

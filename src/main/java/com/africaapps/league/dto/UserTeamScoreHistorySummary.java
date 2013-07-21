@@ -13,6 +13,7 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 	private String matchDate;
 	private Integer matchPoints;
 	private Long playerTeamId;
+	private Long poolPlayerId;
 	private String playerFirstName;
 	private String playerLastName;	
 	private Integer playerPoints;
@@ -111,5 +112,13 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 
 	public void setPlayerTeamId(Long playerTeamId) {
 		this.playerTeamId = playerTeamId;
+	}
+
+	public Long getPoolPlayerId() {
+		return poolPlayerId;
+	}
+
+	public void setPoolPlayerId(Long poolPlayerId) {
+		this.poolPlayerId = poolPlayerId;
 	}
 }

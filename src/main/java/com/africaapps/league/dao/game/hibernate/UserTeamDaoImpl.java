@@ -47,13 +47,19 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	private static final String ADD_PLAYER_POINTS = "UPDATE game_user_team "
 			+"SET current_score = current_score + :playerPoints WHERE id in ( :ids )";
 	
+	private static final String UPDATE_NUMBER_OF_WEEKS = "UPDATE game_user_team "
+			+"SET number_of_weeks = number_of_weeks + 1 where id in (:ids)";
+	private static final String CALC_CURRENT_RANKING = "UPDATE game_user_team "
+			+" SET current_rank = (current_score / number_of_weeks) + (:weekPoints * number_of_weeks) "
+			+" WHERE id in (:ids) ";
+	
 	private static final String SCORE_HISTORY_BY_MATCH 
 		= "select t.name, t.current_score, m.id as matchid, m.start_date_time, sum(h.player_points)" 
      +" from game_user_team_score_history h left join match m on h.match_id = m.id left join game_user_team t on h.user_team_id = t.id"
      +" where h.user_team_id = :userTeamId group by m.id, t.id order by m.start_date_time";
 	
 	private static final String PLAYERS_SCORE_HISTORY_BY_MATCH 
-	= "select t.name, t.current_score, m.id as matchid, m.start_date_time, p.first_name, p.last_name, p.team_id, h.player_points" 
+	= "select t.name, t.current_score, m.id as matchid, m.start_date_time, p.first_name, p.last_name, p.team_id, h.player_points, gpp.id" 
    +" from game_user_team_score_history h, match m , game_pool_player gpp, player p, game_user_team t"
    +" where h.match_id = m.id and h.pool_player_id = gpp.id and gpp.player_id = p.id and h.user_team_id = t.id"
    +" and m.id = :matchId and t.id = :userTeamId"
@@ -242,6 +248,7 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 			summary.setPlayerLastName((String) matchScore[5]);
 			summary.setPlayerTeamId(((BigInteger) matchScore[6]).longValue());
 			summary.setPlayerPoints(((Integer) matchScore[7]));
+			summary.setPoolPlayerId(((BigInteger) matchScore[8]).longValue());
 			scores.add(summary);
 		}
 		return scores;
@@ -275,5 +282,32 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		criteria.setProjection(Projections.property("availableMoney"));
 		return (Long) criteria.uniqueResult();
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Long> getActiveUserTeams(long leagueId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(UserTeam.class);
+		criteria.createAlias("userLeague", "ul").add(Restrictions.eq("ul.league.id", leagueId));
+		criteria.add(Restrictions.eq("status", UserTeamStatus.COMPLETE));
+	  criteria.setProjection(Projections.property("id"));
+	  return criteria.list();
+	}
+	
+	@Override
+	public void calculateNewRanking(List<Long> ids, int perWeekPlayingPoints) {
+		logger.info("Calculate new ranking for teams:"+ids.toString());
+		logger.info("Incrementing the paying week count");
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(UPDATE_NUMBER_OF_WEEKS);
+		query.setParameterList("ids", ids);
+		int rowsUpdated = query.executeUpdate();
+		logger.info("Actual teams updated: "+rowsUpdated);
+		
+		logger.info("Calculating the new rakings...");
+		query = sessionFactory.getCurrentSession().createSQLQuery(CALC_CURRENT_RANKING);
+		query.setParameterList("ids", ids);
+		query.setParameter("weekPoints", perWeekPlayingPoints);
+		int rowsUpdated2 = query.executeUpdate();
+		logger.info("Actual teams updated2: "+rowsUpdated2);
 	}
 }

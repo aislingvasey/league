@@ -35,12 +35,19 @@ public class TaskServiceImpl implements TaskService {
 	public void processMatches() throws LeagueException {
 		logger.info("Task: starting to process matches...");
 		League league = getLeague(feedSettings.getLeagueName());
-		int endDay = feedSettings.getEndOfPlayingWeekDay();
+		int endDay = getEndOfPlayingWeekDay();
 		processFeed(league);
 		if (isEndOfPlayingWeek(endDay)) {
 			playingWeekService.completeCurrentPlayingWeek(league, endDay);
 		}
 		logger.info("Task: completed processing matches");
+	}
+	
+	private int getEndOfPlayingWeekDay() {
+//		return feedSettings.getEndOfPlayingWeekDay();
+		//TODO for testing purposes every day is end of week
+		logger.error("REMOVE ME LATER: hard coded end of week is always today");
+		return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 	}
 	
 	private void processFeed(League league) throws LeagueException {
@@ -68,54 +75,51 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	private MatchFilter createMatchFilter() {
-		//TODO added filter for testing only - remove later
+		//TODO filter for testing only
 		MatchFilter matchFilter = new MatchFilter() {			
 			@Override
 			public boolean isValidMatch(Integer matchId, Date matchDateTime) {
 				logger.info("Match date: "+matchDateTime);
-				//Tuesday - July 2012, Wednesday - August 2012, Thursday - September 2012				
 				Calendar calendar = Calendar.getInstance();
 				int today = calendar.get(Calendar.DAY_OF_WEEK);
 				calendar.setTime(matchDateTime);
-				if (today == Calendar.TUESDAY) {
-//					if (calendar.get(Calendar.MONTH) == Calendar.AUGUST && calendar.get(Calendar.YEAR) == 2012) {
-					if (calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.YEAR) == 2013) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.WEDNESDAY) {
-//					if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.YEAR) == 2012) {
-					if (calendar.get(Calendar.MONTH) == Calendar.MAY && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.THURSDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.FRIDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.SATURDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.SUNDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY && calendar.get(Calendar.YEAR) == 2013) {
+				if (today == Calendar.SUNDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.AUGUST && calendar.get(Calendar.YEAR) == 2012) {
 						return true;
 					} else {
 						return false;
 					}
 				} else if (today == Calendar.MONDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.TUESDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.WEDNESDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.THURSDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.YEAR) == 2012) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.FRIDAY) {
+					if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY && calendar.get(Calendar.YEAR) == 2013) {
+						return true;
+					} else {
+						return false;
+					}
+				} else if (today == Calendar.SATURDAY) {
 					if (calendar.get(Calendar.MONTH) == Calendar.MARCH && calendar.get(Calendar.YEAR) == 2013) {
 						return true;
 					} else {
@@ -127,13 +131,5 @@ public class TaskServiceImpl implements TaskService {
 			}
 		};
 		return matchFilter;
-	}
-
-	@Override
-	public void onPlayingWeekEnd() throws LeagueException {
-		logger.info("Task: processing playing week end...");
-		// TODO step 1: check all user teams and make sure they have 11 players contributing points, otherwise add subs
-		// TODO step 2: recalculate pool players price using this week's points
-		logger.info("Task: completed playing week end");
 	}
 }

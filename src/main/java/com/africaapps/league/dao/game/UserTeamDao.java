@@ -38,4 +38,6 @@ public interface UserTeamDao {
 	
 	public Long getAvailableMoney(long userTeamId);
 	
+	public List<Long> getActiveUserTeams(long leagueId);
+	public void calculateNewRanking(List<Long> ids, int perWeekPlayingPoints);
 }

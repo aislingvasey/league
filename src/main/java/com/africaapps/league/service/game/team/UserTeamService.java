@@ -73,4 +73,6 @@ public interface UserTeamService {
 	
 	public void tradePlayers(User user, long teamId, long poolPlayerId, long selectedPoolPlayerId) throws LeagueException;
 	
+	public void calculateNewRanking(long leagueId, long currentPlayingWeekId) throws LeagueException;
+	
 }
