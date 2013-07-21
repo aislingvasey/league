@@ -36,9 +36,9 @@
 	<game_team_format id="-1" default_format="true" defender_count="4" description="4-5-1" midfielder_count="5"
 		name="4-5-1" striker_count="1" league_type_id="-1" />
 
-	<game_user_team id="-1" available_money="5000" current_score="100" name="Team 1" status="COMPLETE"
+	<game_user_team id="-1" available_money="5000" current_score="100" current_rank="50" number_of_weeks="2" name="Team 1" status="COMPLETE"
 		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
-	<game_user_team id="-2" available_money="1000" current_score="50" name="Team 2" status="COMPLETE"
+	<game_user_team id="-2" available_money="1000" current_score="50" current_rank="50" number_of_weeks="1" name="Team 2" status="COMPLETE"
 		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
 
 	<game_pool_player id="-1" player_current_score="125" player_price="100000" player_id="-1" pool_id="-1" />

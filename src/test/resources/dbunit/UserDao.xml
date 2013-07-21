@@ -1,9 +1,11 @@
 <dataset>
 
+    <match />
     <game_user_details />
     <game_user_league />
     <game_user_team />    
     <game_user_player />
     <game_user_team_score_history />
+    <game_playing_week />
     
 </dataset>

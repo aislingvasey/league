@@ -13,4 +13,5 @@
     <match />
     <player_match />
     <player_match_event />    
+    <game_playing_week />
 </dataset>

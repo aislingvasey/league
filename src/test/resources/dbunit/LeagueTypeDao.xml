@@ -6,6 +6,7 @@
     <team />
     <position />
     <player />
+    <match />
     <position />
     <game_pool_player />
     <event />    
@@ -17,5 +18,5 @@
     <game_user_team />    
     <game_user_player />
     <game_user_team_score_history />
-    <game_pool_player_points_history />
+    <game_pool_player_points_history />    
 </dataset>

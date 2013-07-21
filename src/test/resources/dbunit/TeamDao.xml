@@ -6,6 +6,8 @@
     <team />
     <position />
     <player />
+    <match />
     <game_pool_player />
     <event />
+    <game_playing_week />
 </dataset>

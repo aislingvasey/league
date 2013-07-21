@@ -6,7 +6,9 @@
 	<team id="-1" team_id="11" city="Here" club_name="The Best" team_name="The Best Team" league_season_id="-1" />
     <position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
     <player />
+    <match />
     <game_pool_player />
     <event />
     <player_match_event />
+    <game_playing_week />
 </dataset>
