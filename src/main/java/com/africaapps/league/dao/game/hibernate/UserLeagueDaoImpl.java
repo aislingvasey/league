@@ -19,7 +19,7 @@ import com.africaapps.league.model.game.UserLeague;
 public class UserLeagueDaoImpl extends BaseHibernateDao implements UserLeagueDao {
 	
 	private static final String LEAGUE_TEAMS 
-	= "SELECT l.id as leagueId, t.id as teamId, t.current_score, t.number_of_weeks, t.current_rank, t.name, t.user_details_id, u.username "
+	= "SELECT l.id as leagueId, t.id as teamId, t.current_score, t.number_of_weeks, t.current_rank, t.name, t.user_details_id, u.username, u.first_name "
    +" FROM game_user_league l "
 	 +" left join game_user_team t on l.id = t.user_league_id "
    +" left join game_user_details u on t.user_details_id = u.id "
@@ -76,8 +76,9 @@ public class UserLeagueDaoImpl extends BaseHibernateDao implements UserLeagueDao
 			summary.setNumberOfWeeks((Integer) team[3]);
 			summary.setCurrentRank((Integer) team[4]);
 			summary.setTeamName((String) team[5]);
-			summary.setOwnerId(((BigInteger) team[6]).longValue());
+			summary.setOwnerId(((BigInteger) team[6]).longValue());			
 			summary.setUsername((String) team[7]);
+			summary.setFirstName((String) team[8]);
 			summaries.add(summary);
 		}
 		return summaries;
