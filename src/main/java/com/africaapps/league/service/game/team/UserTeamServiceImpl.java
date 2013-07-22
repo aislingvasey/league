@@ -991,7 +991,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@Override
 	public void calculateNewRanking(long leagueId, long currentPlayingWeekId) throws LeagueException {
 		List<Long> ids = userTeamDao.getActiveUserTeams(leagueId);
-		if (ids != null) {
+		if (ids != null && ids.size() > 0) {
 			userTeamDao.calculateNewRanking(ids, POINTS_PER_PLAYING_WEEK);
 		}
 	}

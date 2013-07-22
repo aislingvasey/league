@@ -18,7 +18,11 @@ public class PlayerPriceDaoImpl extends BaseHibernateDao implements PlayerPriceD
 	@Override
 	public PlayerPrice getPrice(String firstName, String lastName) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PlayerPrice.class);
-		criteria.add(Restrictions.eq("firstName", firstName).ignoreCase());
+		if (firstName != null) {
+			criteria.add(Restrictions.like("firstName", firstName+"%").ignoreCase());
+		} else {
+			criteria.add(Restrictions.like("firstName", firstName).ignoreCase());
+		}
 		criteria.add(Restrictions.eq("lastName", lastName).ignoreCase());
 		criteria.addOrder(Order.desc("price"));
 		List<PlayerPrice> prices = criteria.list();
