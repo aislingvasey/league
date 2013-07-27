@@ -114,13 +114,13 @@ public class DataLogUtil {
 		sb.append(" source:").append(matchStruct.getSource().getValue());
 		sb.append(" stadium:").append(matchStruct.getStadiumName().getValue());
 		
-//		sb.append(" ").append(matchStruct.getLstCIS());
-//		sb.append(" ").append(matchStruct.getLstReferees());
-//		sb.append(" ").append(matchStruct.getLstSDTS());
+		sb.append(" ").append(matchStruct.getLstCIS());
+		sb.append(" ").append(matchStruct.getLstReferees());
+		sb.append(" ").append(matchStruct.getLstSDTS());
 		
-//		for(TeamStruct team : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
-//			logTeamStruct(sb, team);
-//		}
+		for(TeamStruct team : matchStruct.getLstTeamStruct().getValue().getTeamStruct()) {
+			logTeamStruct(sb, team);
+		}
 		
 		sb.append("]");
 		logger.info(sb.toString());

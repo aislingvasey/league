@@ -2,14 +2,18 @@
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league_type id="-2" name="Rugby" description="Rugby league" league_type_status="ACTIVE" />
     <league />
+    <game_team_format />
+    <league_data />
     <league_season />
+    <fixture />
     <team />
     <position />
     <player />  
+    <game_playing_week />
     <match />
     <game_pool />  
     <game_pool_player />
-    <game_playing_week />
+    
     
     <event id="-4" event_id="101" description="Goalkeeper Red Card" league_type_id="-1" points="-50" block_type="GOALKEEPER" />
     <event id="-1" event_id="100" description="Yellow Card" league_type_id="-1" points="-5" block_type="[null]" />

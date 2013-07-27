@@ -1,5 +1,6 @@
 package com.africaapps.league.service.feed;
 
+import java.util.Date;
 import java.util.List;
 
 import org.datacontract.schemas._2004._07.livemediastructs.ActorStruct;
@@ -65,6 +66,23 @@ public class FeedServiceImpl implements FeedService {
 
 	private static Logger logger = LoggerFactory.getLogger(FeedServiceImpl.class);
 
+	@Override
+	public void processFeedForStats(League league, String wsdlUrl, String username, String password, MatchFilter matchFilter) 
+			throws LeagueException {
+		cacheService.clear();
+
+		LeagueSeason leagueSeason = getLeagueSeason(league);
+		Pool pool = getPool(leagueSeason);
+		WebServiceClient webServiceClient = setupWebServiceClient(wsdlUrl, username, password);
+
+		List<Integer> processedMatchIds = webServiceClient.processMatchesForStats(league, leagueSeason, pool, this, matchFilter);		
+		logger.info("Processed " + processedMatchIds.size() + " matches");
+		
+		if (processedMatchIds.size() > 0) {
+			leagueService.setLastFeedRun(league, new Date());
+		}
+	}
+	
 	@Override
 	public void processFeed(League league, String wsdlUrl, String username, String password, MatchFilter matchFilter)
 			throws LeagueException {

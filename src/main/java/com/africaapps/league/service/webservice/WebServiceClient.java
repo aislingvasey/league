@@ -24,6 +24,7 @@ import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.service.feed.FeedService;
 import com.africaapps.league.service.feed.MatchFilter;
+import com.africaapps.league.service.webservice.util.DataLogUtil;
 import com.africaapps.league.util.WebServiceXmlUtil;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfKeyValueOfintstring;
 
@@ -97,6 +98,48 @@ public class WebServiceClient {
 		}
 		return matchKey;
 	}
+	
+	public List<Integer> processMatchesForStats(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService,
+			MatchFilter matchFilter) throws LeagueException {
+		List<Integer> processedMatchIds = new ArrayList<Integer>();
+		Integer matchId = null;
+		int key = getFilMatchKey();
+		int matchKey = getMatchKey();
+		logger.info("Using FilMatchKey:" + key + " matchKey: " + matchKey);
+		// for (ArrayOfKeyValueOfintstring.KeyValueOfintstring entry : intStrings.getKeyValueOfintstring()) {
+		// key = entry.getKey();
+		// logger.info("MatchFilActionStructDetailAvailable: " + key + "=" + entry.getValue());
+		ArrayOfMatchFilActionLightStruct matchStructs = service1.matchFilActionLightStructList(key);
+		logger.info("Got " + matchStructs.getMatchFilActionLightStruct().size() + " light matches to check...");
+		for (MatchFilActionLightStruct matchLightStruct : matchStructs.getMatchFilActionLightStruct()) {
+			matchId = matchLightStruct.getIdMatch();
+			try {
+				checkMatchCompetition(league, matchLightStruct);
+				if (!feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
+					if (matchFilter != null && !matchFilter.isValidMatch(matchId, WebServiceXmlUtil.getDate(matchLightStruct.getDateAndTime()))) {
+						logger.warn("Skipping processing match:" + matchId + " due to match filter: "+matchFilter);
+					} else {
+						logger.info("Match: " + matchId + " is unprocessed Processing it now...");
+						MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
+						if (matchStruct != null) {
+							logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
+							saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
+							processMatch(league, leagueSeason, feedService, matchStruct);
+							processedMatchIds.add(matchId);
+							logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
+							return processedMatchIds; //TODO testing only break out of loop
+						} else {
+							logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+						}
+					}
+				}
+			} catch (InvalidLeagueException e) {
+				logger.error(e.getMessage());
+			}
+		}
+		// }
+		return processedMatchIds;
+	}
 
 	public List<Integer> processMatches(League league, LeagueSeason leagueSeason, Pool pool, FeedService feedService,
 			MatchFilter matchFilter) throws LeagueException {
@@ -156,14 +199,18 @@ public class WebServiceClient {
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue() != null
 				&& matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct() != null) {
 			Integer teamId = null;
-			for (TeamMatchFilActionStruct teamMatchStruct : matchStruct.getLstTeamMatchFilActionStruct().getValue()
-					.getTeamMatchFilActionStruct()) {
+			
+			DataLogUtil.logMatchFilStruct(matchStruct);
+			
+			for (TeamMatchFilActionStruct teamMatchStruct : matchStruct.getLstTeamMatchFilActionStruct().getValue().getTeamMatchFilActionStruct()) {
 				teamId = teamMatchStruct.getIdTeam();
 				logger.info("Getting team struct from service...");
 				TeamStruct teamStruct = service1.getTeamStruct(matchStruct.getIdMatch(), teamId, key);
-				// StringBuilder sb = new StringBuilder();
-				// DataLogUtil.logTeamStruct(sb, teamStruct);
-				// logger.info(sb.toString());
+				
+				StringBuilder sb = new StringBuilder();
+				DataLogUtil.logTeamStruct(sb, teamStruct);
+				logger.info(sb.toString());
+				
 				feedService.saveTeamAndPlayers(league, leagueSeason, pool, teamStruct);
 			}
 		}
@@ -171,7 +218,6 @@ public class WebServiceClient {
 
 	protected void processMatch(League league, LeagueSeason leagueSeason, FeedService feedService,
 			MatchFilActionStruct matchStruct) throws LeagueException {
-		// DataLogUtil.logMatchFilStruct(matchStruct);
 		feedService.processMatch(league, leagueSeason, matchStruct);
 	}
 }

@@ -3,8 +3,12 @@
     <league_type id="1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
 	<league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
 	<league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />	
+    <game_team_format />
+    <league_data />    
+    <fixture />
     <game_pool id="1" league_season_id="1" /> 
     <team />
+    <game_playing_week />   
     <match />    	 	
 	<position />
     <event id="1"  event_id="5" description="Goal" points="20" league_type_id="1" />
@@ -26,8 +30,12 @@
     <event id="17"  event_id="21" description="Player in" points="0" league_type_id="1" />
     <event id="18"  event_id="22" description="Player out" points="0" league_type_id="1" />              
 	<player />
+	<game_user_league />
+	<game_user_team />
 	<game_pool_player />
+	<game_user_player />
 	<player_match />
-	<player_match_event />
-	<game_playing_week />	
+	<player_match_event />	
+	<game_pool_player_points_history />
+	<game_user_team_score_history />
 </dataset>

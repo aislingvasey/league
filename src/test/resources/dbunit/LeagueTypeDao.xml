@@ -2,17 +2,19 @@
     <league_type />
     <league />
     <league_season />
+    <game_team_format />
+    <league_data />
+    <fixture />
     <game_pool />    
     <team />
     <position />
     <player />
+    <player_match_event />
+    <game_playing_week />    
     <match />
     <position />
     <game_pool_player />
-    <event />    
-    <player_match_event />
-    <game_team_format />
-    <game_playing_week />    
+    <event />            
     <game_user_details />
     <game_user_league />
     <game_user_team />    

@@ -9,6 +9,9 @@ import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 
 public interface FeedService {
+	
+	public void processFeedForStats(League league, String wsdlUrl, String username, String password, MatchFilter matchFilter) 
+			throws LeagueException;
 
 	public void processFeed(League league, String wsdlUrl, String username, String password, MatchFilter matchFilter) 
 		throws LeagueException;

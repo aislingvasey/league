@@ -1,0 +1,26 @@
+<dataset>
+
+    <league_type id="1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
+    <league id="1" name="ABSA Premier Soccer League" description="ABSA Premier Soccer League - the South Africa premier league" league_type_id="1" />
+    <league_season id="1" league_id="1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
+    <game_team_format id="1" default_format="true" defender_count="4" description="4-5-1" midfielder_count="5"
+        name="4-5-1" striker_count="1" league_type_id="1" />    
+    <league_data id="1" init_team_money="5000000" last_feed_datetime="[NULL]" no_trade_hours="1" goalkeepers_count="1"
+        substitutes_count="4" squad_size="15" user_points_playingweek="50" team_format_id="1" league_id="1" />        
+    <fixture />    
+    <game_pool /> 
+    <team />
+    <game_playing_week />   
+    <match />           
+    <position />
+    <event />              
+    <player />
+    <game_user_league />    
+    <game_user_team />
+    <game_pool_player />
+    <game_user_player />
+    <player_match />
+    <player_match_event />  
+    <game_pool_player_points_history />
+    <game_user_team_score_history />
+</dataset>

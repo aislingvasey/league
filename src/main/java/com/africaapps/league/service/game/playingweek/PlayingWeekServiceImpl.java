@@ -29,9 +29,6 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 @Service
 public class PlayingWeekServiceImpl implements PlayingWeekService {
 
-	//TODO configurable
-	private static final int SUBS_COUNT = 4;
-	
 	@Autowired
 	private PlayingWeekDao playingWeekDao;	
 	@Autowired
@@ -50,7 +47,8 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 	public void completeCurrentPlayingWeek(League league, int endDay) throws LeagueException {
 		logger.info("Starting to completeCurrentPlayingWeek...");
 		PlayingWeek currentPlayingWeek = getCurrentPlayingWeek(league, endDay);
-		checkUserTeamsPlayers(currentPlayingWeek);	
+		int subsCount = leagueService.getSubstitutesCount(league);
+		checkUserTeamsPlayers(currentPlayingWeek, subsCount);	
 		calculateNewTeamRanking(league, currentPlayingWeek);
 		assignNewPoolPlayerPrices(currentPlayingWeek);		
 		logger.info("End of completeCurrentPlayingWeek");
@@ -88,17 +86,17 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 		Calendar hack = Calendar.getInstance();
 		hack.set(Calendar.YEAR, 2012);
 		hack.set(Calendar.MONTH, 8);
-		hack.set(Calendar.DAY_OF_MONTH, 2);
+		hack.set(Calendar.DAY_OF_MONTH, 5);
 		logger.info("Using as end of playing week datetime: "+hack.getTime());
 		return getPlayingWeek(leagueService.getCurrentSeason(league), hack.getTime());
 	}
 	
-	private void checkUserTeamsPlayers(PlayingWeek currentPlayingWeek) throws LeagueException {
-		logger.info("Checking for user teams that are missing players for playingWeek: "+currentPlayingWeek);
+	private void checkUserTeamsPlayers(PlayingWeek currentPlayingWeek, int subsCount) throws LeagueException {
+		logger.info("Checking for user teams that are missing players for playingWeek: "+currentPlayingWeek);		
 		List<NeededPlayer> teams = userTeamService.getIncompleteUserTeams(currentPlayingWeek);
 		for(NeededPlayer team : teams) {
-			logger.info("Processing team: "+team.getUserTeamId()+" needed: "+team.getNeeded());
-			int count = (team.getNeeded() > SUBS_COUNT ? SUBS_COUNT : team.getNeeded());
+			logger.info("Processing team: "+team.getUserTeamId()+" needed: "+team.getNeeded());			
+			int count = (team.getNeeded() > subsCount ? subsCount : team.getNeeded());
 			UserTeam userTeam = userTeamService.getTeam(team.getUserTeamId());
 			addSubstitutes(currentPlayingWeek, userTeam, count);
 		}		
@@ -135,6 +133,6 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 	}
 	
 	private void assignNewPoolPlayerPrices(PlayingWeek currentPlayingWeek) {
-		//TODO
+		//TODO assign new player prices
 	}
 }

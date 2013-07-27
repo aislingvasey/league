@@ -1,8 +1,8 @@
 <dataset>
 	<league_type id="-1" name="Soccer" description="Soccer league" league_type_status="ACTIVE" />
 	<league id="-1" name="ABSA Soccer League" description="Some description" league_type_id="-1" />
-	<league_season id="-1" league_id="-1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />
-
+	<league_season id="-1" league_id="-1" name="Current Season" status="CURRENT" start_date="[today]" end_date="[tomorrow]" />    
+    <fixture />
 	<team id="-1" team_id="10" club_name="Team 1" team_name="Team 1" city="Here" league_season_id="-1" />
 	<team id="-2" team_id="11" club_name="Team 2" team_name="Team 2" city="There" league_season_id="-1" />
 
@@ -40,6 +40,8 @@
 		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
 	<game_user_team id="-2" available_money="1000" current_score="50" current_rank="50" number_of_weeks="1" name="Team 2" status="COMPLETE"
 		team_format_id="-1" user_details_id="-1" user_league_id="-1" />
+    
+    <league_data />
 
 	<game_pool_player id="-1" player_current_score="125" player_price="100000" player_id="-1" pool_id="-1" />
 	<game_pool_player id="-2" player_current_score="260" player_price="2430000" player_id="-2" pool_id="-1" />

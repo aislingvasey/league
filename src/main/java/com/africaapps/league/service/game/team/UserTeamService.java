@@ -17,6 +17,7 @@ import com.africaapps.league.model.game.User;
 import com.africaapps.league.model.game.UserLeague;
 import com.africaapps.league.model.game.UserTeam;
 import com.africaapps.league.model.game.UserTeamScoreHistory;
+import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.Match;
 
 public interface UserTeamService {
@@ -29,9 +30,9 @@ public interface UserTeamService {
 	public UserTeam getTeam(long userTeamId) throws LeagueException;
 	
 	public UserLeague getDefaultUserLeague() throws LeagueException;
-	public Long getDefaultAvailableMoney() throws LeagueException;
+	public Long getDefaultAvailableMoney(League league) throws LeagueException;
 	
-	public TeamFormat getDefaultTeamFormat(long leagueTypeId) throws LeagueException;
+	public TeamFormat getDefaultTeamFormat(League league) throws LeagueException;
 	public List<TeamFormat> getTeamFormats(long leagueTypeId) throws LeagueException;
 	public void setTeamFormat(Long userTeamId, Long formatId) throws LeagueException;
 	

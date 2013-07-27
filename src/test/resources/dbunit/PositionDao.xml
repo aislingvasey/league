@@ -1,8 +1,11 @@
 <dataset>
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league />
-    <match />
+    <game_team_format />
+    <league_data />
+    <fixture />    
 	<position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
     <event />
     <game_playing_week />
+    <match />
 </dataset>

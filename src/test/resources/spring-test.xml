@@ -56,6 +56,8 @@
             <value>com.africaapps.league.model.league.Position</value>
             <value>com.africaapps.league.model.league.Event</value>
             <value>com.africaapps.league.model.league.Team</value>
+            <value>com.africaapps.league.model.league.Fixture</value>
+            <value>com.africaapps.league.model.league.LeagueData</value>            
             
             <value>com.africaapps.league.model.game.PlayingWeek</value>
             <value>com.africaapps.league.model.game.Pool</value>

@@ -60,12 +60,12 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 @Service
 public class UserTeamServiceImpl implements UserTeamService {
 
-	// TODO move to properties file?
-	private static final int SQUAD_SIZE = 15;
-	private static final int GOALKEEPER_COUNT = 1;
-	private static final int SUBSTITUTE_COUNT = 4;
-	private static final int POINTS_PER_PLAYING_WEEK = 10;
-	private static final String INITIAL_AVAILABLE_MONEY = "5000000";
+//	// TODO move to properties file?
+//	private static final int SQUAD_SIZE = 15;
+//	private static final int GOALKEEPER_COUNT = 1;
+//	private static final int SUBSTITUTE_COUNT = 4;
+//	private static final int POINTS_PER_PLAYING_WEEK = 10;
+//	private static final String INITIAL_AVAILABLE_MONEY = "5000000";
 	
 	@Autowired
 	private UserTeamDao userTeamDao;
@@ -73,7 +73,6 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private UserTeamScoreHistoryDao userTeamScoreHistoryDao;
 	@Autowired
 	private UserTeamTradeDao userTeamTradeDao;
-
 	@Autowired
 	private TeamFormatService teamFormatService;
 	@Autowired
@@ -96,7 +95,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private PlayingWeekDao playingWeekDao;
 
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
-
+	
 	@ReadTransaction
 	@Override
 	public List<UserTeam> getTeams(long userId) throws LeagueException {
@@ -125,8 +124,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@ReadTransaction
 	@Override
-	public TeamFormat getDefaultTeamFormat(long leagueTypeId) throws LeagueException {
-		return teamFormatService.getDefaultFormat(leagueTypeId);
+	public TeamFormat getDefaultTeamFormat(League league) throws LeagueException {
+		return leagueService.getTeamDefaultFormat(league);
 	}
 
 	@Override
@@ -155,12 +154,12 @@ public class UserTeamServiceImpl implements UserTeamService {
 				throw new InvalidPlayerException("You can only have " + newFormat.getStrikerCount()
 						+ " strikers on the team to use the new format");
 			}
-			if (playerTypeCounts.get(BlockType.GOALKEEPER) > GOALKEEPER_COUNT) {
-				throw new InvalidPlayerException("You can only have " + GOALKEEPER_COUNT
+			if (playerTypeCounts.get(BlockType.GOALKEEPER) > leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())) {
+				throw new InvalidPlayerException("You can only have " + leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())
 						+ " goalkeeper on the team to use the new format");
 			}
-			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > SUBSTITUTE_COUNT) {
-				throw new InvalidPlayerException("You can only have " + SUBSTITUTE_COUNT
+			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())) {
+				throw new InvalidPlayerException("You can only have " + leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())
 						+ " substitutes on the team to use the new format");
 			}
 			// Set the new format
@@ -176,8 +175,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	}
 	
 	@Override
-	public Long getDefaultAvailableMoney() {
-		return Long.valueOf(INITIAL_AVAILABLE_MONEY); 
+	public Long getDefaultAvailableMoney(League league) throws LeagueException {
+		return leagueService.getTeamInitialMoney(league); 
 	}
 
 	@ReadTransaction
@@ -456,7 +455,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 		userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
 		// Update team's status
-		if (userTeam.getUserPlayers().size() < SQUAD_SIZE && userTeam.getStatus() == UserTeamStatus.COMPLETE) {
+		if (userTeam.getUserPlayers().size() < leagueService.getSquadCount(userTeam.getUserLeague().getLeague()) 
+				&& userTeam.getStatus() == UserTeamStatus.COMPLETE) {
 			userTeam.setStatus(UserTeamStatus.INCOMPLETE);
 			logger.info("UserTeam is no longer complete: " + userTeamId);
 		}
@@ -601,7 +601,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	}
 
 	private void checkValidPlayerType(UserTeam userTeam, BlockType block) throws InvalidPlayerException, LeagueException {
-		if (getTeamPlayersCount(userTeam) >= SQUAD_SIZE) {
+		if (getTeamPlayersCount(userTeam) >= leagueService.getSquadCount(userTeam.getUserLeague().getLeague())) {
 			throw new InvalidPlayerException("Too many players on the squad!");
 		}
 		Map<BlockType, Integer> playerTypeCounts = getPlayerTypeCounts(userTeam);
@@ -748,7 +748,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		logger.info("Setting team for user:" + user.getUsername() + " userTeamId:" + userTeamId);
 		UserTeam userTeam = userTeamDao.getTeamWithPlayers(userTeamId);
 		if (userTeam != null) {
-			if (userTeam.getUserPlayers().size() == SQUAD_SIZE) {
+			if (userTeam.getUserPlayers().size() == leagueService.getSquadCount(userTeam.getUserLeague().getLeague())) {
 				checkPlayersCount(userTeam);
 				UserPlayer captain = getUserTeamCaptain(userTeam);
 				if (captain == null) {
@@ -759,7 +759,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				userTeamDao.saveOrUpdate(userTeam);
 				logger.info("Updated the status of the userTeam: " + userTeam);
 			} else {
-				throw new InvalidPlayerException("You need " + SQUAD_SIZE + " players in your squad");
+				throw new InvalidPlayerException("You need " + leagueService.getSquadCount(userTeam.getUserLeague().getLeague()) + " players in your squad");
 			}
 		} else {
 			throw new LeagueException("Unknown team");
@@ -780,11 +780,11 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (playerTypeCounts.get(BlockType.STRIKER) != userTeam.getCurrentFormat().getStrikerCount()) {
 			throw new InvalidPlayerException("You need " + userTeam.getCurrentFormat().getStrikerCount() + " strikers on the team");
 		}
-		if (playerTypeCounts.get(BlockType.GOALKEEPER) != GOALKEEPER_COUNT) {
-			throw new InvalidPlayerException("You need at least " + GOALKEEPER_COUNT + " goalkeeper on the team");
+		if (playerTypeCounts.get(BlockType.GOALKEEPER) != leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())) {
+			throw new InvalidPlayerException("You need at least " + leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague()) + " goalkeeper on the team");
 		}
-		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != SUBSTITUTE_COUNT) {
-			throw new InvalidPlayerException("You need at least " + SUBSTITUTE_COUNT + " substitutes on the team");
+		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())) {
+			throw new InvalidPlayerException("You need at least " + leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague()) + " substitutes on the team");
 		}
 	}
 
@@ -992,7 +992,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public void calculateNewRanking(long leagueId, long currentPlayingWeekId) throws LeagueException {
 		List<Long> ids = userTeamDao.getActiveUserTeams(leagueId);
 		if (ids != null && ids.size() > 0) {
-			userTeamDao.calculateNewRanking(ids, POINTS_PER_PLAYING_WEEK);
+			userTeamDao.calculateNewRanking(ids, leagueService.getUsersPlayingWeekPoints(leagueId));
 		}
 	}
 }

@@ -27,7 +27,7 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-	// TODO move to db or properties file
+	// TODO specific event ids - move to db or properties file
 	public static Integer GOAL_EVENT_ID = Integer.valueOf(5);
 	public static Integer MATCH_APPEARANCE_EVENT = Integer.valueOf(-1);
 	public static Integer GOAL_CONCEEDED_EVENT = Integer.valueOf(-2);
