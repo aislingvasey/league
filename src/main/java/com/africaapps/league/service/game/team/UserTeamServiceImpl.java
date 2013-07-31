@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,7 @@ import com.africaapps.league.model.league.League;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
+import com.africaapps.league.service.fixture.FixtureService;
 import com.africaapps.league.service.game.format.TeamFormatService;
 import com.africaapps.league.service.game.league.UserLeagueService;
 import com.africaapps.league.service.game.player.UserPlayerService;
@@ -60,13 +62,6 @@ import com.africaapps.league.service.transaction.WriteTransaction;
 @Service
 public class UserTeamServiceImpl implements UserTeamService {
 
-//	// TODO move to properties file?
-//	private static final int SQUAD_SIZE = 15;
-//	private static final int GOALKEEPER_COUNT = 1;
-//	private static final int SUBSTITUTE_COUNT = 4;
-//	private static final int POINTS_PER_PLAYING_WEEK = 10;
-//	private static final String INITIAL_AVAILABLE_MONEY = "5000000";
-	
 	@Autowired
 	private UserTeamDao userTeamDao;
 	@Autowired
@@ -89,13 +84,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private TeamService teamService;
 	@Autowired
 	private LeagueService leagueService;
+	@Autowired
+	private FixtureService fixtureService;
 
 	// TODO for testing only remove later
 	@Autowired
 	private PlayingWeekDao playingWeekDao;
 
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
-	
+
 	@ReadTransaction
 	@Override
 	public List<UserTeam> getTeams(long userId) throws LeagueException {
@@ -154,12 +151,16 @@ public class UserTeamServiceImpl implements UserTeamService {
 				throw new InvalidPlayerException("You can only have " + newFormat.getStrikerCount()
 						+ " strikers on the team to use the new format");
 			}
-			if (playerTypeCounts.get(BlockType.GOALKEEPER) > leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())) {
-				throw new InvalidPlayerException("You can only have " + leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())
+			if (playerTypeCounts.get(BlockType.GOALKEEPER) > leagueService.getGoalkeepersCount(userTeam.getUserLeague()
+					.getLeague())) {
+				throw new InvalidPlayerException("You can only have "
+						+ leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())
 						+ " goalkeeper on the team to use the new format");
 			}
-			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())) {
-				throw new InvalidPlayerException("You can only have " + leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())
+			if (playerTypeCounts.get(BlockType.SUBSTITUTE) > leagueService.getSubstitutesCount(userTeam.getUserLeague()
+					.getLeague())) {
+				throw new InvalidPlayerException("You can only have "
+						+ leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())
 						+ " substitutes on the team to use the new format");
 			}
 			// Set the new format
@@ -173,10 +174,10 @@ public class UserTeamServiceImpl implements UserTeamService {
 	public UserLeague getDefaultUserLeague() throws LeagueException {
 		return userLeagueService.getDefaultUserLeague();
 	}
-	
+
 	@Override
 	public Long getDefaultAvailableMoney(League league) throws LeagueException {
-		return leagueService.getTeamInitialMoney(league); 
+		return leagueService.getTeamInitialMoney(league);
 	}
 
 	@ReadTransaction
@@ -191,14 +192,16 @@ public class UserTeamServiceImpl implements UserTeamService {
 			summary.setTeamId(teamId);
 			summary.setTeamName(team.getName());
 			setUserPlayers(team, summary, null);
-			summary.setCanTrade(isUserTeamAbleToTrade(teamId));
+			LeagueSeason leagueSeason = leagueService.getCurrentSeason(teamId);
+			summary.setCanSubstitute(isTeamChangesPossible(leagueSeason));
+			summary.setCanTrade(isUserTeamTradeAvailable(leagueSeason, teamId));
 			sortPlayers(summary);
 			return summary;
 		} else {
 			return null;
 		}
 	}
-	
+
 	private void sortPlayers(UserTeamSummary summary) {
 		Comparator<UserPlayerSummary> comparator = new Comparator<UserPlayerSummary>() {
 			@Override
@@ -213,7 +216,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		Collections.sort(summary.getStrikers(), comparator);
 		Collections.sort(summary.getGoalKeepers(), comparator);
 		Collections.sort(summary.getSubstitutes(), comparator);
-	}	
+	}
 
 	@ReadTransaction
 	@Override
@@ -229,7 +232,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				summary.setTeamId(teamId);
 				summary.setTeamName(team.getName());
 				BlockType blockType = player.getPoolPlayer().getPlayer().getBlock();
-				logger.info("Only getting player for blockType: "+blockType);
+				logger.info("Only getting player for blockType: " + blockType);
 				setUserPlayers(team, summary, blockType);
 				Collections.sort(summary.getDefenders(), new Comparator<UserPlayerSummary>() {
 					@Override
@@ -239,14 +242,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 				});
 				return summary;
 			} else {
-				logger.error("Unknown userPlayer: "+poolPlayerId+" teamId:"+teamId);
+				logger.error("Unknown userPlayer: " + poolPlayerId + " teamId:" + teamId);
 				throw new LeagueException("Unknown user player");
 			}
 		} else {
 			return null;
 		}
 	}
-	
+
 	private void setUserPlayers(UserTeam team, UserTeamSummary summary, BlockType requiredType) throws LeagueException {
 		Iterator<UserPlayer> userPlayers = team.getUserPlayers().iterator();
 		UserPlayer userPlayer = null;
@@ -270,7 +273,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 				} else {
 					playerSummary.setBlock(formatEnum(userPlayer.getPoolPlayer().getPlayer().getBlock()));
 				}
-				playerSummary.setStatus(formatStatus(userPlayer.getStatus()));				
+				playerSummary.setStatus(formatStatus(userPlayer.getStatus()));
 				if (requiredType == null || requiredType.name().equalsIgnoreCase(playerSummary.getBlock())) {
 					// Add to correct player grouping
 					if (BlockType.DEFENDER.name().equalsIgnoreCase(playerSummary.getBlock())) {
@@ -295,19 +298,19 @@ public class UserTeamServiceImpl implements UserTeamService {
 			}
 		}
 	}
-	
+
 	private String formatStatus(UserPlayerStatus status) {
 		if (status != null) {
-			String firstLetter = status.name().substring(0,1).toUpperCase();
+			String firstLetter = status.name().substring(0, 1).toUpperCase();
 			return firstLetter + status.name().substring(1).toLowerCase();
 		} else {
 			return "";
 		}
 	}
-	
+
 	private String formatEnum(BlockType block) {
 		if (block != null) {
-			String firstLetter = block.name().substring(0,1).toUpperCase();
+			String firstLetter = block.name().substring(0, 1).toUpperCase();
 			return firstLetter + block.name().substring(1).toLowerCase();
 		} else {
 			return "";
@@ -390,6 +393,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@WriteTransaction
 	@Override
 	public void setPlayerStatus(long userTeamId, long poolPlayerId, String status) throws LeagueException {
+		checkTeamChangesPossible(userTeamId);
 		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
 		if (userPlayer != null) {
 			UserPlayerStatus s = getStatus(status);
@@ -397,14 +401,14 @@ public class UserTeamServiceImpl implements UserTeamService {
 				if (s == UserPlayerStatus.CAPTAIN) {
 					UserPlayer existingCaptain = userPlayerService.getCaptain(userTeamId);
 					if (existingCaptain != null && existingCaptain.getPoolPlayer().getId().longValue() != poolPlayerId) {
-						// throw new InvalidPlayerException("Team already has a captain!");
 						existingCaptain.setStatus(UserPlayerStatus.PLAYER);
 						userPlayerService.saveUserPlayer(existingCaptain);
 						logger.info("Changed existing captain back to a player: " + existingCaptain);
 					}
 				}
 				if (s == UserPlayerStatus.DROPPED) {
-					dropUser(userTeamId, userPlayer);
+					LeagueSeason leagueSeason = leagueService.getCurrentSeason(userTeamId);
+					dropUser(leagueSeason, userTeamId, userPlayer);
 				} else {
 					updatePlayerStatus(userTeamId, userPlayer, s);
 				}
@@ -417,18 +421,19 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@WriteTransaction
 	@Override
 	public void swapPlayers(long userTeamId, long substitutePlayerId, Long playerId) throws LeagueException {
+		checkTeamChangesPossible(userTeamId);
 		UserPlayer substitutePlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, substitutePlayerId);
 		if (substitutePlayer != null) {
 			UserPlayer player = userPlayerService.getPlayerOnUserTeam(userTeamId, playerId);
 			if (player != null) {
 				if (UserPlayerStatus.SUBSTITUTE.equals(substitutePlayer.getStatus())) {
-					if (UserPlayerStatus.PLAYER.equals(player.getStatus())) {						
+					if (UserPlayerStatus.PLAYER.equals(player.getStatus())) {
 						substitutePlayer.setStatus(UserPlayerStatus.PLAYER);
 						userPlayerService.saveUserPlayer(substitutePlayer);
-						logger.info("Saved substitute as player: "+player);
+						logger.info("Saved substitute as player: " + player);
 						player.setStatus(UserPlayerStatus.SUBSTITUTE);
 						userPlayerService.saveUserPlayer(player);
-						logger.info("Saved player as substitute: "+player);
+						logger.info("Saved player as substitute: " + player);
 					} else {
 						logger.error("Expected player: " + player);
 						throw new LeagueException("Player is not valid swap player");
@@ -445,17 +450,20 @@ public class UserTeamServiceImpl implements UserTeamService {
 		}
 	}
 
-	private void dropUser(long userTeamId, UserPlayer userPlayer) throws LeagueException {
+	private void dropUser(LeagueSeason leagueSeason, long userTeamId, UserPlayer userPlayer) throws LeagueException {		
 		UserTeamStatus status = userTeamDao.getUserTeamStatus(userTeamId);
-		if (UserTeamStatus.COMPLETE.equals(status) && !isUserTeamTradeAvailable(userTeamId)) {
-			throw new InvalidPlayerException("You can not drop a player as you can not trade in a new pool player");
+		if (UserTeamStatus.COMPLETE.equals(status)) {
+			checkTeamChangesPossible(userTeamId);
+			if (!isUserTeamTradeAvailable(leagueSeason, userTeamId)) {
+				throw new InvalidPlayerException("You can not drop a player as you can not trade in a new pool player");
+			}
 		}
 		userPlayerService.deleteUserPlayer(userPlayer);
 		// Increase team's available money
 		UserTeam userTeam = userTeamDao.getTeam(userTeamId);
 		userTeam.setAvailableMoney(userTeam.getAvailableMoney() + userPlayer.getPoolPlayer().getPlayerPrice());
 		// Update team's status
-		if (userTeam.getUserPlayers().size() < leagueService.getSquadCount(userTeam.getUserLeague().getLeague()) 
+		if (userTeam.getUserPlayers().size() < leagueService.getSquadCount(userTeam.getUserLeague().getLeague())
 				&& userTeam.getStatus() == UserTeamStatus.COMPLETE) {
 			userTeam.setStatus(UserTeamStatus.INCOMPLETE);
 			logger.info("UserTeam is no longer complete: " + userTeamId);
@@ -463,8 +471,22 @@ public class UserTeamServiceImpl implements UserTeamService {
 		userTeamDao.saveOrUpdate(userTeam);
 		logger.info("Dropped user: " + userPlayer.getId());
 	}
+	
+	private void checkTeamChangesPossible(long userTeamId) throws LeagueException {
+		UserTeamStatus teamStatus = userTeamDao.getUserTeamStatus(userTeamId);
+		if (UserTeamStatus.COMPLETE.equals(teamStatus)) {
+			LeagueSeason leagueSeason = leagueService.getCurrentSeason(userTeamId);
+			if (!isTeamChangesPossible(leagueSeason)) {
+				throw new LeagueException("Unable to make changes to your team during and after matches");
+			}
+		}
+	}
 
-	private boolean isUserTeamTradeAvailable(long userTeamId) throws LeagueException {
+	private boolean isTeamChangesPossible(LeagueSeason leagueSeason) throws LeagueException {
+		return fixtureService.isTradeOrSubstitutionAllowed(leagueSeason, new Date());
+	}
+
+	private boolean isUserTeamTradeAvailable(LeagueSeason leagueSeason, long userTeamId) throws LeagueException {
 		PlayingWeek currentPlayingWeek = getCurrentPlayingWeek();
 		if (currentPlayingWeek != null) {
 			logger.debug("Current playing week: " + currentPlayingWeek);
@@ -533,6 +555,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@WriteTransaction
 	@Override
 	public void addPlayerToUserTeam(User user, long userTeamId, long poolPlayerId, String playerType) throws LeagueException {
+		checkTeamChangesPossible(userTeamId);
 		UserPlayer userPlayer = userPlayerService.getPlayerOnUserTeam(userTeamId, poolPlayerId);
 		if (userPlayer == null || UserPlayerStatus.DROPPED.equals(userPlayer.getStatus())) {
 			UserTeam userTeam = userTeamDao.getTeam(userTeamId);
@@ -543,7 +566,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 			PoolPlayer poolPlayer = poolService.getPoolPlayer(userTeam.getUserLeague().getPool().getId(), poolPlayerId);
 			if (poolPlayer.getPlayerPrice() < userTeam.getAvailableMoney()) {
 				if (userPlayer == null) {
-					if (UserTeamStatus.COMPLETE.equals(userTeam.getStatus()) && !isUserTeamTradeAvailable(userTeamId)) {
+					LeagueSeason leagueSeason = leagueService.getCurrentSeason(userTeamId);
+					if (UserTeamStatus.COMPLETE.equals(userTeam.getStatus()) && !isUserTeamTradeAvailable(leagueSeason, userTeamId)) {
 						throw new InvalidPlayerException("You can not trade in a new pool player now");
 					}
 					userPlayer = new UserPlayer();
@@ -759,7 +783,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 				userTeamDao.saveOrUpdate(userTeam);
 				logger.info("Updated the status of the userTeam: " + userTeam);
 			} else {
-				throw new InvalidPlayerException("You need " + leagueService.getSquadCount(userTeam.getUserLeague().getLeague()) + " players in your squad");
+				throw new InvalidPlayerException("You need " + leagueService.getSquadCount(userTeam.getUserLeague().getLeague())
+						+ " players in your squad");
 			}
 		} else {
 			throw new LeagueException("Unknown team");
@@ -780,11 +805,15 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (playerTypeCounts.get(BlockType.STRIKER) != userTeam.getCurrentFormat().getStrikerCount()) {
 			throw new InvalidPlayerException("You need " + userTeam.getCurrentFormat().getStrikerCount() + " strikers on the team");
 		}
-		if (playerTypeCounts.get(BlockType.GOALKEEPER) != leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague())) {
-			throw new InvalidPlayerException("You need at least " + leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague()) + " goalkeeper on the team");
+		if (playerTypeCounts.get(BlockType.GOALKEEPER) != leagueService
+				.getGoalkeepersCount(userTeam.getUserLeague().getLeague())) {
+			throw new InvalidPlayerException("You need at least "
+					+ leagueService.getGoalkeepersCount(userTeam.getUserLeague().getLeague()) + " goalkeeper on the team");
 		}
-		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague())) {
-			throw new InvalidPlayerException("You need at least " + leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague()) + " substitutes on the team");
+		if (playerTypeCounts.get(BlockType.SUBSTITUTE) != leagueService
+				.getSubstitutesCount(userTeam.getUserLeague().getLeague())) {
+			throw new InvalidPlayerException("You need at least "
+					+ leagueService.getSubstitutesCount(userTeam.getUserLeague().getLeague()) + " substitutes on the team");
 		}
 	}
 
@@ -866,7 +895,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	@ReadTransaction
 	@Override
 	public boolean isUserTeamAbleToTrade(long userTeamId) throws LeagueException {
-		if (!isUserTeamTradeAvailable(userTeamId)) {
+		LeagueSeason leagueSeason = leagueService.getCurrentSeason(userTeamId);
+		if (!isUserTeamTradeAvailable(leagueSeason, userTeamId)) {
 			return false;
 		} else {
 			return true;

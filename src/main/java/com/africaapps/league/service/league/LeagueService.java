@@ -12,6 +12,7 @@ public interface LeagueService {
 	public League getLeague(String leagueName) throws LeagueException;
 	
 	public LeagueSeason getCurrentSeason(League league) throws LeagueException;
+	public LeagueSeason getCurrentSeason(long userTeamId) throws LeagueException;
 	
 	public int getSquadCount(League league) throws LeagueException;
 	

@@ -53,6 +53,11 @@ public class LeagueServiceImpl implements LeagueService {
 		}
 		return null;
 	}
+	
+	@Override
+	public LeagueSeason getCurrentSeason(long userTeamId) throws LeagueException {
+		return leagueSeasonDao.getCurrentSeasonForUserTeam(userTeamId);
+	}
 
 	@Override
 	public int getSquadCount(League league) throws LeagueException {

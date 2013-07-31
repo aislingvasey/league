@@ -8,4 +8,6 @@ public interface LeagueSeasonDao {
 	
 	public LeagueSeason getCurrentSeason(long leagueId);
 	
+	public LeagueSeason getCurrentSeasonForUserTeam(long userTeamId);
+	
 }
