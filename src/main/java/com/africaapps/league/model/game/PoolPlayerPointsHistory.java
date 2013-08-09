@@ -25,7 +25,7 @@ public class PoolPlayerPointsHistory extends BaseDataModel {
 
 	private PoolPlayer poolPlayer;
 	private Match match;
-	private int playerPoints;
+	private Double playerPoints;
 	private Date addedDateTime;
 	private PlayingWeek playingWeek;
 	
@@ -98,11 +98,11 @@ public class PoolPlayerPointsHistory extends BaseDataModel {
 	}
 	
 	@Column(name="player_points", nullable=false)
-	public int getPlayerPoints() {
+	public Double getPlayerPoints() {
 		return playerPoints;
 	}
 	
-	public void setPlayerPoints(int playerPoints) {
+	public void setPlayerPoints(Double playerPoints) {
 		this.playerPoints = playerPoints;
 	}
 	

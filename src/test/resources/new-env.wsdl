@@ -1,0 +1,400 @@
+<wsdl:definitions name="ServiceAmiscoLive" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+	xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<wsp:Policy wsu:Id="AmiscoBinding_IServiceAmiscoLive_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:TransportToken>
+							<wsp:Policy>
+								<sp:HttpsToken RequireClientCertificate="false" />
+							</wsp:Policy>
+						</sp:TransportToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256 />
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Lax />
+							</wsp:Policy>
+						</sp:Layout>
+						<sp:IncludeTimestamp />
+					</wsp:Policy>
+				</sp:TransportBinding>
+				<sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<sp:WssUsernameToken10 />
+							</wsp:Policy>
+						</sp:UsernameToken>
+					</wsp:Policy>
+				</sp:SignedSupportingTokens>
+				<sp:Wss10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy />
+				</sp:Wss10>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://tempuri.org/Imports">
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd0.xml" namespace="http://tempuri.org/" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd1.xml" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd2.xml" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd3.xml" namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.MatchNS" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd4.xml" namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.CommonNS" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd5.xml" namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.FilActionNS" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd6.xml" namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.ScoringNS" />
+			<xsd:import schemaLocation="https://41.138.70.142:9896/wsdl_xsd7.xml" namespace="http://schemas.datacontract.org/2004/07/LiveMediaStructs.RankingNS" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="IServiceAmiscoLive_IsReady_InputMessage">
+		<wsdl:part name="parameters" element="tns:IsReady" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_IsReady_OutputMessage">
+		<wsdl:part name="parameters" element="tns:IsReadyResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_ServiceVersion_InputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersion" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_ServiceVersion_OutputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersionResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchLightStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:MatchLightStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchLightStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:MatchLightStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetActorStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetActorStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetTeamStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetTeamStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_LfpGetMatchOldXmlContentC_InputMessage">
+		<wsdl:part name="parameters" element="tns:LfpGetMatchOldXmlContentC" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_LfpGetMatchOldXmlContentC_OutputMessage">
+		<wsdl:part name="parameters" element="tns:LfpGetMatchOldXmlContentCResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchFilActionLightStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:MatchFilActionLightStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_MatchFilActionLightStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:MatchFilActionLightStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStruct_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStruct" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStruct_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetMatchFilActionStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchFilActionStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetDayScoringStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayScoringStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetDayScoringStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayScoringStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayScoringStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:DayScoringStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayScoringStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DayScoringStructListResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetDayRankingStructDetailAvailable_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayRankingStructDetailAvailable" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_GetDayRankingStructDetailAvailable_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetDayRankingStructDetailAvailableResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayRankingStructList_InputMessage">
+		<wsdl:part name="parameters" element="tns:DayRankingStructList" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmiscoLive_DayRankingStructList_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DayRankingStructListResponse" />
+	</wsdl:message>
+	<wsdl:portType name="IServiceAmiscoLive">
+		<wsdl:operation name="IsReady">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/IsReady" message="tns:IServiceAmiscoLive_IsReady_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/IsReadyResponse" message="tns:IServiceAmiscoLive_IsReady_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/ServiceVersion" message="tns:IServiceAmiscoLive_ServiceVersion_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/ServiceVersionResponse" message="tns:IServiceAmiscoLive_ServiceVersion_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructDetailAvailable">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailable" message="tns:IServiceAmiscoLive_GetMatchStructDetailAvailable_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetMatchStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="MatchLightStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchLightStructList" message="tns:IServiceAmiscoLive_MatchLightStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchLightStructListResponse" message="tns:IServiceAmiscoLive_MatchLightStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStruct" message="tns:IServiceAmiscoLive_GetMatchStruct_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructResponse" message="tns:IServiceAmiscoLive_GetMatchStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructList" message="tns:IServiceAmiscoLive_GetMatchStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchStructListResponse" message="tns:IServiceAmiscoLive_GetMatchStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetActorStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetActorStruct" message="tns:IServiceAmiscoLive_GetActorStruct_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetActorStructResponse" message="tns:IServiceAmiscoLive_GetActorStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetTeamStruct" message="tns:IServiceAmiscoLive_GetTeamStruct_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetTeamStructResponse" message="tns:IServiceAmiscoLive_GetTeamStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="LfpGetMatchOldXmlContentC">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentC" message="tns:IServiceAmiscoLive_LfpGetMatchOldXmlContentC_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentCResponse" message="tns:IServiceAmiscoLive_LfpGetMatchOldXmlContentC_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructDetailAvailable">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailable" message="tns:IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetMatchFilActionStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="MatchFilActionLightStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructList" message="tns:IServiceAmiscoLive_MatchFilActionLightStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructListResponse"
+				message="tns:IServiceAmiscoLive_MatchFilActionLightStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStruct">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStruct" message="tns:IServiceAmiscoLive_GetMatchFilActionStruct_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructResponse" message="tns:IServiceAmiscoLive_GetMatchFilActionStruct_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructList" message="tns:IServiceAmiscoLive_GetMatchFilActionStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructListResponse" message="tns:IServiceAmiscoLive_GetMatchFilActionStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDayScoringStructDetailAvailable">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailable" message="tns:IServiceAmiscoLive_GetDayScoringStructDetailAvailable_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetDayScoringStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="DayScoringStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayScoringStructList" message="tns:IServiceAmiscoLive_DayScoringStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayScoringStructListResponse" message="tns:IServiceAmiscoLive_DayScoringStructList_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetDayRankingStructDetailAvailable">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailable" message="tns:IServiceAmiscoLive_GetDayRankingStructDetailAvailable_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailableResponse"
+				message="tns:IServiceAmiscoLive_GetDayRankingStructDetailAvailable_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="DayRankingStructList">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayRankingStructList" message="tns:IServiceAmiscoLive_DayRankingStructList_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmiscoLive/DayRankingStructListResponse" message="tns:IServiceAmiscoLive_DayRankingStructList_OutputMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AmiscoBinding_IServiceAmiscoLive" type="tns:IServiceAmiscoLive">
+		<wsp:PolicyReference URI="#AmiscoBinding_IServiceAmiscoLive_policy" />
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="IsReady">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/IsReady" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/ServiceVersion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructDetailAvailable">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructDetailAvailable" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchLightStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/MatchLightStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStruct">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStruct" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetActorStruct">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetActorStruct" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamStruct">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetTeamStruct" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LfpGetMatchOldXmlContentC">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/LfpGetMatchOldXmlContentC" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructDetailAvailable">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MatchFilActionLightStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/MatchFilActionLightStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStruct">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStruct" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchFilActionStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetMatchFilActionStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayScoringStructDetailAvailable">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayScoringStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayScoringStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/DayScoringStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetDayRankingStructDetailAvailable">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/GetDayRankingStructDetailAvailable"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DayRankingStructList">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmiscoLive/DayRankingStructList" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServiceAmiscoLive">
+		<wsdl:port name="AmiscoBinding_IServiceAmiscoLive" binding="tns:AmiscoBinding_IServiceAmiscoLive">
+			<soap:address location="https://41.138.70.142:9896/DataLive.svc" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

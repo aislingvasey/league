@@ -105,7 +105,7 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 	private void addSubstitutes(PlayingWeek currentPlayingWeek, UserTeam userTeam, int count) throws LeagueException {
 		List<UserPlayer> substitutes = userPlayerService.getUserTeamSubstitutes(userTeam.getId(), count);
 		//TODO future enhancement: check that the UserPlayer substitute can fit into the team's format
-		int totalPoints = 0;
+		Double totalPoints = Double.valueOf(0);
 		for(UserPlayer userPlayer : substitutes) {				
 			logger.info("Adding substitute's points: "+userPlayer);
 			List<PoolPlayerPointsHistory> history = poolService.getPoolPlayerHistory(userPlayer.getPoolPlayer().getId(), currentPlayingWeek.getId());

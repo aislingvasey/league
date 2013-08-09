@@ -27,6 +27,7 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
      +" and gpp.id = :ppId"
      +" order by h.added_date_time";
 	
+	//TODO match events changed to match stats
 	private static final String MATCH_EVENTS_HISTORY 
 		= "select p.first_name, p.last_name, p.block as PlayerBlock, m.start_date_time, pme.match_time, e.description, e.points, pm.player_score, t1.club_name as t1, t2.club_name as t2 "
 +"from event e, player_match_event pme, player_match pm, player p, game_pool_player gpp, match m, team t1, team t2 "

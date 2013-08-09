@@ -52,9 +52,9 @@
             <value>com.africaapps.league.model.league.Match</value>
             <value>com.africaapps.league.model.league.Player</value>
             <value>com.africaapps.league.model.league.PlayerMatch</value>
-            <value>com.africaapps.league.model.league.PlayerMatchEvent</value>
+            <value>com.africaapps.league.model.league.PlayerMatchStatistic</value>
             <value>com.africaapps.league.model.league.Position</value>
-            <value>com.africaapps.league.model.league.Event</value>
+            <value>com.africaapps.league.model.league.Statistic</value>
             <value>com.africaapps.league.model.league.Team</value>
             <value>com.africaapps.league.model.league.Fixture</value>
             <value>com.africaapps.league.model.league.LeagueData</value>            

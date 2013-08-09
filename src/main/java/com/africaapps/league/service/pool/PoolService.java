@@ -23,7 +23,7 @@ public interface PoolService {
 	
 	public PoolPlayer getPoolPlayer(long poolPlayerId) throws LeagueException;
 	
-	public void addPointsToPoolPlayer(PoolPlayer poolPlayer, Match match, Integer playerScore) throws LeagueException;
+	public void addPointsToPoolPlayer(PoolPlayer poolPlayer, Match match, Double playerScore) throws LeagueException;
 	
 	public List<PlayerMatchSummary> getPlayerMatches(Long poolPlayerId) throws LeagueException;
 	public List<PlayerMatchEventSummary> getMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException;

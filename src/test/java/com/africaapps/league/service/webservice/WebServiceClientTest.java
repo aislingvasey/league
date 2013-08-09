@@ -1,27 +1,31 @@
 package com.africaapps.league.service.webservice;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-
-import com.africaapps.league.service.webservice.WebServiceClient;
 
 public class WebServiceClientTest {
 
-	private String url = "file:///home/aisling/development/workspaces/games/league/src/test/resources/test-env.wsdl";
-	private String username = "ashley.kleynhans@gmail.com";
-	private String password = "Mxit_For_AmiscoSA!!";
+//	private String url = "file:///home/aisling/development/workspaces/games/league/src/test/resources/new-env.wsdl";
+//	private String username = "ashley.kleynhans@gmail.com";
+//	private String password = "Mxit_For_AmiscoSA!!";
+
+	 @Test
+	 public void placeHolderTest() {
 	
-	@Test
-	public void placeHolderTest() {
-		
-	}
-	
+	 }
+
+	// @Test
+	// public void checkFeed() throws Exception {
+	// WebServiceClient client = new WebServiceClient(url, username, password);
+	// assertTrue(client.isServiceReady());
+	// assertEquals("[v.1.2.0.15]", client.getServiceVersion());
+	// }
+
 //	@Test
-	public void checkFeed() throws Exception {
-		WebServiceClient client = new WebServiceClient(url, username, password);
-		assertTrue(client.isServiceReady());
-		assertEquals("[v.1.2.0.15]", client.getServiceVersion());
-	}
+//	public void getMatches() throws Exception {
+//		WebServiceClient client = new WebServiceClient(url, username, password);
+//		assertTrue(client.isServiceReady());
+//		League league = new League();
+//		league.setName("ABSA Premier Soccer League");
+//		client.processMatchesForEvents(league, null, null, null, null);
+//	}
 }

@@ -12,7 +12,7 @@
     <game_playing_week />
     <match />
     <game_pool_player />
-    <event />
-    <player_match_event />
+    <statistic />
+    <player_match_statistic />
     
 </dataset>

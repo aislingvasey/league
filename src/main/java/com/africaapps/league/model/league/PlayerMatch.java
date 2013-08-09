@@ -23,7 +23,7 @@ public class PlayerMatch extends BaseDataModel {
 
 	private Match match;
 	private Player player;
-	private Integer playerScore;
+	private Double playerScore;
 	
 	@Override
 	public String toString() {
@@ -87,11 +87,11 @@ public class PlayerMatch extends BaseDataModel {
 	}
 
 	@Column(name="player_score", nullable=true)
-	public Integer getPlayerScore() {
+	public Double getPlayerScore() {
 		return playerScore;
 	}
 
-	public void setPlayerScore(Integer playerScore) {
+	public void setPlayerScore(Double playerScore) {
 		this.playerScore = playerScore;
 	}
 }

@@ -48,8 +48,8 @@ public interface UserTeamService {
 	public void setPlayerStatus(long teamId, long poolPlayerId, String status) throws LeagueException;
 	public void swapPlayers(long teamId, long substitutePlayerId, Long playerId) throws LeagueException;
 	
-	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
-	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerScore) throws LeagueException;
+	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, Double playerScore) throws LeagueException;
+	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, Double playerScore) throws LeagueException;
 	
 	public void setTeam(User user, Long userTeamId) throws LeagueException;
 	
@@ -70,7 +70,7 @@ public interface UserTeamService {
 	public Long getAvailableMoney(long userTeamId) throws LeagueException;
 	
 	public List<NeededPlayer> getIncompleteUserTeams(PlayingWeek playingWeek) throws LeagueException;
-	public void addPlayersPoints(long userTeamId, int points) throws LeagueException;
+	public void addPlayersPoints(long userTeamId, Double points) throws LeagueException;
 	
 	public void tradePlayers(User user, long teamId, long poolPlayerId, long selectedPoolPlayerId) throws LeagueException;
 	

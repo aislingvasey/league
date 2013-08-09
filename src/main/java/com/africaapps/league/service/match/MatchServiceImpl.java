@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.africaapps.league.dao.league.MatchDao;
 import com.africaapps.league.dao.league.PlayerMatchDao;
-import com.africaapps.league.dao.league.PlayerMatchEventDao;
+import com.africaapps.league.dao.league.PlayerMatchStatisticDao;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.MatchProcessingStatus;
 import com.africaapps.league.model.league.PlayerMatch;
-import com.africaapps.league.model.league.PlayerMatchEvent;
+import com.africaapps.league.model.league.PlayerMatchStatistic;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -26,7 +26,7 @@ public class MatchServiceImpl implements MatchService {
 	@Autowired
 	private PlayerMatchDao playerMatchDao;
 	@Autowired
-	private PlayerMatchEventDao playerMatchEventDao;
+	private PlayerMatchStatisticDao playerMatchStatDao;
 	
 	private static Logger logger = LoggerFactory.getLogger(MatchServiceImpl.class);
 	
@@ -79,18 +79,6 @@ public class MatchServiceImpl implements MatchService {
 	}
 
 	@Override
-	public PlayerMatchEvent getEvent(Long playerMatchId, Long statisticId, String matchTime) throws LeagueException {
-		return playerMatchEventDao.getEvent(playerMatchId, statisticId, matchTime);
-	}
-
-	@Override
-	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent) {
-		if (playerMatchEvent != null) {
-			playerMatchEventDao.saveOrUpdate(playerMatchEvent);
-		}
-	}
-
-	@Override
 	public PlayerMatch getPlayerMatch(long matchId, long playerId) throws LeagueException {
 		return playerMatchDao.getForMatch(matchId, playerId);
 	}
@@ -99,5 +87,16 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public Match getMatch(long matchId) throws LeagueException {
 		return matchDao.getMatch(matchId);
+	}
+
+	@Override
+	public PlayerMatchStatistic getPlayerMatchStatistic(long playerMatchId, long statisticId) throws LeagueException {
+		return playerMatchStatDao.get(playerMatchId, statisticId);
+	}
+
+	@WriteTransaction
+	@Override
+	public void savePlayerMatchStatistic(PlayerMatchStatistic playerMatchStatistic) throws LeagueException {
+		playerMatchStatDao.saveOrUpdate(playerMatchStatistic);
 	}
 }

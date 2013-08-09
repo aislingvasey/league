@@ -1,34 +1,60 @@
 package com.africaapps.league.service.cache;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.LeagueType;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Event;
+import com.africaapps.league.model.league.Statistic;
+import com.africaapps.league.service.statistic.StatisticService;
 
 @Service
 public class MemoryCacheServiceImpl implements CacheService {
+	
+	@Autowired
+	private StatisticService statisticService;
 	
 	//Save/cache each player's id and their corresponding PlayerMatch instances per match
 	private Map<Long, Map<Long, PlayerMatch>> playerMatchData = new HashMap<Long, Map<Long, PlayerMatch>>();	
 	
 	private Map<Integer, Player> players = new HashMap<Integer, Player>();
-	
-	private Map<Long, Map<Integer, Event>> events = new HashMap<Long, Map<Integer, Event>>();
-	
+		
 	private Map<Long, Map<Integer, Position>> leaguePositions = new HashMap<Long, Map<Integer,Position>>();
+	
+	//ExternalId to Points
+	private Map<Integer, Statistic> goalkeepersStats;
+	private Map<Integer, Statistic> defendersStats;
+	private Map<Integer, Statistic> midfieldersStats;
+	private Map<Integer, Statistic> strikersStats;
+	
+	private static Logger logger = LoggerFactory.getLogger(MemoryCacheServiceImpl.class);
+	
+	public MemoryCacheServiceImpl() {
+		this.goalkeepersStats = new HashMap<Integer, Statistic>();
+		this.defendersStats = new HashMap<Integer, Statistic>();
+		this.midfieldersStats = new HashMap<Integer, Statistic>();
+		this.strikersStats = new HashMap<Integer, Statistic>();
+	}
 	
 	@Override
 	public void clear() {
 		playerMatchData.clear();
 		players.clear();
-		events.clear();
 		leaguePositions.clear();
+		goalkeepersStats.clear();
+		defendersStats.clear();
+		midfieldersStats.clear();
+		strikersStats.clear();
 	}
 
 	@Override
@@ -68,32 +94,6 @@ public class MemoryCacheServiceImpl implements CacheService {
 	}
 	
 	@Override
-	public Event getEvent(Long leagueTypeId, Integer eventId) throws LeagueException {
-		if (events.containsKey(leagueTypeId)) {
-			Map<Integer, Event> e = events.get(leagueTypeId);
-			if (e.containsKey(eventId)) {
-				return e.get(eventId);
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public void setEvent(Long leagueTypeId, Event event) throws LeagueException {
-		if (events.containsKey(leagueTypeId)) {
-			Map<Integer, Event> e = events.get(leagueTypeId);
-			if (e.containsKey(event.getEventId())) {
-				e.remove(event);
-			}
-			e.put(event.getEventId(), event);
-		} else {
-			Map<Integer, Event> e = new HashMap<Integer, Event>();
-			e.put(event.getEventId(), event);
-			events.put(leagueTypeId, e);
-		}
-	}
-
-	@Override
 	public Position getPosition(Long leagueTypeId, Integer positionNumber) throws LeagueException {
 		if (leaguePositions.containsKey(leagueTypeId)) {
 			Map<Integer, Position> poss = leaguePositions.get(leagueTypeId);
@@ -117,5 +117,47 @@ public class MemoryCacheServiceImpl implements CacheService {
 			poss.put(position.getPositionNumber(), position);
 			leaguePositions.put(leagueTypeId, poss);
 		}
+	}
+
+	@Override
+	public void loadStatistics(LeagueType leagueType) throws LeagueException {
+		List<Statistic> stats = statisticService.getStatistics(leagueType);		
+		//Per block type => stat
+		for(Statistic stat : stats) {
+			if (BlockType.GOALKEEPER.equals(stat.getBlock())) {
+				goalkeepersStats.put(stat.getExternalId(), stat);
+				logger.debug("Put goalkeeper stat: "+stat);
+			} else if (BlockType.DEFENDER.equals(stat.getBlock())) {
+				defendersStats.put(stat.getExternalId(), stat);
+				logger.debug("Put def stat: "+stat);
+			} else if (BlockType.MIDFIELDER.equals(stat.getBlock())) {
+				midfieldersStats.put(stat.getExternalId(), stat);
+				logger.debug("Put mid stat: "+stat);
+			} else if (BlockType.STRIKER.equals(stat.getBlock())) {
+				strikersStats.put(stat.getExternalId(), stat);
+				logger.debug("Put striker stat: "+stat);
+			} else {
+				logger.debug("Invalid block for stat: "+stat);
+			}
+		}
+	}
+
+	@Override
+	public Statistic getStatistic(Integer id, BlockType block) {
+		logger.debug("Getting stat for id:"+id+" block:"+block);
+		if (BlockType.GOALKEEPER.equals(block)) {
+			return goalkeepersStats.get(id);
+		}
+		if (BlockType.DEFENDER.equals(block)) {
+			return defendersStats.get(id);
+		}
+		if (BlockType.MIDFIELDER.equals(block)) {
+			return midfieldersStats.get(id);
+		}
+		if (BlockType.STRIKER.equals(block)) {
+			return strikersStats.get(id);
+		}
+		logger.error("Invalid statistic block: "+block);
+		return null;
 	}
 }

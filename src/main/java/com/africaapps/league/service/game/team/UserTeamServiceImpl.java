@@ -338,15 +338,19 @@ public class UserTeamServiceImpl implements UserTeamService {
 				if (poolPlayer == null) {
 					pPlayer = poolService.getPoolPlayer(poolId, player.getId());
 					if (pPlayer != null) {
-						summary = new UserPlayerSummary();
-						summary.setPlayerId(pPlayer.getPlayer().getPlayerId());
-						summary.setPoolPlayerId(pPlayer.getId());
-						summary.setFirstName(player.getFirstName());
-						summary.setLastName(player.getLastName());
-						summary.setPrice(pPlayer.getPlayerPrice());
-						summary.setCurrentScore(pPlayer.getPlayerCurrentScore());
-						summary.setBlock(formatEnum(player.getBlock()));
-						summaries.add(summary);
+						if (pPlayer.getPlayerPrice() == 0) {
+							logger.error("Not showing Player with zero price: "+player.getId()+" "+player.getFirstName()+" "+player.getLastName());
+						} else {
+							summary = new UserPlayerSummary();
+							summary.setPlayerId(pPlayer.getPlayer().getPlayerId());
+							summary.setPoolPlayerId(pPlayer.getId());
+							summary.setFirstName(player.getFirstName());
+							summary.setLastName(player.getLastName());
+							summary.setPrice(pPlayer.getPlayerPrice());
+							summary.setCurrentScore(pPlayer.getPlayerCurrentScore());
+							summary.setBlock(formatEnum(player.getBlock()));
+							summaries.add(summary);
+						}
 					} else {
 						logger.error("Unable to find corresponding pool player for playerId: " + player.getId());
 					}
@@ -699,7 +703,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
+	public void addPointsForPoolPlayer(Match match, PoolPlayer poolPlayer, Double playerPoints) throws LeagueException {
 		logger.info("Added playerPoints:" + playerPoints + " for poolPlayer:" + poolPlayer);
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);
@@ -725,7 +729,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public void addPlayersPoints(long userTeamId, int points) throws LeagueException {
+	public void addPlayersPoints(long userTeamId, Double points) throws LeagueException {
 		List<Long> ids = new ArrayList<Long>();
 		ids.add(userTeamId);
 		userTeamDao.addPlayerPoints(ids, points);
@@ -733,7 +737,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 
 	@WriteTransaction
 	@Override
-	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, int playerPoints) throws LeagueException {
+	public void addPointsForCaptain(Match match, PoolPlayer poolPlayer, Double playerPoints) throws LeagueException {
 		logger.info("Added Captain's playerPoints:" + playerPoints + " for poolPlayer:" + poolPlayer);
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithCaptain(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);

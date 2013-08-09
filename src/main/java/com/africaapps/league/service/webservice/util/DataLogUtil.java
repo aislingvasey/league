@@ -238,7 +238,7 @@ public class DataLogUtil {
 			.append(" name:").append(sdts.getName().getValue());
 			for(SS ss : sdts.getLstSS().getValue().getSS()) {
 				sb.append(" SS: id:").append(ss.getId());
-				if (ss.getLSOS() != null) {
+				if (ss.getLSOS() != null && ss.getLSOS().getValue() != null) {
 					for(SOS sos : ss.getLSOS().getValue().getSOS()) {
 						sb.append("\n\t\t SOS: ETH:").append(sos.getETHstr().getValue())
 						  .append(" ETM:").append(sos.getETMstr().getValue())

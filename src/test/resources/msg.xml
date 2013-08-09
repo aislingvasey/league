@@ -1,0 +1,1496 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+	<s:Header>
+		<o:Security xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			s:mustUnderstand="1">
+			<u:Timestamp u:Id="_0">
+				<u:Created>2013-08-06T18:03:20.696Z</u:Created>
+				<u:Expires>2013-08-06T18:08:20.696Z</u:Expires>
+			</u:Timestamp>
+		</o:Security>
+	</s:Header>
+	<s:Body>
+		<GetTeamStructResponse xmlns="http://tempuri.org/">
+			<GetTeamStructResult xmlns:a="http://schemas.datacontract.org/2004/07/LiveMediaStructs.MatchNS"
+				xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+				<a:AbbrevClubName>OPFC</a:AbbrevClubName>
+				<a:City>Soweto</a:City>
+				<a:ClubName>Orlando Pirates Football Club</a:ClubName>
+				<a:Coach>
+					<a:FN>Roger</a:FN>
+					<a:IdA>354045</a:IdA>
+					<a:LstCIS xmlns:b="http://schemas.datacontract.org/2004/07/LiveMediaStructs.CommonNS" />
+					<a:NN>De Sá</a:NN>
+					<a:SN>De Sá</a:SN>
+					<a:UFN i:nil="true" />
+				</a:Coach>
+				<a:CodeName>PIRAT</a:CodeName>
+				<a:ColorHexa>#FFFFFF</a:ColorHexa>
+				<a:IdTeam>32762</a:IdTeam>
+				<a:IsTeamA>true</a:IsTeamA>
+				<a:LstActorStruct />
+				<a:LstActorSubstitutionStruct />
+				<a:LstCIS xmlns:b="http://schemas.datacontract.org/2004/07/LiveMediaStructs.CommonNS" />
+				<a:LstSDTS>
+					<a:SDTS>
+						<a:IdDT>1</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>11</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>12</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>13</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>20</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>19</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>117</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>21</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>26</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>39</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>40</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>55</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>14</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>34</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>35</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>54</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>150</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>41</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>970</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>96</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>42</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>43</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>44</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>100</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>734</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>735</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>736</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>737</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>738</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>93</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>92</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>709</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>149</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>17</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>789</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>101</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>707</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>708</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>95</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1410</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1411</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>82</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>84</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>86</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>83</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>85</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>87</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>133</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>131</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>129</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1384</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>147</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>145</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>143</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>148</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>69</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>65</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>61</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>45</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>76</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>72</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>80</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>77</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>73</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>16</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>79</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>75</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1404</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1405</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1406</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1407</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1408</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1409</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1386</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1387</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1388</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1389</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1390</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1391</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1398</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1399</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1400</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1401</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1402</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1403</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1392</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1393</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1394</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1395</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1396</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1397</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1376</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1377</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1378</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1379</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1385</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>81</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1382</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1383</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>759</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>760</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>761</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>762</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>763</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>764</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>765</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>766</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>767</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>768</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>769</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>770</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>771</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>772</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>773</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>774</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>775</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>776</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>777</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>778</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>779</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>780</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>781</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>782</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>783</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>784</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>785</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1348</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1349</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1350</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1351</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1352</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1353</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1354</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1355</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1356</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1357</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1358</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1359</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1360</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1361</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1362</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1363</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1364</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1365</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1366</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1367</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1368</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1369</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1370</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1371</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1372</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1316</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1317</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1318</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1319</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1320</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1321</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1322</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1323</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1324</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1325</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1326</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1327</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1328</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1329</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1330</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1331</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1332</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1333</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1334</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1335</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1336</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1337</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1338</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1339</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1340</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1341</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1342</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1343</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1344</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1345</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1346</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1347</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>714</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>710</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>716</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>712</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>717</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>713</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>722</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>718</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>724</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>720</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>725</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>721</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Match</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>6</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q1</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>7</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q2</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>8</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q3</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>9</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q4</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>10</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q5</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>11</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q6</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>12</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q7</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>13</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>0</a:V>
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Q8</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>4</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>P3</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>5</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1375</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>57</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>56</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V i:nil="true" />
+							</a:SS>
+						</a:LstSS>
+						<a:Name>P4</a:Name>
+					</a:SDTS>
+					<a:SDTS>
+						<a:IdDT>22</a:IdDT>
+						<a:LstSS>
+							<a:SS>
+								<a:A2 i:nil="true" />
+								<a:Id>1298</a:Id>
+								<a:LSOS i:nil="true" />
+								<a:V>50</a:V>
+							</a:SS>
+						</a:LstSS>
+						<a:Name>Last_5_Minutes</a:Name>
+					</a:SDTS>
+				</a:LstSDTS>
+				<a:LstScorerStruct />
+				<a:LstTeamHalfStruct>
+					<a:TeamHalfStruct>
+						<a:IdHalf>1</a:IdHalf>
+						<a:IsAtLeft>true</a:IsAtLeft>
+					</a:TeamHalfStruct>
+					<a:TeamHalfStruct>
+						<a:IdHalf>2</a:IdHalf>
+						<a:IsAtLeft>false</a:IsAtLeft>
+					</a:TeamHalfStruct>
+				</a:LstTeamHalfStruct>
+				<a:MediaName>Orlando Pirates</a:MediaName>
+				<a:ScoreEndOfficialTime>0</a:ScoreEndOfficialTime>
+				<a:ScoreFinalShot i:nil="true" />
+				<a:ScoreHafTime>0</a:ScoreHafTime>
+				<a:ScoreOverTime1 i:nil="true" />
+				<a:ScoreOverTime2 i:nil="true" />
+				<a:TeamName>Orlando Pirates</a:TeamName>
+			</GetTeamStructResult>
+		</GetTeamStructResponse>
+	</s:Body>
+</s:Envelope>

@@ -5,7 +5,7 @@ import java.util.List;
 import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.PlayerMatch;
-import com.africaapps.league.model.league.PlayerMatchEvent;
+import com.africaapps.league.model.league.PlayerMatchStatistic;
 
 public interface MatchService {
 
@@ -18,7 +18,8 @@ public interface MatchService {
 	public PlayerMatch getPlayerMatch(long matchId, long playerId) throws LeagueException;
 	
 	public void calculatePlayerScores(Match match) throws LeagueException;
-		
-	public PlayerMatchEvent getEvent(Long playerMatchId, Long statisticId, String matchTime) throws LeagueException;
-	public void savePlayerMatchEvent(PlayerMatchEvent playerMatchEvent);
+
+	public PlayerMatchStatistic getPlayerMatchStatistic(long playerMatchId, long statisticId) throws LeagueException;
+	public void savePlayerMatchStatistic(PlayerMatchStatistic playerMatchStatistic) throws LeagueException;
+	
 }

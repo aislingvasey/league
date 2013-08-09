@@ -1,7 +1,6 @@
 package com.africaapps.league.service.task;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,60 +75,61 @@ public class TaskServiceImpl implements TaskService {
 	
 	private MatchFilter createMatchFilter() {
 		//TODO filter for testing only
-		MatchFilter matchFilter = new MatchFilter() {			
-			@Override
-			public boolean isValidMatch(Integer matchId, Date matchDateTime) {
-				logger.info("Match date: "+matchDateTime);
-				Calendar calendar = Calendar.getInstance();
-				int today = calendar.get(Calendar.DAY_OF_WEEK);
-				calendar.setTime(matchDateTime);
-				if (today == Calendar.SUNDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.AUGUST && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.MONDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.TUESDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.WEDNESDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.THURSDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.YEAR) == 2012) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.FRIDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY && calendar.get(Calendar.YEAR) == 2013) {
-						return true;
-					} else {
-						return false;
-					}
-				} else if (today == Calendar.SATURDAY) {
-					if (calendar.get(Calendar.MONTH) == Calendar.MARCH && calendar.get(Calendar.YEAR) == 2013) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-		};
-		return matchFilter;
+//		MatchFilter matchFilter = new MatchFilter() {			
+//			@Override
+//			public boolean isValidMatch(Integer matchId, Date matchDateTime) {
+//				logger.info("Match date: "+matchDateTime);
+//				Calendar calendar = Calendar.getInstance();
+//				int today = calendar.get(Calendar.DAY_OF_WEEK);
+//				calendar.setTime(matchDateTime);
+//				if (today == Calendar.SUNDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.AUGUST && calendar.get(Calendar.YEAR) == 2012) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.MONDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER && calendar.get(Calendar.YEAR) == 2012) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.TUESDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.YEAR) == 2012) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.WEDNESDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.NOVEMBER && calendar.get(Calendar.YEAR) == 2012) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.THURSDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.YEAR) == 2012) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.FRIDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.FEBRUARY && calendar.get(Calendar.YEAR) == 2013) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else if (today == Calendar.SATURDAY) {
+//					if (calendar.get(Calendar.MONTH) == Calendar.MARCH && calendar.get(Calendar.YEAR) == 2013) {
+//						return true;
+//					} else {
+//						return false;
+//					}
+//				} else {
+//					return false;
+//				}
+//			}
+//		};
+//		return matchFilter;
+		return null;
 	}
 }

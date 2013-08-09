@@ -20,7 +20,7 @@ import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
-@Service
+@Service("LeagueService")
 public class LeagueServiceImpl implements LeagueService {
 	
 	//Since the data is not updated anywhere yet, we can cache it in memory

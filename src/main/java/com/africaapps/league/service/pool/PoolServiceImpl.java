@@ -79,7 +79,9 @@ public class PoolServiceImpl implements PoolService {
 	}
 	
 	private Long getPlayerPrice(Player player) throws LeagueException {
-		PlayerPrice playerPrice = playerPriceDao.getPrice(player.getFirstName().trim(), player.getLastName().trim());
+		String first = player.getFirstName() != null ? player.getFirstName().trim() : "";
+		String second = player.getLastName() != null ? player.getLastName().trim() : "";
+		PlayerPrice playerPrice = playerPriceDao.getPrice(first, second);
 		if (playerPrice != null) {
 			logger.info("Setting price:"+playerPrice+" for player: "+player);
 			return playerPrice.getPrice().longValue();
@@ -103,7 +105,7 @@ public class PoolServiceImpl implements PoolService {
 
 	@WriteTransaction
 	@Override
-	public void addPointsToPoolPlayer(PoolPlayer poolPlayer, Match match, Integer playerScore) throws LeagueException {
+	public void addPointsToPoolPlayer(PoolPlayer poolPlayer, Match match, Double playerScore) throws LeagueException {
 		//per player in the match, add their playerScore to their PoolPlayer's currentScore
 		poolPlayerDao.addPlayerScore(poolPlayer.getId(), match.getId(), playerScore);		
 		//save a history record

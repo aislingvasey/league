@@ -6,7 +6,7 @@
 	<team id="-1" team_id="10" club_name="Team 1" team_name="Team 1" city="Here" league_season_id="-1" />
 	<team id="-2" team_id="11" club_name="Team 2" team_name="Team 2" city="There" league_season_id="-1" />
 
-	<event />
+	<statistic />
 	
 	<position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
 	<position id="-2" position_number="2" league_type_id="-1" position_type="ATTACK" />
@@ -49,7 +49,7 @@
 
     <match />
     <player_match />
-    <player_match_event />    
+    <player_match_statistic />    
 	
 	<game_pool_player_points_history id="-1" added_date_time="[today]" player_points="15"
 		match_id="-1" playing_week_id="-1" pool_player_id="-2" />

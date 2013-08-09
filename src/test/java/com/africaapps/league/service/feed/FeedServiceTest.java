@@ -1,16 +1,15 @@
-package com.africaapps.league.service;
+package com.africaapps.league.service.feed;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.africaapps.league.BaseSpringDbUnitTest;
 import com.africaapps.league.model.league.League;
-import com.africaapps.league.service.feed.FeedService;
 import com.africaapps.league.service.league.LeagueService;
 
 public class FeedServiceTest extends BaseSpringDbUnitTest {
 	
-	private String x = "file:///home/aisling/development/workspaces/games/league/src/test/resources/test-env.wsdl";
+	private String x = "file:///home/aisling/development/workspaces/games/league/src/test/resources/new-env.wsdl";
 	private String y = "ashley.kleynhans@gmail.com";
 	private String z = "Mxit_For_AmiscoSA!!";
 
@@ -28,6 +27,6 @@ public class FeedServiceTest extends BaseSpringDbUnitTest {
 	public void processFeed() throws Exception {
 		String leagueName = "ABSA Premier Soccer League";		
 		League league = leagueService.getLeague(leagueName);
-		feedService.processFeedForStats(league, x, y, z, null);
+		feedService.processFeed(league, x, y, z, null);
 	}
 }

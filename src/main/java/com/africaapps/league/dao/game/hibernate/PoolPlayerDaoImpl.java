@@ -50,11 +50,11 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 	}
 
 	@Override
-	public void addPlayerScore(long poolPlayerId, long matchId, Integer playerScore) {
+	public void addPlayerScore(long poolPlayerId, long matchId, Double playerScore) {
 		logger.info("Added points from match:"+matchId+" to corresponding poolPlayer:"+poolPlayerId+" points:"+playerScore);
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(ADD_PLAYER_MATCH_SCORE);
 		query.setLong("poolPlayerId", poolPlayerId);
-		query.setInteger("points", playerScore);
+		query.setDouble("points", playerScore);
 		int rowsUpdated = query.executeUpdate();
 		logger.info("Updated poolPlayer's points: "+rowsUpdated);
 	}

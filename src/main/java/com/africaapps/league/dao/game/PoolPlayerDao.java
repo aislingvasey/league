@@ -12,7 +12,7 @@ public interface PoolPlayerDao {
 	
 	public PoolPlayer get(long poolPlayerId);
 	
-	public void addPlayerScore(long poolPlayerId, long matchId, Integer playerScore);
+	public void addPlayerScore(long poolPlayerId, long matchId, Double playerScore);
 	
 	public List<PoolPlayer> getByPoolId(long poolId, int page, int pageSize);
 	

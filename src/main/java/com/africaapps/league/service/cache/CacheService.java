@@ -1,10 +1,12 @@
 package com.africaapps.league.service.cache;
 
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.league.BlockType;
+import com.africaapps.league.model.league.LeagueType;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatch;
 import com.africaapps.league.model.league.Position;
-import com.africaapps.league.model.league.Event;
+import com.africaapps.league.model.league.Statistic;
 
 public interface CacheService {
 
@@ -16,9 +18,9 @@ public interface CacheService {
 	public Player getPlayer(Integer playerId) throws LeagueException;
 	public void setPlayer(Player player) throws LeagueException;
 	
-	public Event getEvent(Long leagueTypeId, Integer eventId) throws LeagueException;
-	public void setEvent(Long leagueTypeId, Event event) throws LeagueException;
-	
 	public Position getPosition(Long leagueTypeId, Integer positionNumber) throws LeagueException;
 	public void setPosition(Long leagueTypeId, Position position) throws LeagueException;	
+	
+	public void loadStatistics(LeagueType leagueType) throws LeagueException;
+	public Statistic getStatistic(Integer id, BlockType block) throws LeagueException;
 }

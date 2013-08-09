@@ -13,7 +13,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Index;
 
@@ -21,24 +20,24 @@ import com.africaapps.league.model.BaseDataModel;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
-@Table(name="event", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "event_id", "block_type"})})
-public class Event extends BaseDataModel {
+@Table(name="statistic", uniqueConstraints={@UniqueConstraint(columnNames={"league_type_id", "external_id", "block_type"})})
+public class Statistic extends BaseDataModel {
 
 	private static final long serialVersionUID = 1L;
 
 	private LeagueType leagueType;
-	private Integer eventId; //external id
-	private String description;
-	private Integer points;
+	private Integer externalId;
+	private String name;
+	private Double points;
 	private BlockType block;
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[Event: ");
+		builder.append("[Statistic: ");
 		builder.append(" id:").append(id);
-		builder.append(" eventId:").append(eventId);
-		builder.append(" description:").append(description);
+		builder.append(" externalId:").append(externalId);
+		builder.append(" name:").append(name);
 		builder.append(" points:").append(points);
 		builder.append(" type:").append(leagueType);		
 		builder.append(" block:").append(block);		
@@ -50,10 +49,10 @@ public class Event extends BaseDataModel {
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
-		} else if (!(o instanceof Event)) {
+		} else if (!(o instanceof Statistic)) {
 			return false;
 		} else {
-			Event s = (Event) o;
+			Statistic s = (Statistic) o;
 			if (s.getId().equals(id)) {
 				return true;
 			} else {
@@ -69,8 +68,8 @@ public class Event extends BaseDataModel {
 	
 	@NotNull(groups={UpdateGroup.class})
 	@Id
-	@SequenceGenerator(name="event_seq", sequenceName="event_seq", allocationSize=1)
-  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="event_seq")
+	@SequenceGenerator(name="stat_seq", sequenceName="stat_seq", allocationSize=1)
+  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="stat_seq")
   @Column(name="id", nullable=false)
 	public Long getId() {
 		return id;
@@ -87,38 +86,37 @@ public class Event extends BaseDataModel {
 	}
 
 	@NotNull
-	@Index(name="event_id_index", columnNames = "event_id")
-	@Column(name="event_id", nullable=false)
-	public Integer getEventId() {
-		return eventId;
+	@Index(name="external_stat_id_index", columnNames = "external_id")
+	@Column(name="external_id", nullable=false)
+	public Integer getExternalId() {
+		return externalId;
 	}
 
-	public void setEventId(Integer eventId) {
-		this.eventId = eventId;
+	public void setExternalId(Integer externalId) {
+		this.externalId = externalId;
 	}
 
 	@NotNull
-	@Size(min=1, max=200, message="{validate.description.range}")
-	@Column(name="description", length=200, nullable=false)
-	public String getDescription() {
-		return description;
+	@Column(name="name", length=200, nullable=false)
+	public String getName() {
+		return name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@NotNull
 	@Column(name="points", nullable=false)
-	public Integer getPoints() {
+	public Double getPoints() {
 		return points;
 	}
 
-	public void setPoints(Integer points) {
+	public void setPoints(Double points) {
 		this.points = points;
 	}
 
-	@Column(name="block_type", nullable=true)
+	@Column(name="block_type", nullable=false)
 	@Enumerated(EnumType.STRING)
 	public BlockType getBlock() {
 		return block;

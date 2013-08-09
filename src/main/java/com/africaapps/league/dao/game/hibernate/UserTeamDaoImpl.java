@@ -198,11 +198,11 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 	}
 
 	@Override
-	public void addPlayerPoints(List<Long> ids, int playerPoints) {
+	public void addPlayerPoints(List<Long> ids, Double playerPoints) {
 		logger.info("Added playerPoints to teams - points:"+playerPoints+" teams:"+ids.toString());
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(ADD_PLAYER_POINTS);
 		query.setParameterList("ids", ids);
-		query.setInteger("playerPoints", playerPoints);
+		query.setDouble("playerPoints", playerPoints);
 		int rowsUpdated = query.executeUpdate();
 		logger.info("Actual teams updated: "+rowsUpdated);
 	}

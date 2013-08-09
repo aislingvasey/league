@@ -9,12 +9,12 @@
     <team />
     <position />
     <player />
-    <player_match_event />
+    <player_match_statistic />
     <game_playing_week />    
     <match />
     <position />
     <game_pool_player />
-    <event />            
+    <statistic />            
     <game_user_details />
     <game_user_league />
     <game_user_team />    

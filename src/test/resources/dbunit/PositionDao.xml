@@ -5,7 +5,7 @@
     <league_data />
     <fixture />    
 	<position id="-1" position_number="1" league_type_id="-1" position_type="DEFENDER" />
-    <event />
+    <statistic />
     <game_playing_week />
     <match />
 </dataset>

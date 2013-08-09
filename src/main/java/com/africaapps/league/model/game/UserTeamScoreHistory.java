@@ -26,7 +26,7 @@ public class UserTeamScoreHistory extends BaseDataModel {
 	private UserTeam userTeam;
 	private Match match;
 	private PoolPlayer poolPlayer;
-	private int playerPoints;
+	private Double playerPoints;
 	private Date addedDateTime;
 	private PlayingWeek playingWeek;
 	private boolean captainExtraScore;
@@ -111,11 +111,11 @@ public class UserTeamScoreHistory extends BaseDataModel {
 	}
 
 	@Column(name="player_points", nullable=false)
-	public int getPlayerPoints() {
+	public Double getPlayerPoints() {
 		return playerPoints;
 	}
 
-	public void setPlayerPoints(int playerPoints) {
+	public void setPlayerPoints(Double playerPoints) {
 		this.playerPoints = playerPoints;
 	}
 

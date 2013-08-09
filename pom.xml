@@ -155,6 +155,12 @@
 			<artifactId>awsl-client</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.africaapps</groupId>
+            <artifactId>awsl-history-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
 		<dependency>
 			<groupId>com.mchange</groupId>

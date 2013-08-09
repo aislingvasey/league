@@ -28,7 +28,7 @@ public interface UserTeamDao {
 	
 	public List<UserTeam> getTeamsWithPoolPlayer(long poolPlayerId);
 	public List<UserTeam> getTeamsWithCaptain(long poolPlayerId);
-	public void addPlayerPoints(List<Long> ids, int playerPoints);
+	public void addPlayerPoints(List<Long> ids, Double playerPoints);
 	
 	public List<UserTeamScoreHistorySummary> getScoreHistory(long userTeamId);
 	public List<UserTeamScoreHistorySummary> getPlayersScoreHistoryByMatch(Long userTeamId, Long matchId);

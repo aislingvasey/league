@@ -18,8 +18,8 @@ public class MatchDaoImpl extends BaseHibernateDao implements MatchDao {
 	
 	private static final String CALC_PLAYER_SCORE = "UPDATE player_match SET player_score = t.score"  
 +" FROM ("  
-+"  select player_match_id, sum(e.points) as score"
-+"  from player_match_event pme join event e on pme.event_id = e.id" 
++"  select player_match_id, sum(pms.points) as score"
++"  from player_match_statistic pms " 
 +"  where player_match_id in (select id from player_match where match_id = :matchId )"
 +"    group by player_match_id"
 +" ) t"  

@@ -1,0 +1,750 @@
+<wsdl:definitions name="ServiceAmisco" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+	xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+	xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+	<wsp:Policy wsu:Id="BasicHttpBinding_IServiceAmisco_policy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:TransportToken>
+							<wsp:Policy>
+								<sp:HttpsToken RequireClientCertificate="false" />
+							</wsp:Policy>
+						</sp:TransportToken>
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256 />
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Lax />
+							</wsp:Policy>
+						</sp:Layout>
+						<sp:IncludeTimestamp />
+					</wsp:Policy>
+				</sp:TransportBinding>
+				<sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<sp:WssUsernameToken10 />
+							</wsp:Policy>
+						</sp:UsernameToken>
+					</wsp:Policy>
+				</sp:SignedSupportingTokens>
+				<sp:Wss10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy />
+				</sp:Wss10>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://tempuri.org/Imports">
+			<xsd:import schemaLocation="wsdl_xsd0.xml" namespace="http://tempuri.org/" />
+			<xsd:import schemaLocation="wsdl_xsd1.xml" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+			<xsd:import schemaLocation="wsdl_xsd2.xml" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+			<xsd:import schemaLocation="wsdl_xsd3.xml" namespace="http://schemas.datacontract.org/2004/07/AmiscoDataAccess2008" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="IServiceAmisco_GetActor_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetActor" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetActor_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamActors_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamActors" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamActors_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamActorsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncounterActors_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncounterActors" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncounterActors_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncounterActorsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetActorPhoto_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorPhoto" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetActorPhoto_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetActorPhotoResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeam_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeam" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeam_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamPlayersPhotos_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamPlayersPhotos" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamPlayersPhotos_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamPlayersPhotosResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamLogo_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamLogo" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTeamLogo_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTeamLogoResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeason_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeason" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeason_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeasonResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetCompetitionSeasons_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetCompetitionSeasons" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetCompetitionSeasons_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetCompetitionSeasonsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeasonPlayersPhotos_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeasonPlayersPhotos" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeasonPlayersPhotos_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeasonPlayersPhotosResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeasonTeamsLogos_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeasonTeamsLogos" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetSeasonTeamsLogos_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetSeasonTeamsLogosResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetCompetition_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetCompetition" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetCompetition_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetCompetitionResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetPitch_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetPitch" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetPitch_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetPitchResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetProfessions_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetProfessions" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetProfessions_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetProfessionsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetUnits_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetUnits" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetUnits_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetUnitsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTextCategories_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTextCategories" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTextCategories_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTextCategoriesResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTexts_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTexts" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetTexts_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTextsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_IsReady_InputMessage">
+		<wsdl:part name="parameters" element="tns:IsReady" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_IsReady_OutputMessage">
+		<wsdl:part name="parameters" element="tns:IsReadyResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_ServiceVersion_InputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersion" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_ServiceVersion_OutputMessage">
+		<wsdl:part name="parameters" element="tns:ServiceVersionResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncounters_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncounters" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncounters_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncountersResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncountersByCompetName_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncountersByCompetName" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncountersByCompetName_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncountersByCompetNameResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncountersByIdClients_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncountersByIdClients" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetEncountersByIdClients_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetEncountersByIdClientsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatCategs_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatCategs" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatCategs_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatCategsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSubCategs_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSubCategs" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSubCategs_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSubCategsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStats_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStats" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStats_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatsResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueTeam_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueTeam" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueTeam_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueTeamResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonValueTeam_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonValueTeam" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonValueTeam_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonValueTeamResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActor_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActor" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActor_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActorResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonValueActor_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonValueActor" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonValueActor_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonValueActorResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonActor_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonActor" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatSeasonActor_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatSeasonActorResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueEncounter_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueEncounter" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueEncounter_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueEncounterResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActorEncounter_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActorEncounter" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActorEncounter_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActorEncounterResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActorTrend_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActorTrend" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetStatValueActorTrend_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetStatValueActorTrendResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetExtracterRanking_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetExtracterRanking" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetExtracterRanking_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetExtracterRankingResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetExtracterHistoric_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetExtracterHistoric" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetExtracterHistoric_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetExtracterHistoricResponse" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetMatchEvents_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchEvents" />
+	</wsdl:message>
+	<wsdl:message name="IServiceAmisco_GetMatchEvents_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetMatchEventsResponse" />
+	</wsdl:message>
+	<wsdl:portType name="IServiceAmisco">
+		<wsdl:operation name="GetActor">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetActor" message="tns:IServiceAmisco_GetActor_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetActorResponse" message="tns:IServiceAmisco_GetActor_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamActors">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamActors" message="tns:IServiceAmisco_GetTeamActors_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamActorsResponse" message="tns:IServiceAmisco_GetTeamActors_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEncounterActors">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncounterActors" message="tns:IServiceAmisco_GetEncounterActors_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncounterActorsResponse" message="tns:IServiceAmisco_GetEncounterActors_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetActorPhoto">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetActorPhoto" message="tns:IServiceAmisco_GetActorPhoto_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetActorPhotoResponse" message="tns:IServiceAmisco_GetActorPhoto_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeam">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeam" message="tns:IServiceAmisco_GetTeam_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamResponse" message="tns:IServiceAmisco_GetTeam_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamPlayersPhotos">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamPlayersPhotos" message="tns:IServiceAmisco_GetTeamPlayersPhotos_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamPlayersPhotosResponse" message="tns:IServiceAmisco_GetTeamPlayersPhotos_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamLogo">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamLogo" message="tns:IServiceAmisco_GetTeamLogo_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTeamLogoResponse" message="tns:IServiceAmisco_GetTeamLogo_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSeason">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeason" message="tns:IServiceAmisco_GetSeason_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeasonResponse" message="tns:IServiceAmisco_GetSeason_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCompetitionSeasons">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetCompetitionSeasons" message="tns:IServiceAmisco_GetCompetitionSeasons_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetCompetitionSeasonsResponse" message="tns:IServiceAmisco_GetCompetitionSeasons_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSeasonPlayersPhotos">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeasonPlayersPhotos" message="tns:IServiceAmisco_GetSeasonPlayersPhotos_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeasonPlayersPhotosResponse" message="tns:IServiceAmisco_GetSeasonPlayersPhotos_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetSeasonTeamsLogos">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeasonTeamsLogos" message="tns:IServiceAmisco_GetSeasonTeamsLogos_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetSeasonTeamsLogosResponse" message="tns:IServiceAmisco_GetSeasonTeamsLogos_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCompetition">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetCompetition" message="tns:IServiceAmisco_GetCompetition_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetCompetitionResponse" message="tns:IServiceAmisco_GetCompetition_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetPitch">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetPitch" message="tns:IServiceAmisco_GetPitch_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetPitchResponse" message="tns:IServiceAmisco_GetPitch_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetProfessions">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetProfessions" message="tns:IServiceAmisco_GetProfessions_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetProfessionsResponse" message="tns:IServiceAmisco_GetProfessions_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetUnits">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetUnits" message="tns:IServiceAmisco_GetUnits_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetUnitsResponse" message="tns:IServiceAmisco_GetUnits_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTextCategories">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTextCategories" message="tns:IServiceAmisco_GetTextCategories_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTextCategoriesResponse" message="tns:IServiceAmisco_GetTextCategories_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTexts">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetTexts" message="tns:IServiceAmisco_GetTexts_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetTextsResponse" message="tns:IServiceAmisco_GetTexts_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="IsReady">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/IsReady" message="tns:IServiceAmisco_IsReady_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/IsReadyResponse" message="tns:IServiceAmisco_IsReady_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/ServiceVersion" message="tns:IServiceAmisco_ServiceVersion_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/ServiceVersionResponse" message="tns:IServiceAmisco_ServiceVersion_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEncounters">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncounters" message="tns:IServiceAmisco_GetEncounters_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncountersResponse" message="tns:IServiceAmisco_GetEncounters_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEncountersByCompetName">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncountersByCompetName" message="tns:IServiceAmisco_GetEncountersByCompetName_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncountersByCompetNameResponse" message="tns:IServiceAmisco_GetEncountersByCompetName_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetEncountersByIdClients">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncountersByIdClients" message="tns:IServiceAmisco_GetEncountersByIdClients_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetEncountersByIdClientsResponse" message="tns:IServiceAmisco_GetEncountersByIdClients_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatCategs">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatCategs" message="tns:IServiceAmisco_GetStatCategs_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatCategsResponse" message="tns:IServiceAmisco_GetStatCategs_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSubCategs">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSubCategs" message="tns:IServiceAmisco_GetStatSubCategs_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSubCategsResponse" message="tns:IServiceAmisco_GetStatSubCategs_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStats">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStats" message="tns:IServiceAmisco_GetStats_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatsResponse" message="tns:IServiceAmisco_GetStats_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueTeam">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueTeam" message="tns:IServiceAmisco_GetStatValueTeam_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueTeamResponse" message="tns:IServiceAmisco_GetStatValueTeam_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonValueTeam">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonValueTeam" message="tns:IServiceAmisco_GetStatSeasonValueTeam_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonValueTeamResponse" message="tns:IServiceAmisco_GetStatSeasonValueTeam_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActor">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActor" message="tns:IServiceAmisco_GetStatValueActor_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActorResponse" message="tns:IServiceAmisco_GetStatValueActor_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonValueActor">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonValueActor" message="tns:IServiceAmisco_GetStatSeasonValueActor_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonValueActorResponse" message="tns:IServiceAmisco_GetStatSeasonValueActor_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonActor">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonActor" message="tns:IServiceAmisco_GetStatSeasonActor_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatSeasonActorResponse" message="tns:IServiceAmisco_GetStatSeasonActor_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueEncounter">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueEncounter" message="tns:IServiceAmisco_GetStatValueEncounter_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueEncounterResponse" message="tns:IServiceAmisco_GetStatValueEncounter_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActorEncounter">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActorEncounter" message="tns:IServiceAmisco_GetStatValueActorEncounter_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActorEncounterResponse" message="tns:IServiceAmisco_GetStatValueActorEncounter_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActorTrend">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActorTrend" message="tns:IServiceAmisco_GetStatValueActorTrend_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetStatValueActorTrendResponse" message="tns:IServiceAmisco_GetStatValueActorTrend_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExtracterRanking">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetExtracterRanking" message="tns:IServiceAmisco_GetExtracterRanking_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetExtracterRankingResponse" message="tns:IServiceAmisco_GetExtracterRanking_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetExtracterHistoric">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetExtracterHistoric" message="tns:IServiceAmisco_GetExtracterHistoric_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetExtracterHistoricResponse" message="tns:IServiceAmisco_GetExtracterHistoric_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchEvents">
+			<wsdl:input wsaw:Action="http://tempuri.org/IServiceAmisco/GetMatchEvents" message="tns:IServiceAmisco_GetMatchEvents_InputMessage" />
+			<wsdl:output wsaw:Action="http://tempuri.org/IServiceAmisco/GetMatchEventsResponse" message="tns:IServiceAmisco_GetMatchEvents_OutputMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BasicHttpBinding_IServiceAmisco" type="tns:IServiceAmisco">
+		<wsp:PolicyReference URI="#BasicHttpBinding_IServiceAmisco_policy" />
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetActor">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetActor" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamActors">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTeamActors" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEncounterActors">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetEncounterActors" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetActorPhoto">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetActorPhoto" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeam">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTeam" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamPlayersPhotos">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTeamPlayersPhotos" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTeamLogo">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTeamLogo" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSeason">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetSeason" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCompetitionSeasons">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetCompetitionSeasons" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSeasonPlayersPhotos">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetSeasonPlayersPhotos" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSeasonTeamsLogos">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetSeasonTeamsLogos" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCompetition">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetCompetition" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetPitch">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetPitch" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetProfessions">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetProfessions" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetUnits">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetUnits" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTextCategories">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTextCategories" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTexts">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetTexts" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="IsReady">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/IsReady" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ServiceVersion">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/ServiceVersion" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEncounters">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetEncounters" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEncountersByCompetName">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetEncountersByCompetName" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetEncountersByIdClients">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetEncountersByIdClients" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatCategs">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatCategs" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSubCategs">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatSubCategs" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStats">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStats" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueTeam">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatValueTeam" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonValueTeam">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatSeasonValueTeam" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActor">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatValueActor" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonValueActor">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatSeasonValueActor" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatSeasonActor">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatSeasonActor" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueEncounter">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatValueEncounter" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActorEncounter">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatValueActorEncounter" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetStatValueActorTrend">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetStatValueActorTrend" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExtracterRanking">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetExtracterRanking" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetExtracterHistoric">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetExtracterHistoric" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetMatchEvents">
+			<soap:operation soapAction="http://tempuri.org/IServiceAmisco/GetMatchEvents" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServiceAmisco">
+		<wsdl:port name="BasicHttpBinding_IServiceAmisco" binding="tns:BasicHttpBinding_IServiceAmisco">
+			<soap:address location="https://92.103.28.82:9891/Data.svc" />
+		</wsdl:port>
+	</wsdl:service>
+	<!-- portal.amisco.eu  -->
+</wsdl:definitions>
