@@ -26,7 +26,7 @@ import com.africaapps.league.service.pool.PoolService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
-@Service
+@Service("PlayingWeekService")
 public class PlayingWeekServiceImpl implements PlayingWeekService {
 
 	@Autowired
@@ -79,16 +79,8 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 		while(now.get(Calendar.DAY_OF_WEEK) > endDay) {
 			now.add(Calendar.DAY_OF_WEEK, -1);
 		}
-//		logger.info("Using as end of playing week datetime: "+now.getTime());
-//		return getPlayingWeek(leagueService.getCurrentSeason(league), now.getTime());
-		
-		//TODO for hacking purposes
-		Calendar hack = Calendar.getInstance();
-		hack.set(Calendar.YEAR, 2012);
-		hack.set(Calendar.MONTH, 8);
-		hack.set(Calendar.DAY_OF_MONTH, 5);
-		logger.info("Using as end of playing week datetime: "+hack.getTime());
-		return getPlayingWeek(leagueService.getCurrentSeason(league), hack.getTime());
+		logger.info("Using as end of playing week datetime: "+now.getTime());
+		return getPlayingWeek(leagueService.getCurrentSeason(league), now.getTime());
 	}
 	
 	private void checkUserTeamsPlayers(PlayingWeek currentPlayingWeek, int subsCount) throws LeagueException {

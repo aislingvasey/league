@@ -12,7 +12,7 @@ import com.africaapps.league.dao.game.PlayerPriceDao;
 import com.africaapps.league.dao.game.PoolDao;
 import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.game.PoolPlayerPointsHistoryDao;
-import com.africaapps.league.dto.PlayerMatchEventSummary;
+import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.PoolPlayerSummary;
 import com.africaapps.league.dto.PoolPlayersResults;
@@ -66,7 +66,7 @@ public class PoolServiceImpl implements PoolService {
 				pp.setPool(pool);
 				pp.setPlayer(player);
 				pp.setPlayerPrice(getPlayerPrice(player));
-				pp.setPlayerCurrentScore(0);
+				pp.setPlayerCurrentScore(Double.valueOf(0));
 				poolPlayerDao.saveOrUpdate(pp);
 				if (pp.getPlayerPrice() == 0) {
 					logger.error("NO PRICE for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " " + pp.getPlayer().getLastName());
@@ -125,8 +125,8 @@ public class PoolServiceImpl implements PoolService {
 
 	@ReadTransaction
 	@Override
-	public List<PlayerMatchEventSummary> getMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {
-		return poolPlayerPointsHistoryDao.getEventsForPlayer(poolPlayerId, matchId);
+	public List<PlayerMatchStatisticSummary> getMatchStats(Long poolPlayerId, Long matchId) throws LeagueException {
+		return poolPlayerPointsHistoryDao.getStatsForPlayer(poolPlayerId, matchId);
 	}
 
 	@ReadTransaction

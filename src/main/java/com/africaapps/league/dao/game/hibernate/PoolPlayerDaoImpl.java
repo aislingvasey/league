@@ -64,6 +64,7 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 	public List<PoolPlayer> getByPoolId(long poolId, int page, int pageSize) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
 		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.add(Restrictions.gt("playerPrice", Long.valueOf(0))); //no players with zero price
 		criteria.addOrder(Order.desc("playerCurrentScore"));
 		if (page == 0) {
 			criteria.setFirstResult(0);

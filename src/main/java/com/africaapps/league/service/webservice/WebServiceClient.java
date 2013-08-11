@@ -185,11 +185,7 @@ public class WebServiceClient {
 							List<TeamStruct> teams = saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
 							processMatch(league, leagueSeason, feedService, matchStruct, teams);
 							processedMatchIds.add(matchId);
-							logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());
-							
-							//TODO hack for testing - only processing 1 match - remove later
-							return processedMatchIds;
-							
+							logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());											
 						} else {
 							logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
 						}

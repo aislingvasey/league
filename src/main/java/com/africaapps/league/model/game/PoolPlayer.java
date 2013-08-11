@@ -23,8 +23,8 @@ public class PoolPlayer extends BaseDataModel {
 
 	private Player player; 
 	private Pool pool;
-	private long playerPrice;	
-	private int playerCurrentScore;
+	private Long playerPrice;	
+	private Double playerCurrentScore;
 	
 	@Override
 	public String toString() {
@@ -93,21 +93,21 @@ public class PoolPlayer extends BaseDataModel {
 
 	@NotNull
 	@Column(name="player_price", nullable=false)
-	public long getPlayerPrice() {
+	public Long getPlayerPrice() {
 		return playerPrice;
 	}
 
-	public void setPlayerPrice(long playerPrice) {
+	public void setPlayerPrice(Long playerPrice) {
 		this.playerPrice = playerPrice;
 	}
 
 	@NotNull
 	@Column(name="player_current_score", nullable=false)
-	public int getPlayerCurrentScore() {
+	public Double getPlayerCurrentScore() {
 		return playerCurrentScore;
 	}
 
-	public void setPlayerCurrentScore(int playerCurrentScore) {
+	public void setPlayerCurrentScore(Double playerCurrentScore) {
 		this.playerCurrentScore = playerCurrentScore;
 	}
 }

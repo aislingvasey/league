@@ -8,7 +8,7 @@ public class PoolPlayerSummary extends BaseDto {
 	private String firstName;
 	private String lastName;
 	private String block;
-	private Integer currentScore;	
+	private Double currentScore;	
 	private Long price;
 
 	public Long getPoolPlayerId() {
@@ -43,11 +43,11 @@ public class PoolPlayerSummary extends BaseDto {
 		this.block = block;
 	}
 
-	public Integer getCurrentScore() {
+	public Double getCurrentScore() {
 		return currentScore;
 	}
 
-	public void setCurrentScore(Integer currentScore) {
+	public void setCurrentScore(Double currentScore) {
 		this.currentScore = currentScore;
 	}
 

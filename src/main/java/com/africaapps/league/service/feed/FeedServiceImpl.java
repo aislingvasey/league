@@ -84,6 +84,9 @@ public class FeedServiceImpl implements FeedService {
 
 		List<Integer> processedMatchIds = webServiceClient.processMatches(league, leagueSeason, pool, this, matchFilter);
 		logger.info("Processed " + processedMatchIds.size() + " matches");
+		
+		leagueService.setLastFeedRun(league, new Date());
+		logger.info("Updated last feed run");
 	}
 
 	protected WebServiceClient setupWebServiceClient(String wsdlUrl, String username, String password) throws LeagueException {
@@ -307,6 +310,7 @@ public class FeedServiceImpl implements FeedService {
 			logger.debug("Got PlayerMatch from cache: " + playerMatch);
 			return playerMatch;
 		} else {
+			logger.debug("Saving new PlayerMatch:"+match+" "+playerId);
 			playerMatch = new PlayerMatch();
 			playerMatch.setMatch(match);
 			playerMatch.setPlayer(getPlayer(playerId));

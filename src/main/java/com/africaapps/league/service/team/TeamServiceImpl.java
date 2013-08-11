@@ -56,7 +56,7 @@ public class TeamServiceImpl implements TeamService {
 			if (season != null) {
 				List<Team> teams = teamDao.getBySeasonId(season.getId());
 				for(Team team : teams) {
-					summaries.add(new TeamSummary(team.getId(), team.getClubName()));
+					summaries.add(new TeamSummary(team.getId(), team.getTeamName(), getTeamLogo(team.getTeamName())));
 				}
 			} else {
 				logger.error("No default leagueSeason found for userTeamId: "+userTeamId);
@@ -65,6 +65,46 @@ public class TeamServiceImpl implements TeamService {
 			logger.error("No UserTeam found for userteamId: "+userTeamId);
 		}
 		return summaries;
+	}
+
+	private String getTeamLogo(String teamName) {
+		//TODO move to db
+		if ("Mpumalanga Black Aces".equalsIgnoreCase(teamName)) {
+			return "blackaces.png";
+		} else if ("Kaizer Chiefs".equalsIgnoreCase(teamName)) {
+			return "kaizerchiefs.png";
+		} else if ("Moroka Swallows".equalsIgnoreCase(teamName)) {
+			return "marokaswallows.png";
+		} else if ("University of Pretoria".equalsIgnoreCase(teamName)) {
+			return "tuks.png";
+		} else if ("Golden Arrows".equalsIgnoreCase(teamName)) {
+			return "goldenarrows.png";
+		} else if ("Ajax Cape Town".equalsIgnoreCase(teamName)) {
+			return "ajax.png";
+		} else if ("Supersport United".equalsIgnoreCase(teamName)) {
+			return "supersport.png";
+		} else if ("Free State Stars".equalsIgnoreCase(teamName)) {
+			return "freestate.png";
+		} else if ("Maritzburg United".equalsIgnoreCase(teamName)) {
+			return "maritzburg.png";
+		} else if ("Polokwane City".equalsIgnoreCase(teamName)) {
+			return "polokwane.png";
+		} else if ("Bloemfontein Celtic".equalsIgnoreCase(teamName)) {
+			return "bloemceltic.png";
+		} else if ("Mamelodi Sundowns".equalsIgnoreCase(teamName)) {
+			return "sundowns.png";
+		} else if ("Platinum Stars".equalsIgnoreCase(teamName)) {         
+			return "platinumstars.png";
+		} else if ("BidVest Wits".equalsIgnoreCase(teamName)) {
+			return "wits.png";
+		} else if ("Orlando Pirates".equalsIgnoreCase(teamName)) {
+			return "orlandopirates.png";
+		} else if ("AmaZulu".equalsIgnoreCase(teamName)) {
+			return "amazulu.png";
+		} else {
+			logger.error("Unknown teamName: "+teamName);
+			return "";
+		}
 	}
 
 	@Override

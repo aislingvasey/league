@@ -7,6 +7,7 @@ public class TeamSummary extends BaseDto {
 	private Long leagueId;
 	private Long teamId;
 	private String teamName;
+	private String logo;
 	private Integer currentScore;
 	private Integer numberOfWeeks;
 	private Integer currentRank;
@@ -20,6 +21,20 @@ public class TeamSummary extends BaseDto {
 		this.positionInLeague = Integer.valueOf(1);
 	}
 	
+	public TeamSummary(Long teamId, String teamName, String logo) {
+		this.teamId = teamId;
+		this.teamName = teamName;
+		this.logo = logo;
+	}	
+	
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
 	public Integer getNumberOfWeeks() {
 		return numberOfWeeks;
 	}
@@ -34,11 +49,6 @@ public class TeamSummary extends BaseDto {
 
 	public void setCurrentRank(Integer currentRank) {
 		this.currentRank = currentRank;
-	}
-
-	public TeamSummary(Long teamId, String teamName) {
-		this.teamId = teamId;
-		this.teamName = teamName;
 	}
 
 	public Long getTeamId() {

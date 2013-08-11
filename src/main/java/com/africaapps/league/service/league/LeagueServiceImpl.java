@@ -93,18 +93,14 @@ public class LeagueServiceImpl implements LeagueService {
 	@Override
 	public Date getLastFeedRun(League league) throws LeagueException {
 		LeagueData data = getLeagueData(league);
+		logger.info("Last feed run: "+data.getLastFeedRun());
 		return data.getLastFeedRun();
 	}
 	
 	@WriteTransaction
 	@Override
 	public void setLastFeedRun(League league, Date date) throws LeagueException {
-		LeagueData leagueData = null;
-		if (leagueDataCache.containsKey(league.getId())) {
-			leagueData = leagueDataCache.get(league.getId());
-		} else {
-			leagueData = getLeagueData(league);
-		}
+		LeagueData leagueData = getLeagueData(league);
 		leagueData.setLastFeedRun(date);
 		leagueDataDao.saveOrUpdate(leagueData);
 		logger.info("Set last feed run: "+leagueData.getLastFeedRun());
@@ -119,13 +115,14 @@ public class LeagueServiceImpl implements LeagueService {
 	
 	private LeagueData getLeagueData(long leagueId) throws LeagueException {
 		if (leagueDataCache.containsKey(leagueId)) {
+			logger.info("Returning cached leagueData...");
 			return leagueDataCache.get(leagueId);
 		} else {
 			LeagueData leagueData = leagueDataDao.get(leagueId);
 			if (leagueData == null) {
 				throw new LeagueException("No LeagueData setup for: "+leagueId);
 			} else {
-				logger.debug("Got leagueData for cache: "+leagueData);
+				logger.debug("Got leagueData: "+leagueData);
 				leagueDataCache.put(leagueId, leagueData);
 				return leagueData;
 			}

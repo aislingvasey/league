@@ -12,7 +12,7 @@ public class UserPlayerSummary extends BaseDto {
 	private String block;
 	private String originalBlock; //for substitutes that have SUBSTITUTE in their block attribute
 	private long price;	
-	private int currentScore;
+	private Double currentScore;
 	private String status;
 	
 	public Long getPoolPlayerId() {
@@ -47,11 +47,11 @@ public class UserPlayerSummary extends BaseDto {
 		this.price = price;
 	}
 	
-	public int getCurrentScore() {
+	public Double getCurrentScore() {
 		return currentScore;
 	}
 	
-	public void setCurrentScore(int currentScore) {
+	public void setCurrentScore(Double currentScore) {
 		this.currentScore = currentScore;
 	}
 	

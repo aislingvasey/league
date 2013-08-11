@@ -22,7 +22,7 @@ import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dao.game.UserTeamTradeDao;
 import com.africaapps.league.dto.NeededPlayer;
-import com.africaapps.league.dto.PlayerMatchEventSummary;
+import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
@@ -708,6 +708,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		List<UserTeam> userTeams = userTeamDao.getTeamsWithPoolPlayer(poolPlayer.getId());
 		List<Long> ids = getUserTeamIds(userTeams);
 		if (ids.size() > 0) {
+			logger.info("Adding points to userTeams: "+ids);
 			userTeamDao.addPlayerPoints(ids, playerPoints);
 			// Save a team's history
 			UserTeamScoreHistory history = null;
@@ -836,8 +837,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	}
 
 	@Override
-	public List<PlayerMatchEventSummary> getPoolPlayerMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException {
-		return poolService.getMatchEvents(poolPlayerId, matchId);
+	public List<PlayerMatchStatisticSummary> getPoolPlayerMatchStats(Long poolPlayerId, Long matchId) throws LeagueException {
+		return poolService.getMatchStats(poolPlayerId, matchId);
 	}
 
 	@ReadTransaction
@@ -866,7 +867,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		List<UserTeamScoreHistorySummary> scores = userTeamDao.getPlayersScoreHistoryByMatch(userTeamId, matchId);
 		Map<Long, String> teams = new HashMap<Long, String>();
 		String team = null;
-		Integer matchPoints = 0;
+		Double matchPoints = Double.valueOf(0);
 		for (UserTeamScoreHistorySummary score : scores) {
 			matchPoints += score.getPlayerPoints();
 			// set the player's team name

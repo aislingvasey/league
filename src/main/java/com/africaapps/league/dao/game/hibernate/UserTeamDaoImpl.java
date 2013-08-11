@@ -219,10 +219,14 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		for(Object[] matchScore : matchScores) {
 			summary = new UserTeamScoreHistorySummary();
 			summary.setTeamName((String) matchScore[0]);
-			summary.setTeamCurrentScore((Integer) matchScore[1]);
+			if (matchScore[1] instanceof Integer) {
+				summary.setTeamCurrentScore(((Integer) matchScore[1]).doubleValue());
+			} else { 
+				summary.setTeamCurrentScore((Double) matchScore[1]);
+			}
 			summary.setMatchId(((BigInteger) matchScore[2]).longValue());
 			summary.setMatchDate(sdf.format((Date) matchScore[3]));
-			summary.setMatchPoints(((BigInteger) matchScore[4]).intValue());
+			summary.setMatchPoints((Double) matchScore[4]);
 			scores.add(summary);
 		}
 		return scores;
@@ -241,13 +245,17 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 		for(Object[] matchScore : matchScores) {
 			summary = new UserTeamScoreHistorySummary();
 			summary.setTeamName((String) matchScore[0]);
-			summary.setTeamCurrentScore((Integer) matchScore[1]);
+			if (matchScore[1] instanceof Integer) {
+				summary.setTeamCurrentScore(((Integer) matchScore[1]).doubleValue());
+			} else {
+				summary.setTeamCurrentScore((Double) matchScore[1]);
+			}
 			summary.setMatchId(((BigInteger) matchScore[2]).longValue());
 			summary.setMatchDate(sdf.format((Date) matchScore[3]));
 			summary.setPlayerFirstName((String) matchScore[4]);
 			summary.setPlayerLastName((String) matchScore[5]);
 			summary.setPlayerTeamId(((BigInteger) matchScore[6]).longValue());
-			summary.setPlayerPoints(((Integer) matchScore[7]));
+			summary.setPlayerPoints(((Double) matchScore[7]));
 			summary.setPoolPlayerId(((BigInteger) matchScore[8]).longValue());
 			scores.add(summary);
 		}

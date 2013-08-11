@@ -6,23 +6,23 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 
 	private Long userTeamId;
 	private String teamName;
-	private Integer teamCurrentScore;
+	private Double teamCurrentScore;
 	private Long matchId;
 	private String teamOneName;
 	private String teamTwoName;
 	private String matchDate;
-	private Integer matchPoints;
+	private Double matchPoints;
 	private Long playerTeamId;
 	private Long poolPlayerId;
 	private String playerFirstName;
 	private String playerLastName;	
-	private Integer playerPoints;
+	private Double playerPoints;
 	
-	public Integer getMatchPoints() {
+	public Double getMatchPoints() {
 		return matchPoints;
 	}
 
-	public void setMatchPoints(Integer matchPoints) {
+	public void setMatchPoints(Double matchPoints) {
 		this.matchPoints = matchPoints;
 	}
 
@@ -50,11 +50,11 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 		this.teamName = teamName;
 	}
 
-	public Integer getTeamCurrentScore() {
+	public Double getTeamCurrentScore() {
 		return teamCurrentScore;
 	}
 
-	public void setTeamCurrentScore(Integer teamCurrentScore) {
+	public void setTeamCurrentScore(Double teamCurrentScore) {
 		this.teamCurrentScore = teamCurrentScore;
 	}
 
@@ -82,11 +82,11 @@ public class UserTeamScoreHistorySummary extends BaseDto {
 		this.playerLastName = playerLastName;
 	}
 
-	public Integer getPlayerPoints() {
+	public Double getPlayerPoints() {
 		return playerPoints;
 	}
 
-	public void setPlayerPoints(Integer playerPoints) {
+	public void setPlayerPoints(Double playerPoints) {
 		this.playerPoints = playerPoints;
 	}
 

@@ -43,10 +43,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	private int getEndOfPlayingWeekDay() {
-//		return feedSettings.getEndOfPlayingWeekDay();
-		//TODO for testing purposes every day is end of week
-		logger.error("REMOVE ME LATER: hard coded end of week is always today");
-		return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		return feedSettings.getEndOfPlayingWeekDay();
 	}
 	
 	private void processFeed(League league) throws LeagueException {
@@ -74,6 +71,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 	
 	private MatchFilter createMatchFilter() {
+		return null;
 		//TODO filter for testing only
 //		MatchFilter matchFilter = new MatchFilter() {			
 //			@Override
@@ -130,6 +128,5 @@ public class TaskServiceImpl implements TaskService {
 //			}
 //		};
 //		return matchFilter;
-		return null;
 	}
 }

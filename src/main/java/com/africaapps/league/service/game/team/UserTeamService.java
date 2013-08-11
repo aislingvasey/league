@@ -3,7 +3,7 @@ package com.africaapps.league.service.game.team;
 import java.util.List;
 
 import com.africaapps.league.dto.NeededPlayer;
-import com.africaapps.league.dto.PlayerMatchEventSummary;
+import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
@@ -55,7 +55,7 @@ public interface UserTeamService {
 	
 	//Player's summaries
 	public List<PlayerMatchSummary> getPoolPlayerMatches(Long poolPlayerId) throws LeagueException;
-	public List<PlayerMatchEventSummary> getPoolPlayerMatchEvents(Long poolPlayerId, Long matchId) throws LeagueException;
+	public List<PlayerMatchStatisticSummary> getPoolPlayerMatchStats(Long poolPlayerId, Long matchId) throws LeagueException;
 	
 	//Team's summaries
 	public List<UserTeamScoreHistorySummary> getUserTeamScoreHistory(User user, Long teamId) throws LeagueException;
