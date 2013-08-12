@@ -155,12 +155,6 @@
 			<artifactId>awsl-client</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		
-		<dependency>
-            <groupId>com.africaapps</groupId>
-            <artifactId>awsl-history-client</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
 
 		<dependency>
 			<groupId>com.mchange</groupId>
@@ -338,13 +332,6 @@
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-core</artifactId> <version>${spring.security.version}</version> 
-			<exclusions> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-expression</artifactId> </exclusion> <exclusion> 
-			<groupId>org.springframework</groupId> <artifactId>spring-core</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> 
-			<artifactId>spring-context</artifactId> </exclusion> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-tx</artifactId> 
-			</exclusion> <exclusion> <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId> </exclusion> </exclusions> 
-			</dependency> -->
 
 		<dependency>
 			<groupId>commons-lang</groupId>

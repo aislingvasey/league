@@ -10,7 +10,7 @@ public class PlayerMatchSummary extends BaseDto {
 	private String playerBlock;
 	private Long matchId;
 	private String matchDate;        	
-	private int playerPoints;
+	private Double playerPoints;
 
 	public Long getMatchId() {
 		return matchId;
@@ -60,11 +60,11 @@ public class PlayerMatchSummary extends BaseDto {
 		this.matchDate = matchDate;
 	}
 
-	public int getPlayerPoints() {
+	public Double getPlayerPoints() {
 		return playerPoints;
 	}
 
-	public void setPlayerPoints(int playerPoints) {
+	public void setPlayerPoints(Double playerPoints) {
 		this.playerPoints = playerPoints;
 	} 
 }

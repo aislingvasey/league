@@ -92,9 +92,9 @@ public class LeagueServiceImpl implements LeagueService {
 
 	@Override
 	public Date getLastFeedRun(League league) throws LeagueException {
-		LeagueData data = getLeagueData(league);
-		logger.info("Last feed run: "+data.getLastFeedRun());
-		return data.getLastFeedRun();
+		LeagueData leagueData = leagueDataDao.get(league.getId());		
+		logger.info("Last feed run: "+leagueData.getLastFeedRun());
+		return leagueData.getLastFeedRun();
 	}
 	
 	@WriteTransaction

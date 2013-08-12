@@ -2,7 +2,6 @@ package com.africaapps.league.service.game.team;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.africaapps.league.dao.game.PlayingWeekDao;
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.game.UserTeamScoreHistoryDao;
 import com.africaapps.league.dao.game.UserTeamTradeDao;
@@ -51,6 +49,7 @@ import com.africaapps.league.service.fixture.FixtureService;
 import com.africaapps.league.service.game.format.TeamFormatService;
 import com.africaapps.league.service.game.league.UserLeagueService;
 import com.africaapps.league.service.game.player.UserPlayerService;
+import com.africaapps.league.service.game.playingweek.PlayingWeekService;
 import com.africaapps.league.service.league.LeagueService;
 import com.africaapps.league.service.match.MatchService;
 import com.africaapps.league.service.player.PlayerService;
@@ -86,10 +85,8 @@ public class UserTeamServiceImpl implements UserTeamService {
 	private LeagueService leagueService;
 	@Autowired
 	private FixtureService fixtureService;
-
-	// TODO for testing only remove later
 	@Autowired
-	private PlayingWeekDao playingWeekDao;
+	private PlayingWeekService playingWeekService;
 
 	private static Logger logger = LoggerFactory.getLogger(UserTeamServiceImpl.class);
 
@@ -481,7 +478,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (UserTeamStatus.COMPLETE.equals(teamStatus)) {
 			LeagueSeason leagueSeason = leagueService.getCurrentSeason(userTeamId);
 			if (!isTeamChangesPossible(leagueSeason)) {
-				throw new LeagueException("Unable to make changes to your team during and after matches");
+				throw new InvalidPlayerException("Unable to make changes to your team during and after matches");
 			}
 		}
 	}
@@ -522,14 +519,7 @@ public class UserTeamServiceImpl implements UserTeamService {
 		UserLeague userLeague = getDefaultUserLeague();
 		League league = userLeague.getLeague();
 		LeagueSeason leagueSeason = leagueService.getCurrentSeason(league);
-		// TODO for testing only
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, 2012);
-		calendar.set(Calendar.MONTH, 7);
-		calendar.set(Calendar.DAY_OF_MONTH, 20);
-		PlayingWeek currentPlayingWeek = playingWeekDao.get(leagueSeason.getId(), calendar.getTime());
-		// END TODO
-		// PlayingWeek currentPlayingWeek = leagueService.getPlayingWeek(leagueSeason, new Date());
+		PlayingWeek currentPlayingWeek = playingWeekService.getPlayingWeek(leagueSeason, new Date());
 		logger.info("Current playing week: " + currentPlayingWeek);
 		return currentPlayingWeek;
 	}

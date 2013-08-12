@@ -56,7 +56,11 @@ public class PoolPlayerPointsHistoryDaoImpl extends BaseHibernateDao implements 
 			match.setPlayerBlock(formatBlock((String) history[2]));
 			match.setMatchId(((BigInteger) history[3]).longValue());
 			match.setMatchDate(sdf.format((Date) history[4]));
-			match.setPlayerPoints((Integer) history[5]);
+			if (history[5] instanceof Integer) {
+				match.setPlayerPoints(((Integer) history[5]).doubleValue());
+			} else {
+				match.setPlayerPoints((Double) history[5]);
+			}
 			match.setPoolPlayerId(poolPlayerId);
 			summaries.add(match);
 		}
