@@ -9,6 +9,7 @@ import com.africaapps.league.exception.LeagueException;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.game.PoolPlayerPointsHistory;
+import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.LeagueSeason;
 import com.africaapps.league.model.league.Match;
 import com.africaapps.league.model.league.Player;
@@ -31,5 +32,7 @@ public interface PoolService {
 	public PoolPlayersResults getPoolPlayers(Long userTeamId, int page, int pageSize) throws LeagueException;
 	
 	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId) throws LeagueException;
+	
+	public BlockType getPlayerBlock(Player player) throws LeagueException;
 	
 }

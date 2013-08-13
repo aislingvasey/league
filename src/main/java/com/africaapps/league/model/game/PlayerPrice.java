@@ -2,6 +2,8 @@ package com.africaapps.league.model.game;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.africaapps.league.model.BaseDataModel;
+import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.validation.UpdateGroup;
 
 @Entity
@@ -21,6 +24,7 @@ public class PlayerPrice extends BaseDataModel {
 	private String firstName;
 	private String lastName;	
 	private Integer price;
+	private BlockType block;
 	
 	@Override
 	public String toString() {
@@ -30,6 +34,7 @@ public class PlayerPrice extends BaseDataModel {
 		builder.append(" firstName").append(firstName);
 		builder.append(" lastName:").append(lastName);
 		builder.append(" price:").append(price);
+		builder.append(" block:").append(block);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -64,6 +69,7 @@ public class PlayerPrice extends BaseDataModel {
 		return id;
 	}
 
+	@Column(name="first_name", nullable=false)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -72,6 +78,7 @@ public class PlayerPrice extends BaseDataModel {
 		this.firstName = firstName;
 	}
 
+	@Column(name="last_name", nullable=false)
 	public String getLastName() {
 		return lastName;
 	}
@@ -80,11 +87,22 @@ public class PlayerPrice extends BaseDataModel {
 		this.lastName = lastName;
 	}
 
+	@Column(name="price", nullable=false)
 	public Integer getPrice() {
 		return price;
 	}
 
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	@Column(name="block", nullable=true)
+	@Enumerated(EnumType.STRING)
+	public BlockType getBlock() {
+		return block;
+	}
+
+	public void setBlock(BlockType block) {
+		this.block = block;
 	}
 }

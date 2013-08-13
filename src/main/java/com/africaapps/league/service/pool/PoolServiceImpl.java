@@ -83,13 +83,28 @@ public class PoolServiceImpl implements PoolService {
 		String second = player.getLastName() != null ? player.getLastName().trim() : "";
 		PlayerPrice playerPrice = playerPriceDao.getPrice(first, second);
 		if (playerPrice != null) {
-			logger.info("Setting price:"+playerPrice+" for player: "+player);
+			logger.info("Got price:"+playerPrice+" for player: "+player);
 			return playerPrice.getPrice().longValue();
 		} else {
 			logger.info("No price found for for player: "+player);
 			return Long.valueOf(0);
 		}
 	}
+	
+	@Override
+	public BlockType getPlayerBlock(Player player) {
+		String first = player.getFirstName() != null ? player.getFirstName().trim() : "";
+		String second = player.getLastName() != null ? player.getLastName().trim() : "";
+		PlayerPrice playerPrice = playerPriceDao.getPrice(first, second);
+		if (playerPrice != null) {
+			logger.info("Got block:"+playerPrice.getBlock()+" for player: "+player);
+			return playerPrice.getBlock();
+		} else {
+			logger.info("No block found for for player: "+player);
+			return null;
+		}
+	}
+	
 
 	@ReadTransaction
 	@Override

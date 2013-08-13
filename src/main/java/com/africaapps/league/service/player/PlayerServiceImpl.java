@@ -15,6 +15,7 @@ import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatchStatistic;
 import com.africaapps.league.model.league.Position;
 import com.africaapps.league.service.match.MatchService;
+import com.africaapps.league.service.pool.PoolService;
 import com.africaapps.league.service.transaction.ReadTransaction;
 import com.africaapps.league.service.transaction.WriteTransaction;
 
@@ -27,7 +28,9 @@ public class PlayerServiceImpl implements PlayerService {
 	private PositionDao positionDao;
 	@Autowired
 	private MatchService matchService;
-
+	@Autowired
+	private PoolService poolService;
+	
 	private static Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
 	@ReadTransaction
@@ -46,11 +49,29 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void savePlayer(Player player) throws LeagueException {
 		if (player != null) {
-			Long existingId = playerDao.getIdByPlayerId(player.getPlayerId());
-			player.setId(existingId);
-			if (player.getBlock() == null && existingId != null) {
+			boolean existingPlayer = false;
+//			Long existingId = playerDao.getIdByPlayerId(player.getPlayerId());
+			Object[] info = playerDao.getInfoByPlayerId(player.getPlayerId());
+			if (info != null) {
+				if (info[0] != null) {
+					player.setId((Long) info[0]);
+					logger.info("Set exiting playerId: "+info[0]);
+					existingPlayer = true;
+				}				
+			}
+			if (player.getBlock() == null && existingPlayer) {
 				logger.error("Not re-saving existing player with null block: "+player);
 				return;
+			} else if (player.getBlock() == null && !existingPlayer) {
+				logger.info("Trying to get block for new incoming player");
+				player.setBlock(poolService.getPlayerBlock(player));
+				logger.info("Set block ? "+player.getBlock());
+			} else if (player.getBlock() != null && existingPlayer) {
+				if (info[1] != null && !player.getBlock().equals((BlockType) info[1])) {
+					logger.warn("Warning: changing existing player's block from: "+info[1]+" to: "+player.getBlock());
+//					player.setBlock((BlockType) info[1]);
+//					logger.info("Set old block again for incoming player: "+player.getBlock());
+				}
 			}
 			playerDao.saveOrUpdate(player);
 		}
