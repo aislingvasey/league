@@ -14,6 +14,11 @@ import com.africaapps.league.model.game.PlayingWeek;
 @Repository
 public class PlayingWeekDaoImpl extends BaseHibernateDao implements PlayingWeekDao {
 
+	@Override
+	public PlayingWeek get(long id) {
+		return (PlayingWeek) sessionFactory.getCurrentSession().get(PlayingWeek.class, id);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public PlayingWeek get(Long leagueSeasonId, Date matchDateTime) {

@@ -22,8 +22,11 @@ import com.africaapps.league.dao.game.UserTeamTradeDao;
 import com.africaapps.league.dto.NeededPlayer;
 import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
+import com.africaapps.league.dto.PlayerResults;
+import com.africaapps.league.dto.PlayerSummary;
 import com.africaapps.league.dto.UserPlayerSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
+import com.africaapps.league.dto.UserTeamPlayingWeekSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.InvalidPlayerException;
@@ -849,6 +852,21 @@ public class UserTeamServiceImpl implements UserTeamService {
 		}
 		return scores;
 	}
+	
+	@ReadTransaction
+	@Override
+	public UserTeamPlayingWeekSummary getUserTeamPlayingWeeks(long userId, long userTeamId) throws LeagueException {
+		UserTeamPlayingWeekSummary summary = new UserTeamPlayingWeekSummary();
+		Map<Long, PlayingWeek> playingWeeks = new HashMap<Long, PlayingWeek>();
+		List<PlayerSummary> summaries = userTeamDao.getHistoryForPlayingWeeks(userTeamId);
+		for(PlayerSummary player : summaries) {
+			if (!playingWeeks.containsKey(player.getPlayingWeekId())) {
+				playingWeeks.put(player.getPlayingWeekId(), playingWeekService.getPlayingWeek(player.getPlayingWeekId()));
+			}
+			summary.addPlayerSummary(playingWeeks.get(player.getPlayingWeekId()), player);
+		}
+		return summary;
+	}
 
 	@ReadTransaction
 	@Override
@@ -1019,5 +1037,70 @@ public class UserTeamServiceImpl implements UserTeamService {
 		if (ids != null && ids.size() > 0) {
 			userTeamDao.calculateNewRanking(ids, leagueService.getUsersPlayingWeekPoints(leagueId));
 		}
+	}
+
+	@ReadTransaction
+	@Override
+	public PlayerResults getPlayersByPointsPrice(long userTeamId, String playerType, boolean points, int page, int pageSize, int pagesCount) 
+	  throws LeagueException {		
+		logger.info("getPlayersByPointsPrice: "+pagesCount);
+		PlayerResults results = new PlayerResults();
+		results.setPage(page);
+		results.setPageSize(pageSize);
+		results.setPagesCount(pagesCount);
+		
+		UserTeam team = userTeamDao.getTeamWithPlayers(userTeamId);
+		if (team != null) {
+			long poolId = team.getUserLeague().getPool().getId();
+			List<Long> existingPlayersId = null;
+			List<PoolPlayer> poolPlayers = null;
+			if (playerType.equalsIgnoreCase(BlockType.SUBSTITUTE.name())) {
+				existingPlayersId = getExistingTeamPlayerIds(team.getUserPlayers(), null);
+				if (pagesCount == -1) {
+					results.setPagesCount(poolService.getPlayersByPointsOrPriceCount(poolId, existingPlayersId, points, page, pageSize));
+					logger.info("Set pagesCount: "+results.getPagesCount());
+				}
+  			poolPlayers = poolService.getPlayersByPointsOrPrice(poolId, existingPlayersId, points, page, pageSize);
+			} else {
+				existingPlayersId = getExistingTeamPlayerIds(team.getUserPlayers(), playerType);
+				if (pagesCount == -1) {
+					results.setPagesCount(poolService.getPlayersByPointsOrPriceAndTypeCount(poolId, existingPlayersId, BlockType.convert(playerType), points, page, pageSize));
+					logger.info("Set pagesCount: "+results.getPagesCount());
+				}
+  			poolPlayers = poolService.getPlayersByPointsOrPriceAndType(poolId, existingPlayersId, BlockType.convert(playerType), points, page, pageSize);
+			}			
+			//convert pool players into player summaries and return
+			PlayerSummary ps = null;
+			for(PoolPlayer pp : poolPlayers) {
+				if (pp.getPlayer().getBlock() != null) {
+					ps = new PlayerSummary();
+					ps.setFirstName(pp.getPlayer().getFirstName());
+					ps.setLastName(pp.getPlayer().getLastName());
+					ps.setPlayerId(pp.getPlayer().getId());
+					ps.setPoolPlayerId(pp.getId());
+					ps.setPrice(pp.getPlayerPrice());
+					ps.setCurrentScore(pp.getPlayerCurrentScore());
+					ps.setBlock(formatEnum(pp.getPlayer().getBlock()));
+					logger.debug("adding playerSummary: "+ps +" to results: "+results);
+					results.getPlayers().add(ps);
+				}
+			}			
+		} else {
+			logger.error("No userTeam found for userTeamId: " + userTeamId);
+		}
+		return results;
+	}
+	
+	private List<Long> getExistingTeamPlayerIds(Set<UserPlayer> userPlayers, String playerType) {
+		List<Long> ids = new ArrayList<Long>();
+		for(UserPlayer up : userPlayers) {
+			if (playerType == null 
+					|| (up.getPoolPlayer().getPlayer().getBlock() != null && playerType.equalsIgnoreCase(up.getPoolPlayer().getPlayer().getBlock().name()))) {
+				ids.add(up.getPoolPlayer().getId());
+			} else {
+				logger.debug("Skipping userPlayer: "+up);
+			}
+		}
+		return ids;
 	}
 }

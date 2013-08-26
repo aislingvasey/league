@@ -31,6 +31,11 @@ public interface PoolService {
 	
 	public PoolPlayersResults getPoolPlayers(Long userTeamId, int page, int pageSize) throws LeagueException;
 	
+	public int getPlayersByPointsOrPriceCount(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize) throws LeagueException;
+	public int getPlayersByPointsOrPriceAndTypeCount(long poolId, List<Long> existingPlayersId, BlockType playerType, boolean points, int page, int pageSize) throws LeagueException;	
+	public List<PoolPlayer> getPlayersByPointsOrPrice(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize) throws LeagueException;
+	public List<PoolPlayer> getPlayersByPointsOrPriceAndType(long poolId, List<Long> existingPlayersId, BlockType playerType, boolean points, int page, int pageSize) throws LeagueException;
+		
 	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId) throws LeagueException;
 	
 	public BlockType getPlayerBlock(Player player) throws LeagueException;

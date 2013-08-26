@@ -127,4 +127,10 @@ public class PlayingWeekServiceImpl implements PlayingWeekService {
 	private void assignNewPoolPlayerPrices(PlayingWeek currentPlayingWeek) {
 		//TODO assign new player prices
 	}
+
+	@ReadTransaction
+	@Override
+	public PlayingWeek getPlayingWeek(long id) throws LeagueException {
+		return playingWeekDao.get(id);
+	}
 }

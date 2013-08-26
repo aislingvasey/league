@@ -6,6 +6,8 @@ import com.africaapps.league.model.game.PlayingWeek;
 
 public interface PlayingWeekDao {
 
+	public PlayingWeek get(long id);
+	
 	public PlayingWeek get(Long leagueSeasonId, Date matchDateTime);
 	
 }

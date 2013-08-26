@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.africaapps.league.dao.game.PoolPlayerDao;
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
 import com.africaapps.league.model.game.PoolPlayer;
+import com.africaapps.league.model.league.BlockType;
 
 @Repository
 public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao {
@@ -73,5 +75,95 @@ public class PoolPlayerDaoImpl extends BaseHibernateDao implements PoolPlayerDao
 		}
     criteria.setMaxResults(pageSize);
     return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PoolPlayer> getPlayersByPointsOrPrice(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
+		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.add(Restrictions.gt("playerPrice", Long.valueOf(0))); //no players with zero price
+		if (existingPlayersId.size() > 0) {
+			criteria.add(Restrictions.not(Restrictions.in("id", existingPlayersId)));
+		}
+		if (points) {
+			criteria.addOrder(Order.desc("playerCurrentScore"));
+		} else {
+			criteria.addOrder(Order.desc("playerPrice"));
+		}
+		if (page == 0) {
+			criteria.setFirstResult(0);
+		} else {
+			criteria.setFirstResult(page * pageSize);
+		}
+    criteria.setMaxResults(pageSize);
+    return criteria.list();
+	}
+	
+	@Override
+	public int getPlayersByPointsOrPriceCount(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
+		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.add(Restrictions.gt("playerPrice", Long.valueOf(0))); //no players with zero price
+		if (existingPlayersId.size() > 0) {
+			criteria.add(Restrictions.not(Restrictions.in("id", existingPlayersId)));
+		}
+		Integer totalRows = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		int numPages = totalRows / pageSize;
+    int rem = totalRows % pageSize;
+    if (rem > 0 && rem < pageSize) {
+      numPages += 1;
+    }
+    logger.info("getPlayersByPointsOrPriceCount: rows:"+totalRows+" pages:"+numPages);
+    return numPages;		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PoolPlayer> getPlayersByPointsOrPriceAndType(long poolId, List<Long> existingPlayersId, BlockType playerType, 
+			boolean points,
+			int page,
+			int pageSize) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
+		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.createAlias("player", "player").add(Restrictions.eq("player.block", playerType));
+		criteria.add(Restrictions.gt("playerPrice", Long.valueOf(0))); //no players with zero price
+		if (existingPlayersId.size() > 0) {
+			criteria.add(Restrictions.not(Restrictions.in("id", existingPlayersId)));
+		}
+		if (points) {
+			criteria.addOrder(Order.desc("playerCurrentScore"));
+		} else {
+			criteria.addOrder(Order.desc("playerPrice"));
+		}
+		if (page == 0) {
+			criteria.setFirstResult(0);
+		} else {
+			criteria.setFirstResult(page * pageSize);
+		}
+    criteria.setMaxResults(pageSize);
+    return criteria.list();
+	}
+	
+	@Override
+	public int getPlayersByPointsOrPriceAndTypeCount(long poolId, List<Long> existingPlayersId, BlockType playerType, 
+			boolean points,
+			int page,
+			int pageSize) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PoolPlayer.class);
+		criteria.createAlias("pool", "p").add(Restrictions.eq("p.id", poolId));
+		criteria.createAlias("player", "player").add(Restrictions.eq("player.block", playerType));
+		criteria.add(Restrictions.gt("playerPrice", Long.valueOf(0))); //no players with zero price
+		if (existingPlayersId.size() > 0) {
+			criteria.add(Restrictions.not(Restrictions.in("id", existingPlayersId)));
+		}
+		Integer totalRows = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		int numPages = totalRows / pageSize;
+    int rem = totalRows % pageSize;
+    if (rem > 0 && rem < pageSize) {
+      numPages += 1;
+    }
+    logger.info("getPlayersByPointsOrPriceAndTypeCount: rows:"+totalRows+" pages:"+numPages);
+    return numPages;		
 	}
 }

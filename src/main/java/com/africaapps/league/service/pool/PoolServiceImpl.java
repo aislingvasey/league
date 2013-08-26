@@ -180,9 +180,35 @@ public class PoolServiceImpl implements PoolService {
 		}
 	}
 	
+	@ReadTransaction
 	@Override
 	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId)
 			throws LeagueException {
 		return poolPlayerPointsHistoryDao.getForPlayingWeek(poolPlayerId, currentPlayingWeekId);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<PoolPlayer> getPlayersByPointsOrPrice(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize) throws LeagueException {
+		return poolPlayerDao.getPlayersByPointsOrPrice(poolId, existingPlayersId, points, page, pageSize);
+	}
+
+	@ReadTransaction
+	@Override
+	public List<PoolPlayer> getPlayersByPointsOrPriceAndType(long poolId, List<Long> existingPlayersId, BlockType playerType, boolean points, int page, int pageSize)
+			throws LeagueException {
+		return poolPlayerDao.getPlayersByPointsOrPriceAndType(poolId, existingPlayersId, playerType, points, page, pageSize);
+	}
+
+	@Override
+	public int getPlayersByPointsOrPriceCount(long poolId, List<Long> existingPlayersId, boolean points, int page, int pageSize)
+			throws LeagueException {
+		return poolPlayerDao.getPlayersByPointsOrPriceCount(poolId, existingPlayersId, points, page, pageSize);
+	}
+
+	@Override
+	public int getPlayersByPointsOrPriceAndTypeCount(long poolId, List<Long> existingPlayersId, BlockType playerType,
+			boolean points, int page, int pageSize) throws LeagueException {
+		return poolPlayerDao.getPlayersByPointsOrPriceAndTypeCount(poolId, existingPlayersId, playerType, points, page, pageSize);
 	}
 }

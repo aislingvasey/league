@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.UserTeamDao;
 import com.africaapps.league.dao.hibernate.BaseHibernateDao;
+import com.africaapps.league.dto.PlayerSummary;
 import com.africaapps.league.dto.TeamSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
@@ -64,6 +65,11 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
    +" where h.match_id = m.id and h.pool_player_id = gpp.id and gpp.player_id = p.id and h.user_team_id = t.id"
    +" and m.id = :matchId and t.id = :userTeamId"
    +" order by p.first_name, p.last_name";
+	
+	private static final String SCORE_HISTORY_BY_PLAYING_WEEK 
+		= "select gpp.id as poolPlayerId, p.id as playerId, p.first_name, p.last_name, p.block, h.player_points, h.playing_week_id, h.captain_extra_score, h.match_id " 
+     +" from game_user_team_score_history h left join game_pool_player gpp on h.pool_player_id = gpp.id left join player p on gpp.player_id = p.id "
+     +" where h.user_team_id = :userTeamId";
 	
 	private static final String POOL_ID = "select l.pool_id"
 			+" from game_user_team t left join game_user_league l on t.user_league_id = l.id"
@@ -230,6 +236,43 @@ public class UserTeamDaoImpl extends BaseHibernateDao implements UserTeamDao {
 			scores.add(summary);
 		}
 		return scores;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PlayerSummary> getHistoryForPlayingWeeks(long userTeamId) {
+		List<PlayerSummary> summaries = new ArrayList<PlayerSummary>();
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(SCORE_HISTORY_BY_PLAYING_WEEK);
+		query.setLong("userTeamId", userTeamId);
+		List<Object[]> playingWeeks = query.list();
+		PlayerSummary summary = null;
+		for(Object[] playingWeek : playingWeeks) {
+			summary = new PlayerSummary();
+			summary.setPoolPlayerId(((BigInteger) playingWeek[0]).longValue());
+			summary.setPlayerId(((BigInteger) playingWeek[1]).longValue());
+			summary.setFirstName((String) playingWeek[2]);
+			summary.setLastName((String) playingWeek[3]);
+			summary.setBlock(formatBlock((String) playingWeek[4]));
+			if (playingWeek[5] instanceof Integer) {
+				summary.setCurrentScore(((Integer) playingWeek[5]).doubleValue());
+			} else { 
+				summary.setCurrentScore((Double) playingWeek[5]);
+			}
+			summary.setPlayingWeekId(((BigInteger) playingWeek[6]).longValue());
+			summary.setCaptainExtraPoints((Boolean) playingWeek[7]);
+			summary.setMatchId(((BigInteger) playingWeek[8]).longValue());
+			summaries.add(summary);
+		}
+		return summaries;
+	}
+	
+	private String formatBlock(String block) {
+		if (block != null) {
+			String firstLetter = block.substring(0, 1).toUpperCase();
+			return firstLetter + block.substring(1).toLowerCase();
+		} else {
+			return "";
+		}
 	}
 
 	@SuppressWarnings("unchecked")

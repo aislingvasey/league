@@ -20,5 +20,5 @@ public interface PlayerService {
 	
 	public List<Player> getTeamPlayersByType(long teamId, String type) throws LeagueException;
 	public List<Player> getTeamPlayers(long teamId) throws LeagueException;
-	public List<Player> getTeamPlayers(int teamId) throws LeagueException;
+	public List<Player> getTeamPlayers(int teamId) throws LeagueException;	
 }

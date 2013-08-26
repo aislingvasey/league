@@ -5,8 +5,10 @@ import java.util.List;
 import com.africaapps.league.dto.NeededPlayer;
 import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
+import com.africaapps.league.dto.PlayerResults;
 import com.africaapps.league.dto.UserPlayerSummary;
 import com.africaapps.league.dto.UserTeamListSummary;
+import com.africaapps.league.dto.UserTeamPlayingWeekSummary;
 import com.africaapps.league.dto.UserTeamScoreHistorySummary;
 import com.africaapps.league.dto.UserTeamSummary;
 import com.africaapps.league.exception.LeagueException;
@@ -62,6 +64,7 @@ public interface UserTeamService {
 	public List<UserTeamScoreHistorySummary> getUserTeamScorePlayersHistory(User user, Long teamId, Long matchId) throws LeagueException;	
 	public void saveUserTeamScoreHistory(UserTeamScoreHistory userTeamScoreHistory) throws LeagueException;
 	public List<UserTeamScoreHistory> getScoreHistory(long userTeamId, long playingWeekId) throws LeagueException;
+	public UserTeamPlayingWeekSummary getUserTeamPlayingWeeks(long userId, long userTeamId) throws LeagueException;
 	
 	public Long getUserTeamPoolId(Long userTeamId) throws LeagueException;
 	
@@ -76,4 +79,7 @@ public interface UserTeamService {
 	
 	public void calculateNewRanking(long leagueId, long currentPlayingWeekId) throws LeagueException;
 	
+  //Searching for players by...
+	public PlayerResults getPlayersByPointsPrice(long userTeamId, String playerType, boolean points, int page, int pageSize, int pagesCount) 
+		throws LeagueException;
 }
