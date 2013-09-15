@@ -6,6 +6,7 @@ import com.africaapps.league.dto.PlayerMatchStatisticSummary;
 import com.africaapps.league.dto.PlayerMatchSummary;
 import com.africaapps.league.dto.PoolPlayersResults;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.PlayerPrice;
 import com.africaapps.league.model.game.Pool;
 import com.africaapps.league.model.game.PoolPlayer;
 import com.africaapps.league.model.game.PoolPlayerPointsHistory;
@@ -38,6 +39,6 @@ public interface PoolService {
 		
 	public List<PoolPlayerPointsHistory> getPoolPlayerHistory(long poolPlayerId, long currentPlayingWeekId) throws LeagueException;
 	
-	public BlockType getPlayerBlock(Player player) throws LeagueException;
+	public PlayerPrice getPlayerInfo(Player player) throws LeagueException;
 	
 }

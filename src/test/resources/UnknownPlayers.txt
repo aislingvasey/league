@@ -1,0 +1,263 @@
+02 Sep 2013 19:17:02,181 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Masilela
+02 Sep 2013 19:17:02,429 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lawrence Tshabalala
+02 Sep 2013 19:17:02,676 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kaizer Motaung
+02 Sep 2013 19:17:05,122 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Larry Cohen
+02 Sep 2013 19:17:05,287 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mpho Chabangu
+02 Sep 2013 19:17:05,417 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Darren Lurie
+02 Sep 2013 19:17:05,470 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Lekgothoane
+02 Sep 2013 19:17:16,167 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tamsanqa Teyise
+02 Sep 2013 19:17:16,219 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marc Van Heerden
+02 Sep 2013 19:17:16,252 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kulengani Madondo
+02 Sep 2013 19:17:16,285 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Letladi Madubanya
+02 Sep 2013 19:17:16,325 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sithembiso Goodman Dlamini
+02 Sep 2013 19:17:16,351 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bonginkosi Macala
+02 Sep 2013 19:17:16,501 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Amos Ngcobo
+02 Sep 2013 19:17:16,543 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sfiso Hlanti
+02 Sep 2013 19:17:18,692 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Eduardo Soares Ferreira
+02 Sep 2013 19:17:18,708 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Method Mwanjale
+02 Sep 2013 19:17:18,919 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mabhudi Khenyeza
+02 Sep 2013 19:17:19,036 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Phaladi Kobola
+02 Sep 2013 19:17:19,086 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mathafane Kgatla
+02 Sep 2013 19:17:19,109 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Zamuxolo Ngalo
+02 Sep 2013 19:17:26,562 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lehlokonolo Reuben Thebakang
+02 Sep 2013 19:17:26,579 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Leamoha Masehe
+02 Sep 2013 19:17:26,628 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Abram Gamaldine
+02 Sep 2013 19:17:26,644 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Angelo Edwald Kerspuy
+02 Sep 2013 19:17:26,704 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Themba Tshabalala
+02 Sep 2013 19:17:26,755 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Abdul Basit
+02 Sep 2013 19:17:26,770 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Domenic Motsoeneng
+02 Sep 2013 19:17:26,787 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sibusiso Mthethwa
+02 Sep 2013 19:17:26,803 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Moeketsi Sekola
+02 Sep 2013 19:17:26,837 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Anvar Esterhuyzen
+02 Sep 2013 19:17:26,863 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bokang Thlone
+02 Sep 2013 19:17:26,887 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lucky Mokoena
+02 Sep 2013 19:17:28,333 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mario Booysen
+02 Sep 2013 19:17:28,373 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ryan De Jongh
+02 Sep 2013 19:17:28,482 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Cloete Ruben
+02 Sep 2013 19:17:28,506 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Rheece Evans
+02 Sep 2013 19:17:28,522 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Dillon Sheppard
+02 Sep 2013 19:17:28,539 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Yakubu Mohammed
+02 Sep 2013 19:17:28,664 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thabang Matuka
+02 Sep 2013 19:17:28,682 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Petersen
+02 Sep 2013 19:17:33,624 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Washington Arubi
+02 Sep 2013 19:17:33,724 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Charly Moussono
+02 Sep 2013 19:17:33,761 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Gomolemo Kekana
+02 Sep 2013 19:17:33,783 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyabonga Ngubane
+02 Sep 2013 19:17:33,806 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkabeng Maruping
+02 Sep 2013 19:17:33,840 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Obidiah Tarumbwa
+02 Sep 2013 19:17:33,865 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lantshene Phalane
+02 Sep 2013 19:17:33,898 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tristyn Coetsee
+02 Sep 2013 19:17:33,940 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lemessa Fikru-Teferra
+02 Sep 2013 19:17:34,015 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphelele Luthili
+02 Sep 2013 19:17:36,007 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Chenene Benett Jerry
+02 Sep 2013 19:17:36,048 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Aupa Moeketsi
+02 Sep 2013 19:17:36,207 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Maluleke Jabulani
+02 Sep 2013 19:17:44,733 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sename Dove Wome
+02 Sep 2013 19:17:44,936 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Katleho Mphela
+02 Sep 2013 19:17:45,001 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ramahlwe Mphahlele
+02 Sep 2013 19:17:47,043 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Malokase Molefi Patrick
+02 Sep 2013 19:17:47,110 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ellias Ngwepe
+02 Sep 2013 19:17:55,018 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Musa Junior Bilankulu
+02 Sep 2013 19:17:55,037 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sboniso Gumede
+02 Sep 2013 19:17:55,076 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kofi Dankwa
+02 Sep 2013 19:17:55,193 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Robin Ngalande Jr
+02 Sep 2013 19:17:55,237 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thapelo Mabokgwane
+02 Sep 2013 19:17:55,344 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Matome Kadi
+02 Sep 2013 19:17:55,362 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyabonga Nhlapo
+02 Sep 2013 19:17:57,010 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mzivukile Sydney Tom
+02 Sep 2013 19:17:57,027 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyanda Desmond Zwane
+02 Sep 2013 19:17:57,044 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkanyiso Mngwengwe
+02 Sep 2013 19:17:57,133 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mandla Mdunge
+02 Sep 2013 19:17:57,163 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Jabulani Innocent Nene
+02 Sep 2013 19:17:57,210 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bonginkosi Excellent Ntuli
+02 Sep 2013 19:17:57,226 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkosingiphile Cedric Gumede
+02 Sep 2013 19:17:57,271 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphelele Hleleni
+02 Sep 2013 19:17:57,320 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nzuzo Luthuli
+02 Sep 2013 19:17:57,334 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphiwe Gift Sithole
+02 Sep 2013 19:18:01,210 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Million Mkhabela
+02 Sep 2013 19:18:01,294 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Molala
+02 Sep 2013 19:18:01,353 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepho Tema
+02 Sep 2013 19:18:01,458 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marcel Mayala
+02 Sep 2013 19:18:01,471 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marcel Mayala
+02 Sep 2013 19:18:01,581 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nhklakanipho Mkhwanazi
+02 Sep 2013 19:18:01,603 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Vusi Mthimkulu
+02 Sep 2013 19:18:03,113 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bennet Nthethe
+02 Sep 2013 19:18:03,336 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thembalethu Moses
+02 Sep 2013 19:18:03,355 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Roderick Mutuma
+02 Sep 2013 19:18:03,428 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Motsere Motlhaping
+02 Sep 2013 19:18:08,627 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Larry Cohen
+02 Sep 2013 19:18:08,757 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mpho Chabangu
+02 Sep 2013 19:18:08,776 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Edward Mnqele
+02 Sep 2013 19:18:08,830 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Darren Lurie
+02 Sep 2013 19:18:08,911 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Lekgothoane
+02 Sep 2013 19:18:10,885 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Eduardo Soares Ferreira
+02 Sep 2013 19:18:10,902 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Method Mwanjale
+02 Sep 2013 19:18:11,053 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mabhudi Khenyeza
+02 Sep 2013 19:18:11,105 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sehloho Nale
+02 Sep 2013 19:18:11,137 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Vincent Kabola
+02 Sep 2013 19:18:11,161 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mathafane Kgatla
+02 Sep 2013 19:18:11,204 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Zamuxolo Ngalo
+02 Sep 2013 19:18:20,087 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mzivukile Sydney Tom
+02 Sep 2013 19:18:20,103 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyanda Desmond Zwane
+02 Sep 2013 19:18:20,120 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkanyiso Mngwengwe
+02 Sep 2013 19:18:20,137 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphiwe Gift Sithole
+02 Sep 2013 19:18:20,215 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Vuyisile Ntombayithethi
+02 Sep 2013 19:18:20,230 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bonginkosi Excellent Ntuli
+02 Sep 2013 19:18:20,271 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkosingiphile Cedric Gumede
+02 Sep 2013 19:18:20,287 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphelele Hleleni
+02 Sep 2013 19:18:20,354 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nzuzo Luthuli
+02 Sep 2013 19:18:22,404 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sename Dove Wome
+02 Sep 2013 19:18:22,645 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ramahlwe Mphahlele
+02 Sep 2013 19:18:30,905 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Issa Sarr
+02 Sep 2013 19:18:30,916 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Issa Sarr
+02 Sep 2013 19:18:31,013 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Malokase Molefi Patrick
+02 Sep 2013 19:18:31,048 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ellias Ngwepe
+02 Sep 2013 19:18:32,922 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Million Mkhabela
+02 Sep 2013 19:18:32,939 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Tomanyane
+02 Sep 2013 19:18:32,968 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thapelo Mathibe
+02 Sep 2013 19:18:32,994 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepho Tema
+02 Sep 2013 19:18:33,048 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Molala
+02 Sep 2013 19:18:33,106 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marcel Mayala
+02 Sep 2013 19:18:33,159 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nhklakanipho Mkhwanazi
+02 Sep 2013 19:18:33,198 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Vusi Mthimkulu
+02 Sep 2013 19:18:40,631 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: David Nkausu
+02 Sep 2013 19:18:40,745 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Chenene Benett Jerry
+02 Sep 2013 19:18:43,049 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Masilela
+02 Sep 2013 19:18:43,116 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lawrence Tshabalala
+02 Sep 2013 19:18:43,248 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kaizer Motaung
+02 Sep 2013 19:18:50,523 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mario Booysen
+02 Sep 2013 19:18:50,545 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Petersen
+02 Sep 2013 19:18:50,562 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ryan De Jongh
+02 Sep 2013 19:18:50,588 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mohammed Yakubu
+02 Sep 2013 19:18:50,629 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Heini Isaacks
+02 Sep 2013 19:18:50,635 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Cloete Ruben
+02 Sep 2013 19:18:50,653 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Dillon Sheppard
+02 Sep 2013 19:18:50,785 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thabang Matuka
+02 Sep 2013 19:18:52,402 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Washington Arubi
+02 Sep 2013 19:18:52,439 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Charly Moussono
+02 Sep 2013 19:18:52,456 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Gomolemo Kekana
+02 Sep 2013 19:18:52,474 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyabonga Ngubane
+02 Sep 2013 19:18:52,490 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkabeng Maruping
+02 Sep 2013 19:18:52,513 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Obidiah Tarumbwa
+02 Sep 2013 19:18:52,539 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lantshene Phalane
+02 Sep 2013 19:18:52,564 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tristyn Coetsee
+02 Sep 2013 19:18:52,622 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lemessa Fikru-Teferra
+02 Sep 2013 19:18:56,689 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Aiden Jenniker
+02 Sep 2013 19:18:56,704 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Abbubaker Mobara
+02 Sep 2013 19:18:56,721 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Franklyn Cale
+02 Sep 2013 19:18:56,794 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mogammed Losper
+02 Sep 2013 19:18:56,830 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Brandon Peterson
+02 Sep 2013 19:18:56,846 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Keegan Dolly
+02 Sep 2013 19:18:56,887 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Michael Kwong
+02 Sep 2013 19:18:56,902 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bantu Mzwakali
+02 Sep 2013 19:18:58,527 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Larry Horaed
+02 Sep 2013 19:18:58,544 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tamsanqa Teyise
+02 Sep 2013 19:18:58,587 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marc Van Heerden
+02 Sep 2013 19:18:58,602 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kulengani Madondo
+02 Sep 2013 19:18:58,713 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sithembiso Goodman Dlamini
+02 Sep 2013 19:18:58,770 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Amos Ngcobo
+02 Sep 2013 19:18:58,815 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mfundo Nsele
+02 Sep 2013 19:19:03,910 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bennet Nthethe
+02 Sep 2013 19:19:04,099 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thembalethu Moses
+02 Sep 2013 19:19:04,156 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Rodreck Mutuma
+02 Sep 2013 19:19:04,191 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Motsere Motlhaping
+02 Sep 2013 19:19:06,171 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Themba Shabalala
+02 Sep 2013 19:19:06,187 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lehlokonolo Reuben Thebakang
+02 Sep 2013 19:19:06,222 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Leamoha Masehe
+02 Sep 2013 19:19:06,237 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Angelo Edwald Kerspuy
+02 Sep 2013 19:19:06,297 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Camaldine Abraw
+02 Sep 2013 19:19:06,305 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Abdul Basit
+02 Sep 2013 19:19:06,322 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Domenic Motsoeneng
+02 Sep 2013 19:19:06,351 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sibusiso Mthwethwa
+02 Sep 2013 19:19:06,381 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Anvar Esterhuyzen
+02 Sep 2013 19:19:06,404 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Moeketsi Sekola
+02 Sep 2013 19:19:06,430 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bokang Thlone
+02 Sep 2013 19:19:17,007 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Method Mwanjale
+02 Sep 2013 19:19:17,246 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Zamuxolo Ngalo
+02 Sep 2013 19:19:19,224 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Masilela
+02 Sep 2013 19:19:19,273 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lawrence Tshabalala
+02 Sep 2013 19:19:19,391 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kingston Nkhatha
+02 Sep 2013 19:19:29,415 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyanda Desmond Zwane
+02 Sep 2013 19:19:29,432 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mzivukile Sydney Tom
+02 Sep 2013 19:19:29,460 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkanyiso Mngwengwe
+02 Sep 2013 19:19:29,484 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mandla Mndunge
+02 Sep 2013 19:19:29,490 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Jabulani Innocent Nene
+02 Sep 2013 19:19:29,517 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Dumsani Zwane
+02 Sep 2013 19:19:29,535 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nzuzo Luthuli
+02 Sep 2013 19:19:29,548 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siphelele Hleleni
+02 Sep 2013 19:19:29,648 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkosingiphile Cedric Gumede
+02 Sep 2013 19:19:29,665 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bonginkosi Excellent Ntuli
+02 Sep 2013 19:19:32,390 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Brandon Peterson
+02 Sep 2013 19:19:32,424 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Aiden Jenniker
+02 Sep 2013 19:19:32,484 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Koen van de Laak
+02 Sep 2013 19:19:32,501 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nhlanhla Shabalala
+02 Sep 2013 19:19:32,524 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mogammed Losper
+02 Sep 2013 19:19:32,540 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Keegan Dolly
+02 Sep 2013 19:19:32,668 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tashreeq Morris
+02 Sep 2013 19:19:32,707 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Musa Lebusa
+02 Sep 2013 19:19:42,018 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Lekgothoane
+02 Sep 2013 19:19:42,037 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Larry Cohen
+02 Sep 2013 19:19:42,145 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mpho Chabangu
+02 Sep 2013 19:19:42,189 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sage Lottering
+02 Sep 2013 19:19:42,201 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Edward Mnqele
+02 Sep 2013 19:19:44,242 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Washington Arubi
+02 Sep 2013 19:19:44,325 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Charly Moussono
+02 Sep 2013 19:19:44,354 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nkabeng Maruping
+02 Sep 2013 19:19:44,423 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Obidiah Tarumbwa
+02 Sep 2013 19:19:44,437 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Fikru Lamessa
+02 Sep 2013 19:19:44,472 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tristyn Coetsee
+02 Sep 2013 19:19:44,545 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Siyabonga Ngubane
+02 Sep 2013 19:19:44,586 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Luthuli Siphelele
+02 Sep 2013 19:19:53,870 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mario Booysen
+02 Sep 2013 19:19:53,938 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Rheece Evans
+02 Sep 2013 19:19:53,945 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ryan De Jongh
+02 Sep 2013 19:19:53,972 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Heini Isaacks
+02 Sep 2013 19:19:53,985 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Dillon Sheppard
+02 Sep 2013 19:19:54,012 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Yakubu Mohammed
+02 Sep 2013 19:19:54,138 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Peter Petersen
+02 Sep 2013 19:19:56,238 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Vusi Mthimkulu
+02 Sep 2013 19:19:56,340 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mxolisi Machupu
+02 Sep 2013 19:19:56,423 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thapelo Mathibe
+02 Sep 2013 19:19:56,448 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nhklakanipho Mkhwanazi
+02 Sep 2013 19:19:56,489 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Dibate Mahlakoane
+02 Sep 2013 19:19:56,496 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thato Maselwa
+02 Sep 2013 19:20:06,608 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Aupa Moeketsi
+02 Sep 2013 19:20:06,662 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bennett Chenene
+02 Sep 2013 19:20:06,798 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Percival Maluleke
+02 Sep 2013 19:20:08,913 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bokane Tlhone
+02 Sep 2013 19:20:08,930 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sibusiso Mthwethwa
+02 Sep 2013 19:20:08,947 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lehlokonolo Reuben Thebakang
+02 Sep 2013 19:20:08,981 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Paulus Masehe
+02 Sep 2013 19:20:08,996 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Basit Adam
+02 Sep 2013 19:20:09,055 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tshepo Domenic Motsoeneng
+02 Sep 2013 19:20:09,089 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Lucky Mokoena
+02 Sep 2013 19:20:09,154 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Angelo Edwald Kerspuy
+02 Sep 2013 19:20:09,171 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kefuwe Siyoko
+02 Sep 2013 19:20:09,187 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Moeketsi Sekola
+02 Sep 2013 19:20:18,798 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Motsere Motlhaping
+02 Sep 2013 19:20:18,832 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Bennet Nthethe
+02 Sep 2013 19:20:18,857 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Rodreck Mutuma
+02 Sep 2013 19:20:18,924 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thembalethu Moses
+02 Sep 2013 19:20:18,982 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Keegan Buchanan
+02 Sep 2013 19:20:18,999 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sandile Ndlovu
+02 Sep 2013 19:20:19,040 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Wade Jooste
+02 Sep 2013 19:20:21,610 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ramahlwe Mphahlele
+02 Sep 2013 19:20:21,633 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ketlego Mashego
+02 Sep 2013 19:20:31,928 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Nicholas Mlambo
+02 Sep 2013 19:20:32,027 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Ellias Ngwepe
+02 Sep 2013 19:20:34,318 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Moneeb Josephs
+02 Sep 2013 19:20:34,353 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Keamogetse Wolff
+02 Sep 2013 19:20:34,512 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Thapelo Mabokgwane
+02 Sep 2013 19:20:34,555 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Gibeto Getaneh
+02 Sep 2013 19:20:34,569 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Matome Kadi
+02 Sep 2013 19:20:43,279 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mahamutsa Petros Rooi
+02 Sep 2013 19:20:43,310 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Jele Happy Queenton
+02 Sep 2013 19:20:43,561 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Mabena Ndumiso Ignacious
+02 Sep 2013 19:20:43,621 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Terence Makola
+02 Sep 2013 19:20:43,645 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Molemo Moholo
+02 Sep 2013 19:20:45,861 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Tamsanqa Teyise
+02 Sep 2013 19:20:45,903 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Marc Van Heerden
+02 Sep 2013 19:20:45,919 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Kulengani Madondo
+02 Sep 2013 19:20:45,989 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Letladi Madubanya
+02 Sep 2013 19:20:46,046 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sithembiso Goodman Dlamini
+02 Sep 2013 19:20:46,181 ERROR com.africaapps.league.dao.game.hibernate.PlayerPriceDaoImpl - Unknown Player: Sfiso Hlanti

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.africaapps.league.dao.league.PlayerDao;
 import com.africaapps.league.dao.league.PositionDao;
 import com.africaapps.league.exception.LeagueException;
+import com.africaapps.league.model.game.PlayerPrice;
 import com.africaapps.league.model.league.BlockType;
 import com.africaapps.league.model.league.Player;
 import com.africaapps.league.model.league.PlayerMatchStatistic;
@@ -49,29 +50,15 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void savePlayer(Player player) throws LeagueException {
 		if (player != null) {
-			boolean existingPlayer = false;
-//			Long existingId = playerDao.getIdByPlayerId(player.getPlayerId());
-			Object[] info = playerDao.getInfoByPlayerId(player.getPlayerId());
-			if (info != null) {
-				if (info[0] != null) {
-					player.setId((Long) info[0]);
-					logger.info("Set exiting playerId: "+info[0]);
-					existingPlayer = true;
-				}				
-			}
-			if (player.getBlock() == null && existingPlayer) {
-				logger.error("Not re-saving existing player with null block: "+player);
-				return;
-			} else if (player.getBlock() == null && !existingPlayer) {
-				logger.info("Trying to get block for new incoming player");
-				player.setBlock(poolService.getPlayerBlock(player));
-				logger.info("Set block ? "+player.getBlock());
-			} else if (player.getBlock() != null && existingPlayer) {
-				if (info[1] != null && !player.getBlock().equals((BlockType) info[1])) {
-					logger.warn("Warning: changing existing player's block from: "+info[1]+" to: "+player.getBlock());
-//					player.setBlock((BlockType) info[1]);
-//					logger.info("Set old block again for incoming player: "+player.getBlock());
-				}
+			Long existingId = playerDao.getIdByPlayerId(player.getPlayerId());
+			player.setId(existingId);
+			logger.debug("Got existing id ? "+existingId+" "+player);
+			PlayerPrice pp = poolService.getPlayerInfo(player);
+			if (pp != null) {
+				player.setBlock(pp.getBlock());
+				logger.debug("Set block from PlayerPrice: "+pp);
+			} else {
+				logger.error("Unknown PlayerPrice for player: "+player);
 			}
 			playerDao.saveOrUpdate(player);
 		}

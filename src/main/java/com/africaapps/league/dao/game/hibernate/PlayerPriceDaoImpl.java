@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.africaapps.league.dao.game.PlayerPriceDao;
@@ -14,6 +16,8 @@ import com.africaapps.league.model.game.PlayerPrice;
 @Repository
 public class PlayerPriceDaoImpl extends BaseHibernateDao implements PlayerPriceDao {
 
+	private static Logger logger = LoggerFactory.getLogger(PlayerPriceDaoImpl.class);
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public PlayerPrice getPrice(String firstName, String lastName) {
@@ -29,7 +33,15 @@ public class PlayerPriceDaoImpl extends BaseHibernateDao implements PlayerPriceD
 		if (prices.size() > 0) {
 			return prices.get(0);
 		} else {
-			return null;
+			int space = firstName.indexOf(" ");
+			if (space > -1) {
+				String onlyFirstName = firstName.substring(0, space);
+				logger.warn("Trying with onlyFirstName: "+onlyFirstName+" lastName: "+lastName);
+				return getPrice(onlyFirstName, lastName);
+			} else {
+				logger.error("Unknown Player: "+firstName+" "+lastName);
+				return null;
+			}
 		}
 	}
 }

@@ -1,6 +1,8 @@
 <dataset>
     <league_type id="-1" name="Soccer" description="Soccer or football league" league_type_status="ACTIVE" />
     <league />
+    <league_season />
+    <game_pool />
     <game_team_format />
     <league_data />
     <fixture />    

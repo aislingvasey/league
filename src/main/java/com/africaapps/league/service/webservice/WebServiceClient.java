@@ -174,22 +174,28 @@ public class WebServiceClient {
 			matchDate = WebServiceXmlUtil.getDate(matchLightStruct.getDateAndTime());
 			try {
 				checkMatchCompetition(league, matchLightStruct);
-				if (isValidLeagueSeasonMatch(leagueSeason, matchDate) && !feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
-					if (matchFilter != null && !matchFilter.isValidMatch(matchId, matchDate)) {
-						logger.warn("Skipping processing match:" + matchId + " due to match filter: "+matchFilter);
-					} else {
-						logger.info("Match: " + matchId + " is unprocessed Processing it now...");
-						MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
-						if (matchStruct != null) {
-							logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
-							List<TeamStruct> teams = saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
-							processMatch(league, leagueSeason, feedService, matchStruct, teams);
-							processedMatchIds.add(matchId);
-							logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());											
+				if (isValidLeagueSeasonMatch(leagueSeason, matchDate)) {
+					if (!feedService.isProcessedMatch(leagueSeason.getId(), matchId)) {
+						if (matchFilter != null && !matchFilter.isValidMatch(matchId, matchDate)) {
+							logger.warn("Skipping processing match:" + matchId + " due to match filter: "+matchFilter);
 						} else {
-							logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+							logger.info("Match: " + matchId + " is unprocessed Processing it now...");
+							MatchFilActionStruct matchStruct = service1.getMatchFilActionStruct(matchLightStruct.getIdMatch(), key);
+							if (matchStruct != null) {
+								logger.info("Got matchStruct to process for matchId: " + matchStruct.getIdMatch());
+								List<TeamStruct> teams = saveMatchTeams(league, leagueSeason, pool, feedService, matchKey, matchStruct);
+								processMatch(league, leagueSeason, feedService, matchStruct, teams);
+								processedMatchIds.add(matchId);
+								logger.info("Processed match struct for matchId: " + matchStruct.getIdMatch());											
+							} else {
+								logger.error("No match struct for matchLightStruct: " + matchLightStruct.getIdMatch());
+							}
 						}
+					} else {
+						logger.info("Match is already processed: " + matchId);
 					}
+				} else {
+					logger.info("Match not processed: outside of league season: "+matchId+" "+matchDate);
 				}
 			} catch (InvalidLeagueException e) {
 				logger.error(e.getMessage());

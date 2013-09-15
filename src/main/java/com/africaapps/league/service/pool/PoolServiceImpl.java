@@ -69,8 +69,10 @@ public class PoolServiceImpl implements PoolService {
 				pp.setPlayerCurrentScore(Double.valueOf(0));
 				poolPlayerDao.saveOrUpdate(pp);
 				if (pp.getPlayerPrice() == 0) {
-					logger.error("NO PRICE for new PoolPlayer: " + pp.getId() + " " + pp.getPlayer().getFirstName() + " " + pp.getPlayer().getLastName());
+					logger.error("PoolPlayer: No price set! id: " + pp.getId() + " firstName:" + pp.getPlayer().getFirstName() + " lastName: " + pp.getPlayer().getLastName());
 				}
+			} else {
+				logger.debug("Not saving existing pool player: "+player);
 			}
 		} else {
 			LeagueException le = new LeagueException("ERROR *** PoolPlayer has unknown player: " + player);
@@ -92,17 +94,10 @@ public class PoolServiceImpl implements PoolService {
 	}
 	
 	@Override
-	public BlockType getPlayerBlock(Player player) {
+	public PlayerPrice getPlayerInfo(Player player) {
 		String first = player.getFirstName() != null ? player.getFirstName().trim() : "";
 		String second = player.getLastName() != null ? player.getLastName().trim() : "";
-		PlayerPrice playerPrice = playerPriceDao.getPrice(first, second);
-		if (playerPrice != null) {
-			logger.info("Got block:"+playerPrice.getBlock()+" for player: "+player);
-			return playerPrice.getBlock();
-		} else {
-			logger.info("No block found for for player: "+player);
-			return null;
-		}
+		return playerPriceDao.getPrice(first, second);
 	}
 	
 
